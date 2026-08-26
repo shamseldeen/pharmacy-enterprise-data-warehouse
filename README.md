@@ -626,69 +626,123 @@ pharmacy-enterprise-data-warehouse/
 │   │   ├── supply_chain/
 │   │   ├── delivery/
 │   │   └── reference/
+│   │
 │   └── sample/
+│       ├── bronze/
+│       │   └── placeholder
+│       ├── silver/
+│       │   └── placeholder
+│       └── gold/
+│           └── placeholder
 │
 ├── sql/
 │   ├── bronze/
 │   │   ├── ddl/
 │   │   │   └── ddl_bronze.sql
 │   │   ├── load/
+│   │   │   └── placeholder
 │   │   └── validation/
+│   │       └── placeholder
 │   │
 │   ├── silver/
 │   │   ├── ddl/
+│   │   │   └── placeholder
 │   │   ├── transformations/
+│   │   │   └── placeholder
 │   │   └── validation/
+│   │       └── placeholder
 │   │
 │   └── gold/
 │       ├── ddl/
+│       │   └── placeholder
 │       ├── dimensions/
+│       │   └── placeholder
 │       ├── facts/
+│       │   └── placeholder
 │       ├── aggregations/
+│       │   └── placeholder
 │       ├── kpi_views/
+│       │   └── placeholder
 │       └── validation/
+│           └── placeholder
 │
 ├── scripts/
 │   ├── ingestion/
+│   │   └── placeholder
 │   ├── transformations/
+│   │   └── placeholder
 │   ├── generators/
 │   ├── validation/
 │   └── utils/
+│       └── placeholder
 │
 ├── tests/
 │   ├── bronze/
+│   │   └── placeholder
 │   ├── silver/
-│   └── gold/
+│   │   └── placeholder
+│   ├── gold/
+│   │   └── placeholder
+│   └── reconciliation/
+│       └── placeholder
 │
 ├── powerbi/
 │   ├── dashboard/
+│   │   └── placeholder
 │   ├── mockups/
-│   └── measures/
+│   │   └── placeholder
+│   ├── measures/
+│   │   └── placeholder
+│   └── documentation/
+│       └── placeholder
 │
 ├── python/
+│   ├── notebooks/
+│   │   └── placeholder
 │   ├── analysis/
-│   ├── machine_learning/
-│   └── notebooks/
+│   │   └── placeholder
+│   ├── forecasting/
+│   │   └── placeholder
+│   └── machine_learning/
+│       └── placeholder
 │
 ├── docs/
 │   ├── architecture/
-│   ├── data_dictionary/
 │   ├── data_model/
-│   ├── business_rules/
-│   ├── kpi_catalog/
+│   ├── data_dictionary/
 │   ├── source_contract/
+│   ├── business_rules/
 │   ├── data_quality/
+│   ├── kpi_catalog/
 │   └── lineage/
+│       └── placeholder
 │
 ├── config/
+│
 ├── logs/
+│   └── placeholder
 │
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
----
+### 📁 GitHub Folder Convention
+
+GitHub does not track empty directories. During development, intentionally empty directories contain a file named `placeholder`.
+
+The `placeholder` file contains no business data or application logic. Its only purpose is to preserve the planned repository structure in GitHub.
+
+Example:
+
+```text
+sql/
+└── silver/
+    └── ddl/
+        └── placeholder
+```
+
+Once a real project file is added to the directory, the `placeholder` file can be removed.---
 
 # 🧱 Bronze Naming Convention
 
