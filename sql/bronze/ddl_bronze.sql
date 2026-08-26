@@ -62,8 +62,8 @@ IF OBJECT_ID ('bronze.erp_shift_types', 'U') IS NOT NULL
 CREATE TABLE bronze.erp_shift_types (
 	shift_id NVARCHAR(50),
 	shift_name NVARCHAR(100),
-	start_hour INT,
-	end_hour INT
+	start_hour TIME,
+	end_hour TIME
 );
 
 /* ====================================================
