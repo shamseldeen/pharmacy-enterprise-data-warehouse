@@ -3,192 +3,190 @@
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Warehouse-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![T-SQL](https://img.shields.io/badge/T--SQL-ETL%20%26%20Analytics-0078D4)
 ![Architecture](https://img.shields.io/badge/Architecture-Medallion-orange)
-![Power BI](https://img.shields.io/badge/Power%20BI-Analytics-F2C811?logo=powerbi&logoColor=black)
-![Python](https://img.shields.io/badge/Python-Analytics%20%26%20ML-3776AB?logo=python&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-Planned-F2C811?logo=powerbi&logoColor=black)
+![Python](https://img.shields.io/badge/Python-Analytics%20%26%20Automation-3776AB?logo=python&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Bronze%20Ready-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-In%20Progress-blue)
 
-> **Enterprise Retail Pharmacy Data Warehouse using SQL Server and Medallion Architecture (Bronze, Silver, Gold), integrating ERP, POS, CRM, prescriptions, insurance, supply chain, inventory, delivery, customers, employees, products, and pharmacy branches for advanced analytics and executive reporting.**
+> **An enterprise-scale retail pharmacy data warehouse project that models the full path from operational source data to governed analytical data using SQL Server, Medallion Architecture, data-quality controls, reconciliation, dimensional modeling, and BI.**
+
+This project is designed as a realistic portfolio implementation rather than a single-dashboard demo. It integrates pharmacy retail operations across **sales, customers, products, prescriptions, insurance, procurement, suppliers, inventory, workforce, branch operations, and delivery** into one analytical platform.
+
+![Pharmacy Enterprise Data Warehouse — Project Overview](docs/architecture/01_project_overview.png)
 
 ---
 
-# 🏗️ Data Architecture
+## 📌 Project Status
 
-The project follows a modern **Medallion Architecture**:
+| Area | Status |
+|---|---|
+| Business scope & source-system design | ✅ Complete |
+| Synthetic RAW business dataset | ✅ Complete / locked |
+| Cross-domain RAW validation | ✅ 25 / 25 checks passed |
+| Metadata & business data catalog | ✅ Complete |
+| Architecture, ERD & lineage | ✅ Complete |
+| Bronze DDL baseline (`sql/bronze/ddl_bronze.sql`) | ✅ Present in repository |
+| Bronze source-to-target redesign / alignment | ✅ Complete |
+| Bronze SQL Server ingestion | 🚧 Next implementation phase |
+| Silver layer | ⏳ Planned |
+| Gold dimensional layer | ⏳ Planned |
+| Power BI semantic model & dashboards | ⏳ Planned |
+| Python analytics / forecasting | ⏳ Planned |
 
-**Source Systems → Bronze → Silver → Gold → Consumption**
+**Current milestone:** `RAW → Bronze implementation`
 
-![Pharmacy Enterprise Data Warehouse Architecture](docs/architecture/data_architecture.png)
+---
 
-### 🥉 Bronze Layer — Raw Data
+## 🎯 Project Objective
 
-The Bronze layer stores source data in its original or near-original form.
+The goal is to build a reproducible **enterprise analytical platform for a multi-branch retail pharmacy business**.
 
-- Raw CSV ingestion
-- Source-aligned tables
-- Minimal transformation
-- Immutable raw history
-- Source-file tracking
-- Batch tracking
-- Ingestion timestamps
-- Row hashes
-- Initial technical validation
+The warehouse is intended to support questions such as:
 
-### 🥈 Silver Layer — Cleaned & Conformed Data
+- Which branches, regions, categories, and products drive revenue and profitability?
+- How do discounts, returns, and product mix affect margin?
+- Which suppliers perform best on fill rate, lead time, and OTIF?
+- Where are stockouts, overstock, dead stock, and near-expiry risks concentrated?
+- How do prescriptions and insurance claims behave across products, doctors, plans, and branches?
+- What customer, workforce, and operational patterns explain branch performance?
+- How can trusted warehouse data feed executive Power BI reporting and advanced Python analytics?
 
-The Silver layer converts raw operational data into trusted enterprise data.
+---
 
-- Data cleansing
-- Data standardization
-- Type conversion
-- Deduplication
-- Null handling
-- Invalid-value handling
-- Business-rule validation
-- Cross-system key mapping
-- Data-quality checks
-- Conformed business entities
-- Rejected-record handling
+## 📊 Dataset Scale
 
-### 🥇 Gold Layer — Business-Ready Data
+The project uses a large synthetic operational dataset designed for realistic warehousing and analytics workloads.
 
-The Gold layer contains analytical models optimized for reporting.
+| Dataset | Scale |
+|---|---:|
+| Product master | **11,274 SKUs** |
+| Pharmacy branches | **1,000** |
+| Employees | **10,000** |
+| Customers | **1,000,000** |
+| Doctors | **20,000** |
+| Suppliers | **2,000** |
+| Warehouses | **30** |
+| POS transaction headers | **10,000,000** |
+| Completed POS transactions | **9,890,375** |
+| Canonical sales lines | **30,365,507** |
+| Purchase orders | **25,000** |
+| Purchase-order lines | **82,140** |
+| Purchase receipts | **80,478** |
+| Product batches | **40,000** |
+| Inventory movements | **410,576** |
+| Prescriptions | **100,000** |
+| Prescription items | **203,899** |
+| Insurance claims | **75,000** |
+| Insurance claim lines | **153,098** |
 
-- Star schemas
-- Fact tables
-- Conformed dimensions
-- Slowly Changing Dimensions
-- Analytical aggregations
-- KPI views
-- Business-ready datasets
-- Power BI reporting models
+> **Note:** the 30.3M canonical sales-line fact has been validated and financially reconciled, but the large standalone materialized file is not committed directly to the portable repository. Its materialization rule and validation evidence are documented separately.
 
-### Data Flow
+---
+
+## 🏗️ Architecture
+
+![End-to-End Architecture](docs/architecture/03_end_to_end_architecture.png)
+
+The project follows a **Medallion Architecture**:
 
 ```text
-                    SOURCE SYSTEMS
-                          │
-        ┌─────────────────┼─────────────────┐
-        │                 │                 │
-       ERP               POS               CRM
-        │                 │                 │
-        ├──────────── Prescription ─────────┤
-        │                 │                 │
-    Insurance        Supply Chain       Delivery
-        │                 │                 │
-        └──────── Reference Data ───────────┘
-                          │
-                          ▼
-                     🥉 BRONZE
-                    Raw / Immutable
-                          │
-                          ▼
-                     🥈 SILVER
-              Clean / Standardized / Conformed
-                          │
-                          ▼
-                      🥇 GOLD
-             Dimensions / Facts / KPIs
-                          │
-             ┌────────────┼────────────┐
-             ▼            ▼            ▼
-          Power BI       SQL         Python
-                                       │
-                                       ▼
-                              Machine Learning
+Operational / Synthetic Source Systems
+                │
+                ▼
+              RAW
+        source evidence
+                │
+                ▼
+             BRONZE
+   source-aligned ingestion + audit
+                │
+                ▼
+             SILVER
+ cleaning + standardization + conformance
+                │
+                ▼
+              GOLD
+ dimensions + facts + analytical marts
+                │
+        ┌───────┼────────┐
+        ▼       ▼        ▼
+     Power BI   SQL     Python
 ```
 
----
+### Layer Responsibilities
 
-# 📖 Project Overview
-
-This project demonstrates an end-to-end **Data Engineering, Data Warehousing, Analytics, and Business Intelligence solution** for a large retail pharmacy enterprise.
-
-The simulated enterprise contains:
-
-- Multiple regions
-- Multiple cities
-- Large numbers of pharmacy branches
-- Customers
-- Employees
-- Pharmacists
-- Products
-- Suppliers
-- Product batches
-- Prescriptions
-- Insurance claims
-- Sales transactions
-- Inventory movements
-- Purchase orders
-- Loyalty activity
-- Promotions
-- Deliveries
-
-The objective is not simply to create a sales dashboard.
-
-The objective is to build an **enterprise analytical platform** capable of supporting management decisions across the entire retail pharmacy business.
+| Layer | Responsibility |
+|---|---|
+| **RAW** | Preserve source-system evidence and original business records |
+| **Bronze** | Load source-aligned tables with technical metadata and auditability |
+| **Silver** | Clean, standardize, validate, deduplicate, and conform business entities |
+| **Gold** | Build dimensional models, KPI-ready facts, dimensions, and marts |
+| **Consumption** | Power BI, SQL analysis, Python analytics, forecasting |
 
 ---
 
-# 🎯 Project Objectives
+## 🏢 Source Domains
 
-The project is designed to demonstrate practical skills in:
+![Source Systems Overview](docs/architecture/02_source_systems_overview.png)
 
-- SQL Development
-- Data Engineering
-- Data Warehousing
-- ETL / ELT
-- Data Modeling
-- Dimensional Modeling
-- Data Quality
-- Data Validation
-- Business Intelligence
-- Data Analytics
-- Power BI
-- Python
-- Machine Learning
-- Git & GitHub
-- Technical Documentation
+The warehouse is modeled around multiple operational domains instead of one flat sales file.
+
+| Domain | Main Business Data |
+|---|---|
+| **Reference / Master** | Regions, cities, products, reference codes |
+| **ERP / Branch Operations** | Pharmacies, employees, job roles, shifts, operating hours, branch expenses |
+| **POS / Finance** | Transactions, sales lines, payments, returns |
+| **CRM & Loyalty** | Customers, loyalty accounts, consent history, customer-service interactions |
+| **Prescription / RX** | Prescriptions, prescription items, dispensing events, doctors |
+| **Insurance** | Insurance plans, memberships, eligibility, claims, claim lines |
+| **Supply Chain** | Suppliers, contracts, warehouses, purchase orders, receipts, batches |
+| **Inventory** | Inventory movements, snapshots, cycle counts, transfers |
+| **Delivery** | Delivery orders and delivery methods |
 
 ---
 
-# 🏢 Source Systems
+## 🧱 RAW → Bronze Design
 
-Instead of using one flat CSV dataset, the project simulates multiple operational systems.
+![RAW to Bronze Mapping](docs/architecture/04_raw_to_bronze_mapping.png)
 
-![Source Systems](docs/architecture/source_systems.png)
+A Bronze DDL baseline already exists in the repository at [`sql/bronze/ddl_bronze.sql`](sql/bronze/ddl_bronze.sql).
 
-| Source System | Business Area | Main Data |
-|---|---|---|
-| 🏢 **ERP Core** | Enterprise Operations | Employees, job roles, shifts, finance reference |
-| 🛒 **POS System** | Retail Sales | Transactions, sales lines, payments, returns, promotions |
-| 👥 **CRM & Loyalty** | Customer Management | Customers, loyalty, segmentation, customer service |
-| 💊 **Prescription / RX** | Pharmacy Operations | Prescriptions, prescription items, doctors |
-| 🛡️ **Insurance & Claims** | Insurance | Plans, claims, claim lines, approvals and rejections |
-| 🚚 **Supply Chain** | Procurement & Inventory | Suppliers, purchasing, receipts, batches, stock movements |
-| 📦 **Delivery Operations** | Last Mile | Delivery orders, methods, SLA and fulfillment |
-| 🌍 **Reference Data** | Master / External | Branches, regions, currencies, products and reference data |
+It creates source-aligned Bronze tables and explicitly defers cleansing and business transformations to Silver.
 
----
+The next implementation step is to reconcile the existing DDL with the finalized **51-table source-of-truth mapping**, then build auditable loading and validation.
 
-# 🔄 ETL / ELT Pipeline
-
-## Source → Bronze
-
-Source-system data is loaded into Bronze without applying major business transformations.
-
-Example:
+### Example Source-to-Bronze Mapping
 
 ```text
-datasets/source/pos/
-        │
-        ▼
-bronze.pos_sales_transaction
-bronze.pos_sales_line
-bronze.pos_returns
+sales_transactions
+    → bronze.pos_sales_transaction
+
+canonical_sales_lines
+    → bronze.pos_sales_line
+
+payments
+    → bronze.pos_payments
+
+returns
+    → bronze.pos_returns
+
+product_master
+    → bronze.ref_products
+
+prescriptions
+    → bronze.rx_prescriptions
+
+insurance_claims
+    → bronze.ins_claims
+
+purchase_orders
+    → bronze.scm_purchase_orders
+
+inventory_movements
+    → bronze.scm_inventory_movements
 ```
 
-Bronze technical metadata includes:
+Every Bronze table is designed to include technical metadata such as:
 
 ```text
 _source_file
@@ -197,747 +195,365 @@ _batch_id
 _row_hash
 ```
 
+Bronze is intentionally **not** the business-reporting layer. Business transformations are deferred to Silver.
+
 ---
 
-## Bronze → Silver
+## 🧪 Data Quality & Reconciliation
 
-Silver performs the major data-quality and integration work.
+![Data Quality and Reconciliation](docs/architecture/06_data_quality_reconciliation.png)
+
+Data quality is treated as part of the architecture, not as a final dashboard check.
+
+The RAW business model passed **25 / 25 cross-domain validation checks**.
+
+Key controls include:
+
+- Unique product identifiers and barcodes
+- Positive product prices
+- Referential integrity across key business entities
+- Exclusion of cancelled/voided POS sales from canonical revenue
+- Completed-sales to captured-payment reconciliation
+- Prescription-to-customer / doctor / product validation
+- Insurance claim and plan validation
+- `approved_amount <= claimed_amount`
+- Purchase-order to supplier / warehouse integrity
+- Receipt to purchase-order-line integrity
+- Product-batch to product / supplier integrity
+- Balanced inventory transfer OUT / IN pairs
+- Valid inventory snapshot equation
+- Non-negative canonical closing inventory
+
+### Financial Reconciliation
 
 ```text
-RAW CUSTOMER DATA
-       │
-       ├── Clean
-       ├── Standardize
-       ├── Deduplicate
-       ├── Validate
-       └── Conform
-              │
-              ▼
-       silver.customer
+Completed sales     = 1,871,609,856.56 SAR
+Captured payments   = 1,871,609,856.56 SAR
+Difference          =             0.00 SAR
 ```
 
-Silver responsibilities include:
+This reconciliation is one of the main controls protecting downstream profitability and KPI analysis.
 
-- Cleaning
-- Standardization
-- Deduplication
-- Data-type correction
-- Missing-value handling
+---
+
+## 🔗 Core Business Flow
+
+![Business ERD and Cross-Domain Relationships](docs/architecture/05_business_erd_cross_domain.png)
+
+```text
+CUSTOMERS / PHARMACIES / EMPLOYEES
+                │
+                ▼
+        SALES TRANSACTIONS
+                │
+        ┌───────┼────────┐
+        ▼       ▼        ▼
+   SALES LINES PAYMENTS RETURNS
+        │
+        ▼
+     PRODUCTS
+
+
+CUSTOMERS + DOCTORS + PHARMACIES
+                │
+                ▼
+         PRESCRIPTIONS
+                │
+                ▼
+      PRESCRIPTION ITEMS
+                │
+                ▼
+        INSURANCE CLAIMS
+                │
+                ▼
+       INSURANCE CLAIM LINES
+
+
+SUPPLIERS + WAREHOUSES
+                │
+                ▼
+        PURCHASE ORDERS
+                │
+                ▼
+      PURCHASE ORDER LINES
+                │
+                ▼
+       PURCHASE RECEIPTS
+                │
+                ▼
+      INVENTORY MOVEMENTS
+                │
+                ▼
+      INVENTORY SNAPSHOTS
+```
+
+---
+
+## 🥈 Planned Silver Layer
+
+![Planned Silver and Gold Architecture](docs/architecture/07_planned_silver_gold.png)
+
+> **Status: PLANNED — not yet implemented.**
+
+The Silver layer will convert source-aligned Bronze tables into trusted, conformed entities.
+
+### Planned Silver Objects
+
+```text
+silver.product
+silver.customer
+silver.pharmacy
+silver.employee
+silver.doctor
+
+silver.sales_transaction
+silver.sales_line
+
+silver.prescription
+silver.insurance_member
+silver.insurance_claim
+
+silver.supplier
+silver.procurement
+silver.batch
+
+silver.inventory_movement
+silver.inventory_snapshot
+```
+
+Silver will own:
+
+- Standardized data types and naming
+- Canonical business statuses
+- Explicit deduplication rules
+- Null and invalid-value treatment
+- Conformed entity keys
 - Referential validation
-- Business-rule validation
-- Cross-system integration
-- Master-data conformance
+- Monetary and date normalization
+- Data-quality exception handling
 
 ---
 
-## Silver → Gold
+## 🥇 Planned Gold Layer
 
-Gold transforms trusted Silver entities into dimensional models.
+> **Status: PLANNED — not yet implemented.**
+
+The Gold layer will expose business-ready dimensional models.
+
+### Planned Conformed Dimensions
 
 ```text
-silver.customer ──────────────► dim_customer
-
-silver.product ───────────────► dim_product
-
-silver.pharmacy ──────────────► dim_pharmacy
-
-silver.employee ──────────────► dim_employee
-
-silver.sales ─────────────────► fact_sales
+gold.dim_date
+gold.dim_pharmacy
+gold.dim_product
+gold.dim_customer
+gold.dim_employee
+gold.dim_doctor
+gold.dim_supplier
+gold.dim_insurance_plan
 ```
 
----
-
-# ⭐ Gold Dimensional Model
-
-![Gold Star Schema](docs/architecture/gold_star_schema.png)
-
-The Gold layer will use **conformed dimensions** shared across multiple business processes.
-
-## Dimensions
+### Planned Analytical Facts
 
 ```text
-dim_date
-dim_time
-
-dim_pharmacy
-dim_region
-
-dim_product
-dim_category
-dim_batch
-
-dim_customer
-dim_customer_segment
-
-dim_employee
-dim_job_role
-
-dim_supplier
-dim_doctor
-
-dim_insurance
-dim_insurance_plan
-
-dim_payment_method
-dim_channel
-
-dim_promotion
-dim_campaign
-
-dim_warehouse
-dim_shift
-
-dim_return_reason
-dim_currency
-dim_delivery_method
+gold.fact_sales
+gold.fact_return
+gold.fact_prescription
+gold.fact_insurance_claim
+gold.fact_purchase
+gold.fact_inventory_movement
+gold.fact_inventory_snapshot
+gold.fact_delivery
+gold.fact_customer_service
+gold.fact_branch_expense
 ```
 
-## Fact Tables
-
-```text
-fact_sales
-fact_sales_transaction
-
-fact_returns
-
-fact_inventory_snapshot
-fact_inventory_movement
-
-fact_purchase
-fact_purchase_receipt
-
-fact_stock_transfer
-
-fact_prescription
-fact_prescription_item
-
-fact_insurance_claim
-fact_insurance_claim_line
-
-fact_customer_activity
-fact_loyalty_transaction
-fact_customer_service
-
-fact_employee_performance
-fact_employee_attendance
-
-fact_promotion_performance
-
-fact_delivery
-
-fact_branch_operations
-fact_branch_expense
-```
+The final grain, surrogate-key strategy, SCD handling, and analytical relationships will be fixed during Silver/Gold implementation rather than prematurely enforced in Bronze.
 
 ---
 
-# 💰 Sales & Profitability Analytics
+## 📈 Business Analytics Coverage
 
-The warehouse will support:
+The completed warehouse is designed to support:
 
-- Gross Sales
-- Net Revenue
-- Discounts
-- Cost of Goods Sold
-- Gross Profit
-- Gross Margin %
-- Contribution Profit
-- Contribution Margin %
-- Revenue Growth
-- Month-over-Month Growth
-- Year-over-Year Growth
-- Average Transaction Value
-- Units per Transaction
-- Sales Trends
-- Product Mix
-- Category Mix
+| Area | Example Analytics |
+|---|---|
+| **Executive** | Revenue, profit, growth, margin, regional performance |
+| **Sales** | ATV, UPT, product/category mix, discount impact, returns |
+| **Branches** | Branch ranking, same-store growth, labor productivity |
+| **Products** | Revenue, units, margin, brand/generic mix |
+| **Customers** | Retention, frequency, RFM, CLV, loyalty behavior |
+| **Inventory** | Stock turnover, DOI, OOS, dead stock, expiry risk |
+| **Procurement** | Supplier spend, fill rate, OTIF, lead time |
+| **RX** | Prescription volume, dispensing, doctor/product analysis |
+| **Insurance** | Approval rate, rejection reasons, payer performance |
+| **Workforce** | Sales per employee, labor hours, staffing efficiency |
+| **Delivery** | SLA, delivery time, cost per order |
+| **Customer Experience** | Complaints, resolution time, service quality |
 
 ---
 
-# 🏪 Branch & Regional Analytics
+## 🛠️ Technology Stack
 
-Management will be able to drill down through:
+![Technology Stack, Repository and Roadmap](docs/architecture/08_technology_repository_roadmap.png)
 
-```text
-Company
-   ↓
-Region
-   ↓
-City
-   ↓
-Cluster
-   ↓
-Pharmacy Branch
-```
-
-KPIs include:
-
-- Revenue per Branch
-- Profit per Branch
-- Branch Growth
-- Branch Ranking
-- Same-Store Sales Growth
-- Sales per Employee
-- Revenue per Labor Hour
-- Sales per Square Meter
-- Contribution Profit
-- Regional Performance
+| Technology | Purpose |
+|---|---|
+| **SQL Server** | Enterprise data warehouse |
+| **T-SQL** | DDL, ETL/ELT, validation, analytics |
+| **SSMS** | SQL Server development |
+| **Python** | Data generation, validation, analytics |
+| **Pandas** | Data analysis and validation |
+| **Power BI** | Planned semantic model and executive dashboards |
+| **DAX** | Planned analytical measures |
+| **Git / GitHub** | Version control and portfolio delivery |
+| **Draw.io / Architecture Diagrams** | ERD, lineage and data-flow design |
+| **VS Code** | Development environment |
 
 ---
 
-# 💊 Product Analytics
+## 📂 Repository Structure
 
-Product analytics will include:
-
-- Product Revenue
-- Units Sold
-- Product Profit
-- Product Margin %
-- Category Performance
-- Generic vs Brand Mix
-- Product Ranking
-- Price Realization
-- Discount Impact
-- Product Growth
-- Product Trends
-
----
-
-# 👥 Customer & Loyalty Analytics
-
-Customer analytics will include:
-
-- Active Customers
-- New Customers
-- Returning Customers
-- Repeat Purchase Rate
-- Purchase Frequency
-- Customer Retention
-- Customer Churn
-- Customer Lifetime Value
-- Loyalty Participation
-- Points Earned
-- Points Redeemed
-
-## RFM Analysis
-
-Customers can be segmented using:
-
-```text
-R = Recency
-F = Frequency
-M = Monetary Value
-```
-
-Potential segments:
-
-```text
-Champions
-VIP
-Loyal
-Potential Loyalists
-Regular
-New
-At Risk
-Lost
-```
-
----
-
-# 📦 Inventory Analytics
-
-Inventory analytics will support:
-
-- Inventory Value
-- Stock Turnover
-- Days of Inventory
-- Out-of-Stock Rate
-- Overstock
-- Dead Stock
-- Near-Expiry Inventory
-- Expiry Loss
-- Damaged Stock
-- Shrinkage
-- Batch Traceability
-- Stock Transfers
-
----
-
-# 🚚 Procurement & Supplier Analytics
-
-Supplier analytics will include:
-
-- Purchase Value
-- Supplier Spend
-- Supplier Fill Rate
-- On-Time Delivery
-- OTIF
-- Lead Time
-- Purchase Price Variance
-- Contract Compliance
-- Supplier Performance
-- Supplier Ranking
-
----
-
-# 👨‍⚕️ Prescription Analytics
-
-The prescription domain supports:
-
-- Prescription Volume
-- Prescription Value
-- Prescription Items
-- Prescribing Doctor Analysis
-- Product Dispensing
-- Refill Analysis
-- Prescription Status
-- Insurance-linked Prescriptions
-
----
-
-# 🛡️ Insurance Analytics
-
-Insurance analytics includes:
-
-- Number of Claims
-- Claimed Amount
-- Approved Amount
-- Rejected Amount
-- Approval Rate
-- Rejection Rate
-- Customer Copay
-- Insurance Revenue
-- Claim Status
-- Rejection Reasons
-- Insurance Company Performance
-
----
-
-# 👨‍💼 Employee & Workforce Analytics
-
-The workforce domain will support:
-
-- Sales per Employee
-- Transactions per Employee
-- Revenue per Labor Hour
-- Employee Productivity
-- Working Hours
-- Overtime
-- Absence
-- Branch Staffing Efficiency
-- Customer-Service Performance
-
----
-
-# 📣 Promotion Analytics
-
-Promotional analytics includes:
-
-- Promotion Revenue
-- Promotion Discount
-- Promotion Uplift
-- Incremental Sales
-- Margin Impact
-- Promotion ROI
-- Customer Response
-- Product Response
-
----
-
-# 🚚 Delivery Analytics
-
-Delivery KPIs include:
-
-- Delivery Orders
-- Delivery Revenue
-- Average Delivery Time
-- Delivery SLA %
-- Late Delivery %
-- Delivery Cost
-- Delivery Cost per Order
-- Digital Channel Share
-
----
-
-# 😊 Customer Experience Analytics
-
-Customer-service metrics include:
-
-- Customer Satisfaction
-- Complaint Rate
-- First Contact Resolution
-- Average Resolution Time
-- Complaints per 1,000 Transactions
-- Branch Customer Experience Score
-
----
-
-# 🧪 Data Quality Framework
-
-Data quality is built into the pipeline.
-
-Validation includes:
-
-```text
-Required Field Checks
-        ↓
-Data Type Validation
-        ↓
-Duplicate Detection
-        ↓
-Business Key Validation
-        ↓
-Referential Integrity
-        ↓
-Business Rules
-        ↓
-Financial Reconciliation
-        ↓
-Source-to-Target Validation
-```
-
-Example checks:
-
-- Duplicate transaction IDs
-- Orphan sales lines
-- Invalid product/batch combinations
-- Invalid employee/branch combinations
-- Sales before branch opening
-- Returns without original sales lines
-- Transaction header vs line reconciliation
-- Invalid claim amounts
-- Invalid inventory balances
-
----
-
-# 📂 Repository Structure
+The current GitHub repository contains:
 
 ```text
 pharmacy-enterprise-data-warehouse/
 │
 ├── datasets/
-│   ├── source/
-│   │   ├── erp/
-│   │   ├── pos/
-│   │   ├── crm/
-│   │   ├── prescription/
-│   │   ├── insurance/
-│   │   ├── supply_chain/
-│   │   ├── delivery/
-│   │   └── reference/
-│   │
-│   └── sample/
-│       ├── bronze/
-│       │   └── placeholder
-│       ├── silver/
-│       │   └── placeholder
-│       └── gold/
-│           └── placeholder
-│
-├── sql/
-│   ├── bronze/
-│   │   ├── ddl/
-│   │   │   └── ddl_bronze.sql
-│   │   ├── load/
-│   │   │   └── placeholder
-│   │   └── validation/
-│   │       └── placeholder
-│   │
-│   ├── silver/
-│   │   ├── ddl/
-│   │   │   └── placeholder
-│   │   ├── transformations/
-│   │   │   └── placeholder
-│   │   └── validation/
-│   │       └── placeholder
-│   │
-│   └── gold/
-│       ├── ddl/
-│       │   └── placeholder
-│       ├── dimensions/
-│       │   └── placeholder
-│       ├── facts/
-│       │   └── placeholder
-│       ├── aggregations/
-│       │   └── placeholder
-│       ├── kpi_views/
-│       │   └── placeholder
-│       └── validation/
-│           └── placeholder
-│
-├── scripts/
-│   ├── ingestion/
-│   │   └── placeholder
-│   ├── transformations/
-│   │   └── placeholder
-│   ├── generators/
-│   ├── validation/
-│   └── utils/
-│       └── placeholder
-│
-├── tests/
-│   ├── bronze/
-│   │   └── placeholder
-│   ├── silver/
-│   │   └── placeholder
-│   ├── gold/
-│   │   └── placeholder
-│   └── reconciliation/
-│       └── placeholder
-│
-├── powerbi/
-│   ├── dashboard/
-│   │   └── placeholder
-│   ├── mockups/
-│   │   └── placeholder
-│   ├── measures/
-│   │   └── placeholder
-│   └── documentation/
-│       └── placeholder
-│
-├── python/
-│   ├── notebooks/
-│   │   └── placeholder
-│   ├── analysis/
-│   │   └── placeholder
-│   ├── forecasting/
-│   │   └── placeholder
-│   └── machine_learning/
-│       └── placeholder
+│   └── placeholder
 │
 ├── docs/
 │   ├── architecture/
-│   ├── data_model/
-│   ├── data_dictionary/
-│   ├── source_contract/
-│   ├── business_rules/
-│   ├── data_quality/
-│   ├── kpi_catalog/
-│   └── lineage/
-│       └── placeholder
-│
-├── config/
-│
-├── logs/
 │   └── placeholder
 │
-├── .gitignore
+├── scripts/
+│
+├── sql/
+│   ├── setup/
+│   ├── bronze/
+│   │   ├── ddl_bronze.sql
+│   │   └── placeholder
+│   ├── silver/
+│   └── gold/
+│
+├── tests/
+│
 ├── LICENSE
 └── README.md
 ```
 
-### 📁 GitHub Folder Convention
+The repository will expand as Bronze ingestion, Silver transformations, Gold models, tests, BI assets, and supporting documentation are implemented.
 
-GitHub does not track empty directories. During development, intentionally empty directories contain a file named `placeholder`.
+Large generated datasets are intentionally stored outside the GitHub repository.
 
-The `placeholder` file contains no business data or application logic. Its only purpose is to preserve the planned repository structure in GitHub.
+At the current repository state, `datasets/` contains only a placeholder; the warehouse dataset itself is maintained separately.
 
-Example:
+GitHub is used for SQL, architecture, documentation, tests, scripts, and reproducibility artifacts.
+
+---
+
+## 🗺️ Project Roadmap
 
 ```text
-sql/
-└── silver/
-    └── ddl/
-        └── placeholder
-```
-
-Once a real project file is added to the directory, the `placeholder` file can be removed.---
-
-# 🧱 Bronze Naming Convention
-
-Bronze tables retain source-system lineage.
-
-| Prefix | Source |
-|---|---|
-| `erp_` | ERP Core |
-| `pos_` | POS |
-| `crm_` | CRM & Loyalty |
-| `rx_` | Prescription |
-| `ins_` | Insurance |
-| `scm_` | Supply Chain |
-| `del_` | Delivery |
-| `ref_` | Reference |
-
-Examples:
-
-```sql
-bronze.erp_employees
-
-bronze.pos_sales_transaction
-bronze.pos_sales_line
-
-bronze.crm_customers
-
-bronze.rx_prescriptions
-
-bronze.ins_claims
-
-bronze.scm_inventory_movements
-
-bronze.del_delivery_orders
-
-bronze.ref_products
-bronze.ref_pharmacies
+✅ Business requirements & scope
+        ↓
+✅ Enterprise source-system design
+        ↓
+✅ Synthetic RAW dataset
+        ↓
+✅ RAW quality & reconciliation
+        ↓
+✅ Metadata & data catalog
+        ↓
+✅ Architecture / ERD / lineage
+        ↓
+✅ RAW → Bronze source mapping
+        ↓
+✅ Bronze DDL baseline
+        ↓
+▶ Bronze ingestion + audit framework
+        ↓
+⏳ Bronze validation
+        ↓
+⏳ Silver cleaning & conformance
+        ↓
+⏳ Gold dimensional model
+        ↓
+⏳ KPI / analytical SQL layer
+        ↓
+⏳ Power BI semantic model & dashboards
+        ↓
+⏳ Python analytics / forecasting
 ```
 
 ---
 
-# 🛠️ Technologies Used
+## 📚 Documentation
 
-| Technology | Purpose |
-|---|---|
-| 🗄️ **SQL Server** | Enterprise Data Warehouse |
-| 💻 **T-SQL** | DDL, ETL/ELT, transformations and analytics |
-| 🛠️ **SSMS** | SQL Server development |
-| 🐍 **Python** | Data generation, analytics and ML |
-| 🐼 **Pandas** | Data analysis |
-| 📊 **Power BI** | Dashboards and business intelligence |
-| 📐 **DAX** | Measures and analytical calculations |
-| 🧩 **Draw.io** | Architecture and ERD diagrams |
-| 🌳 **Git** | Version control |
-| 🐙 **GitHub** | Portfolio and project repository |
-| 📝 **Notion** | Project documentation and planning |
-| 💻 **VS Code** | Development environment |
+### Visual Architecture Set
 
----
+| # | Visual | Purpose |
+|---:|---|---|
+| **01** | Project Overview | Executive introduction, project scale and status |
+| **02** | Source Systems Overview | Operational domains feeding the warehouse |
+| **03** | End-to-End Architecture | RAW → Bronze → Silver → Gold → Consumption |
+| **04** | RAW → Bronze Mapping | Source-aligned ingestion and technical metadata |
+| **05** | Business ERD / Cross-Domain | Core business relationships across domains |
+| **06** | Data Quality & Reconciliation | Validation controls and financial/operational gates |
+| **07** | Planned Silver & Gold | Future conformed and dimensional architecture |
+| **08** | Technology / Repository / Roadmap | Stack, delivery structure and implementation path |
 
-# 📊 Power BI Roadmap
-
-Planned dashboard pages:
+Architecture visuals are stored under:
 
 ```text
-01 — Executive Overview
-
-02 — Sales & Profitability
-
-03 — Branch & Regional Performance
-
-04 — Products & Categories
-
-05 — Customers & Loyalty
-
-06 — Inventory & Expiry
-
-07 — Employees & Workforce
-
-08 — Procurement & Suppliers
-
-09 — Prescription & Insurance
-
-10 — Delivery & Customer Experience
+docs/architecture/
 ```
 
----
+The repository will continue to integrate engineering documentation including:
 
-# 🐍 Python & Machine Learning Roadmap
-
-Future analytical extensions:
-
-- Exploratory Data Analysis
-- Customer Segmentation
-- RFM Analysis
-- Churn Prediction
-- Demand Forecasting
-- Sales Forecasting
-- Inventory Optimization
-- Product Affinity Analysis
-- Supplier Performance Modeling
-- Anomaly Detection
+- Business ERD
+- Source-to-target mapping
+- Metadata and data dictionary
+- Business rules
+- Data-quality rules
+- Reconciliation logic
+- Data lineage
+- Implementation documentation
 
 ---
 
-# 📦 Dataset Strategy
+## ⚠️ Data & Provenance Disclaimer
 
-The project is designed to simulate an enterprise-scale pharmacy chain.
+This is a **portfolio and learning project built on synthetic operational data**.
 
-Large generated datasets are stored locally rather than committed directly to GitHub.
+Some product records may use real-world brand names or standard medicine concepts to improve business realism.
 
-GitHub contains:
+Generated combinations of SKU, barcode, pack, price, transaction, prescription, insurance, customer, employee, supplier, and operational data are synthetic unless explicitly documented otherwise.
 
-- Small sample datasets
-- SQL scripts
-- DDL
-- ETL/ELT logic
-- Data generators
-- Validation scripts
-- Documentation
-- Architecture diagrams
-- Power BI files
-- Python analytics
-
-This keeps the repository reproducible without storing unnecessarily large data files.
-
-> **Important:** Operational records in this portfolio project are synthetic. Official/reference product data is kept clearly separated from synthetic scale-test data.
+The dataset must not be interpreted as an official manufacturer, retailer, payer, or regulatory registry.
 
 ---
 
-# 🗺️ Project Roadmap
+## 👤 Author
 
-- [x] Define business scope
-- [x] Design enterprise source systems
-- [x] Design Medallion Architecture
-- [x] Create GitHub repository structure
-- [x] Organize source datasets
-- [x] Create Bronze DDL
-- [x] Create source contract
-- [x] Define data-quality framework
-- [ ] Build Bronze ingestion
-- [ ] Validate Bronze
-- [ ] Build Silver layer
-- [ ] Implement cleaning and standardization
-- [ ] Implement conformed entities
-- [ ] Build Gold dimensional model
-- [ ] Implement SCD logic
-- [ ] Build fact tables
-- [ ] Build KPI views
-- [ ] Perform advanced SQL analysis
-- [ ] Build Power BI dashboard
-- [ ] Perform Python analysis
-- [ ] Add machine-learning models
-- [ ] Complete project documentation
+### Shamseldeen Ismaiil
+
+Retail pharmacy professional with more than 10 years of operational experience, building practical expertise in:
+
+**Data Analytics • Business Intelligence • SQL • Python • Power BI • Data Warehousing**
+
+The project combines technical data skills with practical domain understanding across:
+
+**Pharmacy Operations • Retail • Sales • Insurance • Inventory • Customer Service**
 
 ---
 
-# 💡 Business Questions
+## 📄 License
 
-The final platform should answer questions such as:
-
-1. Which regions and branches generate the most revenue?
-2. Which branches generate the highest profit?
-3. Which branches are underperforming?
-4. Which products drive revenue and margin?
-5. Which products are growing or declining?
-6. Which customers are the most valuable?
-7. Which customers are at risk of churn?
-8. Which products frequently go out of stock?
-9. Where is inventory becoming dead stock?
-10. Which products are approaching expiry?
-11. Which suppliers provide the best service and cost performance?
-12. Which employees and branches are most productive?
-13. What causes insurance claim rejection?
-14. Which promotions generate incremental profit?
-15. How is digital/delivery performance changing?
-16. Where can management improve profitability and operational efficiency?
+This project is released under the [MIT License](LICENSE).
 
 ---
 
-# 👤 Author
+### ⭐ Project Vision
 
-**Shamseldeen Ismaiil**
-
-Pharmacist transitioning into **Data Analytics & Data Engineering**, building practical projects in:
-
-`SQL` • `Data Warehousing` • `Power BI` • `Python` • `Data Analytics` • `Data Engineering`
-
----
-
-# 📜 License
-
-This project is licensed under the **MIT License**.
-
-See the [`LICENSE`](LICENSE) file for details.
-
----
-
-⭐ **If you find this project useful, consider giving the repository a star.**
+> Build a realistic, auditable, and scalable pharmacy analytics platform that demonstrates the complete journey from complex operational data to trusted business intelligence.
