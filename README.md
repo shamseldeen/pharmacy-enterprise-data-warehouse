@@ -5,7 +5,7 @@
 ![Architecture](https://img.shields.io/badge/Architecture-Medallion-orange)
 ![Power BI](https://img.shields.io/badge/Power%20BI-Planned-F2C811?logo=powerbi&logoColor=black)
 ![Python](https://img.shields.io/badge/Python-Analytics%20%26%20Automation-3776AB?logo=python&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Bronze%20Ready-blue)
+![Status](https://img.shields.io/badge/Status-Bronze%20Ingestion%20Complete-1f883d)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 > **An enterprise-scale retail pharmacy data warehouse project that models the full path from operational source data to governed analytical data using SQL Server, Medallion Architecture, data-quality controls, reconciliation, dimensional modeling, and BI.**
@@ -25,15 +25,20 @@ This project is designed as a realistic portfolio implementation rather than a s
 | Cross-domain RAW validation | ✅ 25 / 25 checks passed |
 | Metadata & business data catalog | ✅ Complete |
 | Architecture, ERD & lineage | ✅ Complete |
-| Bronze DDL baseline (`sql/bronze/ddl_bronze.sql`) | ✅ Present in repository |
-| Bronze source-to-target redesign / alignment | ✅ Complete |
-| Bronze SQL Server ingestion | 🚧 Next implementation phase |
+| Bronze DDL generation and table creation | ✅ 72 tables created |
+| Bronze loading procedure and batch audit | ✅ Implemented |
+| RAW → Bronze SQL Server ingestion | ✅ 72 / 72 tables loaded |
+| Bronze rows loaded | ✅ 60,234,021 rows |
+| Bronze failed tables | ✅ 0 |
+| Bronze final validation & reconciliation | ▶️ Next phase |
 | Silver layer | ⏳ Planned |
 | Gold dimensional layer | ⏳ Planned |
 | Power BI semantic model & dashboards | ⏳ Planned |
 | Python analytics / forecasting | ⏳ Planned |
 
-**Current milestone:** `RAW → Bronze implementation`
+**Current milestone:** `RAW → Bronze ingestion complete`
+
+**Next milestone:** `Bronze final validation & reconciliation`
 
 ---
 
@@ -80,6 +85,52 @@ The project uses a large synthetic operational dataset designed for realistic wa
 | Insurance claim lines | **153,098** |
 
 > **Note:** the 30.3M canonical sales-line fact has been validated and financially reconciled, but the large standalone materialized file is not committed directly to the portable repository. Its materialization rule and validation evidence are documented separately.
+
+---
+
+## 🥉 Bronze Ingestion Milestone
+
+The finalized RAW dataset has been successfully loaded into SQL Server as a source-aligned Bronze layer.
+
+| Metric | Result |
+|---|---:|
+| Batch ID | `841372319990` |
+| Bronze tables | **72** |
+| Successful tables | **72** |
+| Failed tables | **0** |
+| Rows loaded | **60,234,021** |
+| Load status | **SUCCESS** |
+
+The ingestion process was executed through a generated SQL Server loading procedure with table-level batch auditing.
+
+The audit records capture:
+
+```text
+_batch_id
+bronze_table_name
+source_domain
+relative_file_path
+_ingestion_ts
+rows_loaded
+load_status
+error_message
+```
+
+The loader completed 71 tables during its main execution. One small CSV containing a quoted comma required an isolated reload using the file's Windows-style `CRLF` row ending:
+
+```sql
+ROWTERMINATOR = '0x0D0A'
+```
+
+After the isolated reload and audit correction, the final batch reached:
+
+```text
+72 / 72 tables
+60,234,021 rows
+0 failures
+```
+
+This milestone confirms successful ingestion. It does **not** yet represent completion of Bronze final validation, key-integrity testing, duplicate analysis, null profiling, or cross-table reconciliation.
 
 ---
 
@@ -145,57 +196,83 @@ The warehouse is modeled around multiple operational domains instead of one flat
 
 ---
 
-## 🧱 RAW → Bronze Design
+## 🧱 RAW → Bronze Implementation
 
 ![RAW to Bronze Mapping](docs/architecture/04_raw_to_bronze_mapping.png)
 
-A Bronze DDL baseline already exists in the repository at [`sql/bronze/ddl_bronze.sql`](sql/bronze/ddl_bronze.sql).
+The finalized RAW structure was materialized into **72 source-aligned Bronze tables** in SQL Server.
 
-It creates source-aligned Bronze tables and explicitly defers cleansing and business transformations to Silver.
+The implementation deliberately keeps Bronze close to the source files:
 
-The next implementation step is to reconcile the existing DDL with the finalized **51-table source-of-truth mapping**, then build auditable loading and validation.
+- One source-aligned Bronze table for each finalized RAW file
+- Source-domain prefixes in Bronze table names
+- Conservative SQL Server datatypes
+- No business cleansing or dimensional transformations
+- Generated DDL for reproducible table creation
+- Generated loading procedure for repeatable ingestion
+- Compact table-level batch auditing
+- Failure isolation without reloading successful large tables
 
-### Example Source-to-Bronze Mapping
-
-```text
-sales_transactions
-    → bronze.pos_sales_transaction
-
-canonical_sales_lines
-    → bronze.pos_sales_line
-
-payments
-    → bronze.pos_payments
-
-returns
-    → bronze.pos_returns
-
-product_master
-    → bronze.ref_products
-
-prescriptions
-    → bronze.rx_prescriptions
-
-insurance_claims
-    → bronze.ins_claims
-
-purchase_orders
-    → bronze.scm_purchase_orders
-
-inventory_movements
-    → bronze.scm_inventory_movements
-```
-
-Every Bronze table is designed to include technical metadata such as:
+### Implementation Flow
 
 ```text
-_source_file
-_ingestion_ts
-_batch_id
-_row_hash
+Finalized RAW CSV files
+        ↓
+Python Bronze DDL Generator
+        ↓
+72 SQL Server Bronze tables
+        ↓
+Python Procedure Generator
+        ↓
+Generated T-SQL loading procedure
+        ↓
+BULK INSERT execution
+        ↓
+Compact batch/file audit
 ```
 
-Bronze is intentionally **not** the business-reporting layer. Business transformations are deferred to Silver.
+### Example Source-to-Bronze Mappings
+
+```text
+pos/sales_transactions/sales_transactions_2020.csv
+    → bronze.pos_sales_transactions_2020
+
+pos/canonical_sales_lines/canonical_sales_lines_2025_FINAL.csv
+    → bronze.pos_canonical_sales_lines_2025_final
+
+pos/payments/payments_2025.csv
+    → bronze.pos_payments_2025
+
+reference/products_FINAL_11274.csv
+    → bronze.reference_products_final_11274
+
+rx/prescription_items_FINAL.csv
+    → bronze.rx_prescription_items_final
+
+supply_chain/purchase_order_lines_FINAL.csv
+    → bronze.supply_chain_purchase_order_lines_final
+```
+
+### Loader Behavior
+
+The generated loader:
+
+- Loads CSV files into their corresponding Bronze tables
+- Uses UTF-8 CSV handling
+- Records the batch, table, source file, row count, status, and error message
+- Continues loading independent tables when one table fails
+- Supports isolated troubleshooting and reload of only the failed table
+- Avoids repeating a successful 60-million-row ingestion because of one small failure
+
+For this Windows-generated dataset, the final loader configuration should use:
+
+```sql
+ROWTERMINATOR = '0x0D0A'
+```
+
+If one table fails, its `BULK INSERT` should be executed separately without `TRY/CATCH` to expose the exact row and column error. The full batch should not be rerun when the other tables have already succeeded.
+
+Bronze remains a source-aligned ingestion layer. Cleansing, standardization, conformance, business-rule enforcement, and dimensional transformations are deferred to Silver.
 
 ---
 
@@ -442,13 +519,15 @@ pharmacy-enterprise-data-warehouse/
 └── README.md
 ```
 
-The repository will expand as Bronze ingestion, Silver transformations, Gold models, tests, BI assets, and supporting documentation are implemented.
+The repository will expand as the completed Bronze implementation artifacts are reviewed and published, followed by Silver transformations, Gold models, tests, BI assets, and supporting documentation.
 
 Large generated datasets are intentionally stored outside the GitHub repository.
 
 At the current repository state, `datasets/` contains only a placeholder; the warehouse dataset itself is maintained separately.
 
 GitHub is used for SQL, architecture, documentation, tests, scripts, and reproducibility artifacts.
+
+> **Repository note:** the final generated 72-table DDL and Bronze loading procedure were executed locally and are not yet present in the public repository. They will be published after their final source-code review. The ingestion results above describe the completed SQL Server execution, not the current public file inventory.
 
 ---
 
@@ -469,11 +548,18 @@ GitHub is used for SQL, architecture, documentation, tests, scripts, and reprodu
         ↓
 ✅ RAW → Bronze source mapping
         ↓
-✅ Bronze DDL baseline
+✅ Bronze DDL generation
         ↓
-▶ Bronze ingestion + audit framework
+✅ 72 Bronze tables created
         ↓
-⏳ Bronze validation
+✅ Bronze loader + batch audit
+        ↓
+✅ RAW → Bronze ingestion
+   72 / 72 tables
+   60,234,021 rows
+   0 failures
+        ↓
+▶ Bronze final validation & reconciliation
         ↓
 ⏳ Silver cleaning & conformance
         ↓
@@ -483,7 +569,7 @@ GitHub is used for SQL, architecture, documentation, tests, scripts, and reprodu
         ↓
 ⏳ Power BI semantic model & dashboards
         ↓
-⏳ Python analytics / forecasting
+⏳ Kaggle Python analytics / forecasting
 ```
 
 ---
