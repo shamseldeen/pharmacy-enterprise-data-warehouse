@@ -1,5 +1,42 @@
 # 💊 Pharmacy Enterprise Data Warehouse
 
+## 📍 Current Project Checkpoint — 2026-10-08
+
+> This section updates the repository snapshot dated 2026-08-30. Fabric results below are evidenced by saved outputs in the WInvalid project notebooks; they were not rerun in Fabric during this documentation review.
+
+### The project journey
+
+1. **Business design and source data.** The project began as a multi-domain pharmacy enterprise warehouse, with a finalized synthetic operational dataset, source catalog, business relationships, and cross-domain validation. The existing repository records 72 source files, 25/25 RAW checks, and a SQL Server Bronze load of 72 tables and 60,234,021 rows. Those remain historical repository claims, not a live SQL Server revalidation in this checkpoint.
+2. **Fabric foundation.** The project continued in Microsoft Fabric using the finalized RAW files in OneLake and the `Pharmacy-Enterprise-DW-DEV` workspace with `lh_bronze`. The governing Bronze rule remains one physical RAW CSV to one source-aligned Bronze Delta table. Bronze preserves source fidelity; cleaning, deduplication, conformance, and business corrections belong in Silver.
+3. **Fabric Bronze ingestion.** Saved `nb_02_bronze_ingestion_framework` outputs record 72/72 files processed, 72 registered Bronze tables, 60,234,021 RAW rows reconciled to 60,234,021 Bronze rows (difference 0), schema reconciliation PASS, and a 451.24 second pipeline runtime. The saved notebook records the Fabric Bronze Ingestion Gate as PASS.
+4. **Bronze Data Quality.** Saved outputs record a completeness profile for `bronze.crm_customer_consent_history` (1,200,051 rows, 7 columns, 0 NULLs in each column), a 72-table completeness run covering 612 column profiles, and 19 columns with at least one NULL. The employee temporal rule returned 0 violations and PASS. These are useful controls, but they do not complete uniqueness, key, referential, domain, business, or cross-domain DQ gates.
+5. **Recovery of the last notebook state.** The final visible `nb_02` cell failed with `NameError: name 'bronze_table_names' is not defined` during catalog inventory; its preceding cell succeeded. `nb_03_silver_discovery_contract` independently rediscovers the catalog with `SHOW TABLES IN bronze`, so the later notebook avoids that missing-variable dependency. This does not retroactively fix the failed `nb_02` cell.
+6. **Silver discovery, not Silver implementation.** The saved `nb_03` artifact shows nine executed cells. Its readable outputs report 72 Bronze tables, 612 columns, 3 yearly entity groups, and 57 candidate Silver entities. The detailed schema-comparison and column-classification widgets are not readable in the saved preview, so their PASS/drift counts and classification distribution remain unknown. The artifact shows discovery and mapping proposals; no Silver Delta writes or formal, persisted data-contract deliverable are evidenced.
+
+### Current status and exact next action
+
+- **Completed:** Fabric Bronze ingestion gate; initial Bronze completeness profiling; one employee temporal check; Silver source/schema discovery.
+- **In progress:** Bronze Data Quality gate and interpretation of the existing Silver discovery evidence.
+- **Not evidenced as complete:** full Bronze DQ gate, formal Silver contracts, Silver transformations or Delta outputs, Gold, semantic model, Power BI, orchestration, CI/CD, and portfolio publication.
+- **Next:** continue in the existing `nb_03_silver_discovery_contract` notebook. Inspect its saved outputs for the schema comparison cells (cells 5–6), source-to-entity mapping (cell 8), and column classification (cell 9). Record each yearly group’s actual drift result, the classifier counts, and the source-to-candidate mapping. Do not rerun Bronze ingestion. Use those findings to specify and validate the Silver contracts before writing any Silver tables.
+
+### Engineering notes to carry forward
+
+- `Candidate Silver entities: 57` is a discovery count, not 57 implemented Silver tables.
+- Do not claim the yearly schemas all pass until the unreadable comparison outputs are inspected.
+- Review multiword domain parsing (`supply_chain`) and numeric identifier classification before treating inferred metadata as contract truth.
+- Keep NULL findings as profiling evidence; define field-specific rules before deciding whether NULL is acceptable or an exception.
+- The old status table and roadmap below describe the repository’s earlier SQL Server checkpoint. Read them as project history; this dated Fabric checkpoint is the current status snapshot.
+- The WInvalid conversation supplied one mobile screenshot confirming the pinned project chat. Its direct learning branch supplied the `nb_01_bronze_reference_regions` notebook, its BuiltIn package, and `nb_02_bronze_ingestion_framework`; the `nb_03` artifact was also inspected from ChatGPT Library. These notebook artifacts are not yet committed to this repository.
+
+### Consolidated route to completion
+
+`Finish Bronze DQ and close the Bronze gate` → `inspect discovery evidence and define Silver contracts` → `build and validate Silver transformations` → `design Gold facts/dimensions at explicit grains` → `publish a semantic model` → `build and test Power BI reports` → `automate data tests, monitoring, security, and performance checks` → `add justified orchestration/incremental patterns` → `Git/CI-CD and portfolio documentation`.
+
+---
+
+
+
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Warehouse-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![T-SQL](https://img.shields.io/badge/T--SQL-ETL%20%26%20Analytics-0078D4)
 ![Architecture](https://img.shields.io/badge/Architecture-Medallion-orange)
