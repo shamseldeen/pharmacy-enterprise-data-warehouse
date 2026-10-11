@@ -1,8 +1,8 @@
 # 💊 Pharmacy Enterprise Data Warehouse
 
-## 📍 Current Project Checkpoint — 2026-10-08
+## 📍 Current Project Checkpoint — 2026-10-11
 
-> This section updates the repository snapshot dated 2026-08-30. Fabric results below are evidenced by saved outputs in the WInvalid project notebooks; they were not rerun in Fabric during this documentation review.
+> Status is based on saved Fabric notebook outputs and the current Lakehouse workspace inspection. The user runs and changes Fabric items; this repository records verified results and the next controlled step.
 
 ### The project journey
 
@@ -12,15 +12,19 @@
 
 3. **Fabric Bronze ingestion.** Saved `nb_02_bronze_ingestion_framework` outputs record 72/72 files processed, 72 registered Bronze tables, 60,234,021 RAW rows reconciled to 60,234,021 Bronze rows (difference 0), schema reconciliation PASS, and a 451.24 second pipeline runtime. The saved notebook records the Fabric Bronze Ingestion Gate as PASS.
 4. **Bronze Data Quality.** Saved outputs record a completeness profile for `bronze.crm_customer_consent_history` (1,200,051 rows, 7 columns, 0 NULLs in each column), a 72-table completeness run covering 612 column profiles, and 19 columns with at least one NULL. The employee temporal rule returned 0 violations and PASS. These are useful controls, but they do not complete uniqueness, key, referential, domain, business, or cross-domain DQ gates.
-5. **Recovery of the last notebook state.** The final visible `nb_02` cell failed with `NameError: name 'bronze_table_names' is not defined` during catalog inventory; its preceding cell succeeded. `nb_03_silver_discovery_contract` independently rediscovers the catalog with `SHOW TABLES IN bronze`, so the later notebook avoids that missing-variable dependency. This does not retroactively fix the failed `nb_02` cell.
-6. **Silver discovery, not Silver implementation.** The saved `nb_03` artifact shows nine executed cells. Its readable outputs report 72 Bronze tables, 612 columns, 3 yearly entity groups, and 57 candidate Silver entities. The detailed schema-comparison and column-classification widgets are not readable in the saved preview, so their PASS/drift counts and classification distribution remain unknown. The artifact shows discovery and mapping proposals; no Silver Delta writes or formal, persisted data-contract deliverable are evidenced.
+5. **Historical `nb_02` issue — not the current project stop.** A saved catalog-inventory cell failed with `NameError: name 'bronze_table_names' is not defined`; a later cell in `nb_03_silver_discovery_contract` independently discovers the Bronze catalog. The old `nb_02` error is not a reason to rerun the successful 72-table ingestion, and its trailing cell should not be run without restoring its inputs.
+
+6. **Silver implementation is in progress.** The current Fabric `lh_silver` inspection showed eight Delta tables in schema `silver`: `erp_branch_lifecycle_events` (1,081 rows), `erp_employees` (10,000), `erp_job_roles` (10), `erp_pharmacies` (1,000), `rx_dispenses` (173,913), `rx_doctors` (20,000), `rx_prescription_items` (203,899), and `rx_prescriptions` (100,000). The `dbo` schema was present but empty at that inspection; the active objects were in `silver`. Do not create duplicate `dbo` tables or rerun completed transforms without a specific reason. User-shared RX checks passed for unique dispense grain, all 173,913 prescription-item links, prescription-item/header links, and dispense chronology. User-shared branch-event evidence reports 1,081 source rows, 1,081 distinct nonblank event IDs, and PASS. These checks cover selected entities; they do not mean all Silver contracts or the full project are complete.
 
 ### Current status and exact next action
 
-- **Completed:** Fabric Bronze ingestion gate; initial Bronze completeness profiling; one employee temporal check; Silver source/schema discovery.
-- **In progress:** Bronze Data Quality gate and interpretation of the existing Silver discovery evidence.
-- **Not evidenced as complete:** full Bronze DQ gate, formal Silver contracts, Silver transformations or Delta outputs, Gold, semantic model, Power BI, orchestration, CI/CD, and portfolio publication.
-- **Next:** continue in the existing `nb_03_silver_discovery_contract` notebook. Inspect its saved outputs for the schema comparison cells (cells 5–6), source-to-entity mapping (cell 8), and column classification (cell 9). Record each yearly group’s actual drift result, the classifier counts, and the source-to-candidate mapping. Do not rerun Bronze ingestion. Use those findings to specify and validate the Silver contracts before writing any Silver tables.
+- **Completed:** Fabric Bronze ingestion (72/72 tables; 60,234,021 rows reconciled); initial Bronze profiling; eight Silver Delta tables; selected RX grain, link, and chronology checks; branch-event identifier check.
+- **In progress:** Silver source coverage, contract-to-implementation traceability, and entity-level quality gates.
+- **Not started:** Gold facts and dimensions, semantic model, Power BI reports for this warehouse, production orchestration, CI/CD deployment, and production readiness.
+
+**Latest user-shared execution evidence:** `bronze.erp_branch_lifecycle_events` had 1,081 source rows, 1,081 distinct event IDs, and zero NULL/blank IDs (PASS). The exact cell number was not included in the shared output. RX checks already reported PASS and must not be repeated without a changed source or a concrete failure.
+
+**Next laptop action:** open the ERP Silver notebook containing the branch-event check (`nb_05_silver_erp_transform`; confirm its title in Fabric), and add a Markdown checkpoint after the existing output only if it is not already documented. Record the source and target names, the already-observed PASS result, the matching Silver row count if it is already visible, and the decision/rule applied. Do not rerun the key or RX checks. Then begin the next Silver vertical slice for the product and core-sales sources, using the existing Bronze catalog and `nb_03` mapping as references; validate only new transformations and their distinct business grain. The next produced output should be a documented, reconciled Silver sales foundation for Gold.
 
 ### Engineering notes to carry forward
 
@@ -28,26 +32,26 @@
 - Do not claim the yearly schemas all pass until the unreadable comparison outputs are inspected.
 - Review multiword domain parsing (`supply_chain`) and numeric identifier classification before treating inferred metadata as contract truth.
 - Keep NULL findings as profiling evidence; define field-specific rules before deciding whether NULL is acceptable or an exception.
-- The old status table and roadmap below describe the repository’s earlier SQL Server checkpoint. Read them as project history; this dated Fabric checkpoint is the current status snapshot.
-- The WInvalid conversation supplied one mobile screenshot confirming the pinned project chat. Its direct learning branch supplied the `nb_01_bronze_reference_regions` notebook, its BuiltIn package, and `nb_02_bronze_ingestion_framework`; the `nb_03` artifact was also inspected from ChatGPT Library. These notebook artifacts are not yet committed to this repository.
+- The status table and roadmap reflect the Fabric checkpoint dated 2026-10-11. Historical SQL Server work remains labeled as its own earlier milestone.
+- Execution status is based on saved notebook outputs and workspace inspection. The project notebook history includes the `nb_01_bronze_reference_regions` notebook, its BuiltIn package, and `nb_02_bronze_ingestion_framework`; the `nb_03_silver_discovery_contract` notebook is the current discovery reference. These notebook artifacts are not yet committed to this repository.
 
 ### Consolidated route to completion
 
-`Finish Bronze DQ and close the Bronze gate` → `inspect discovery evidence and define Silver contracts` → `build and validate Silver transformations` → `design Gold facts/dimensions at explicit grains` → `publish a semantic model` → `build and test Power BI reports` → `automate data tests, monitoring, security, and performance checks` → `add justified orchestration/incremental patterns` → `Git/CI-CD and portfolio documentation`.
+`Reuse saved Bronze profiling and reconciliation evidence` → `document approved decisions and map Silver contracts` → `extend Silver with product and core-sales entities` → `complete remaining Silver entities by business value` → `apply one new grain, referential, and reconciliation gate per entity without rerunning completed checks` → `design Gold facts and conformed dimensions at explicit grains` → `publish the semantic model and governed measures` → `build and validate Power BI reports` → `optimize refresh, model performance, security, and monitoring` → `orchestrate stable notebooks with Fabric pipelines, retries, and alerts` → `implement Git integration and CI/CD` → `publish portfolio documentation; evaluate AI only against a validated use case` .
 
 ---
 
 
 
-![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Warehouse-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Microsoft Fabric](https://img.shields.io/badge/Microsoft%20Fabric-Data%20Platform-742774) &nbsp; ![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Warehouse-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![T-SQL](https://img.shields.io/badge/T--SQL-ETL%20%26%20Analytics-0078D4)
 ![Architecture](https://img.shields.io/badge/Architecture-Medallion-orange)
-![Power BI](https://img.shields.io/badge/Power%20BI-Planned-F2C811?logo=powerbi&logoColor=black)
+![Power BI](https://img.shields.io/badge/Power%20BI-Not%20Started-F2C811?logo=powerbi&logoColor=black)
 ![Python](https://img.shields.io/badge/Python-Analytics%20%26%20Automation-3776AB?logo=python&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Bronze%20Ingestion%20Complete-1f883d)
+![Status](https://img.shields.io/badge/Status-Silver%20In%20Progress-8a2be2)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> **An enterprise-scale retail pharmacy data warehouse project that models the full path from operational source data to governed analytical data using SQL Server, Medallion Architecture, data-quality controls, reconciliation, dimensional modeling, and BI.**
+> **An enterprise-scale retail pharmacy data warehouse evolving from SQL Server design into a Microsoft Fabric Medallion platform. Fabric Bronze ingestion is verified, Silver is in progress, and Gold, the semantic model, and Power BI reports remain ahead.**
 
 This project is designed as a realistic portfolio implementation rather than a single-dashboard demo. It integrates pharmacy retail operations across **sales, customers, products, prescriptions, insurance, procurement, suppliers, inventory, workforce, branch operations, and delivery** into one analytical platform.
 
@@ -67,17 +71,17 @@ This project is designed as a realistic portfolio implementation rather than a s
 | Bronze DDL generation and table creation | ✅ 72 tables created |
 | Bronze loading procedure and batch audit | ✅ Implemented |
 | RAW → Bronze SQL Server ingestion | ✅ 72 / 72 tables loaded |
-| Bronze rows loaded | ✅ 60,234,021 rows |
+| Fabric Bronze rows reconciled | ✅ 60,234,021 rows; 72/72 tables |
 | Bronze failed tables | ✅ 0 |
-| Bronze final validation & reconciliation | ▶️ Next phase |
-| Silver layer | ⏳ Planned |
-| Gold dimensional layer | ⏳ Planned |
-| Power BI semantic model & dashboards | ⏳ Planned |
-| Python analytics / forecasting | ⏳ Planned |
+| Bronze DQ and integrity coverage | 🔄 Partial; selected checks only |
+| Silver layer | 🔄 In progress — 8 Delta tables verified in `silver` |
+| Gold dimensional layer | ⏳ Not started |
+| Semantic model & Power BI reports | ⏳ Not started |
+| Orchestration, monitoring, CI/CD, advanced analytics | ⏳ Future phases |
 
-**Current milestone:** `RAW → Bronze ingestion complete`
+**Current milestone:** `Silver implementation — 8 verified tables; expand sales foundation`
 
-**Next milestone:** `Bronze final validation & reconciliation`
+**Next milestone:** `Silver product and core-sales foundation with source-to-target reconciliation`
 
 ---
 
@@ -405,15 +409,15 @@ SUPPLIERS + WAREHOUSES
 
 ---
 
-## 🥈 Planned Silver Layer
+## 🥈 Silver Layer — implementation in progress
 
 ![Planned Silver and Gold Architecture](docs/architecture/07_planned_silver_gold.png)
 
-> **Status: PLANNED — not yet implemented.**
+> **Status: IN PROGRESS — eight Delta tables are present in schema `silver`; the deployed inventory is listed in the checkpoint above. This proposed object list is not the current inventory.**
 
-The Silver layer will convert source-aligned Bronze tables into trusted, conformed entities.
+Silver converts source-aligned Bronze tables into trusted, conformed entities. The current deployed inventory is limited to the eight tables listed in the checkpoint above; the proposed names below are targets, not deployed objects.
 
-### Planned Silver Objects
+### Candidate Silver Entities — proposed target names
 
 ```text
 silver.product
@@ -450,9 +454,9 @@ Silver will own:
 
 ---
 
-## 🥇 Planned Gold Layer
+## 🥇 Gold Layer — not started
 
-> **Status: PLANNED — not yet implemented.**
+> **Status: NOT STARTED — define dimensional grains, keys, and slowly changing dimension rules after the required Silver entities are validated.**
 
 The Gold layer will expose business-ready dimensional models.
 
@@ -515,13 +519,13 @@ The completed warehouse is designed to support:
 
 | Technology | Purpose |
 |---|---|
-| **SQL Server** | Enterprise data warehouse |
+| **Microsoft Fabric** | Current Lakehouse platform: OneLake, Delta and PySpark | 
 | **T-SQL** | DDL, ETL/ELT, validation, analytics |
 | **SSMS** | SQL Server development |
 | **Python** | Data generation, validation, analytics |
 | **Pandas** | Data analysis and validation |
-| **Power BI** | Planned semantic model and executive dashboards |
-| **DAX** | Planned analytical measures |
+| **Power BI** | Not started; build reports after Gold and the semantic model |
+| **DAX** | Not started; measures follow the semantic model |
 | **Git / GitHub** | Version control and portfolio delivery |
 | **Draw.io / Architecture Diagrams** | ERD, lineage and data-flow design |
 | **VS Code** | Development environment |
@@ -566,7 +570,7 @@ At the current repository state, `datasets/` contains only a placeholder; the wa
 
 GitHub is used for SQL, architecture, documentation, tests, scripts, and reproducibility artifacts.
 
-> **Repository note:** the final generated 72-table DDL and Bronze loading procedure were executed locally and are not yet present in the public repository. They will be published after their final source-code review. The ingestion results above describe the completed SQL Server execution, not the current public file inventory.
+> **Repository note:** `sql/bronze/ddl_bronze.sql` is present in this repository. Fabric notebooks and current Silver execution evidence remain in the Fabric workspace and are not represented as committed notebook files here. The project checkpoint above reflects observed Fabric outputs, while this repository page describes committed artifacts.
 
 ---
 
@@ -598,17 +602,19 @@ GitHub is used for SQL, architecture, documentation, tests, scripts, and reprodu
    60,234,021 rows
    0 failures
         ↓
-▶ Bronze final validation & reconciliation
+▶ Silver: map and build the priority product and POS sales foundation
         ↓
-⏳ Silver cleaning & conformance
+⏳ Complete remaining Silver entities with approved rules and entity-level validation
         ↓
-⏳ Gold dimensional model
+⏳ Gold star schema with explicit fact grain and conformed dimensions
         ↓
-⏳ KPI / analytical SQL layer
+⏳ Governed semantic model and DAX measures
         ↓
-⏳ Power BI semantic model & dashboards
+⏳ Power BI report suite, usability and refresh validation
         ↓
-⏳ Kaggle Python analytics / forecasting
+⏳ Fabric orchestration, monitoring, optimization, Git/CI-CD and portfolio release
+        ↓
+⏳ Optional AI use case after core data products pass validation
 ```
 
 ---
