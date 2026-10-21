@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_03_silver_discovery_contract"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f3e2c1ca-bad2-ad12-47fc-a389d290b027"
+  }
+}
