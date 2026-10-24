@@ -1,3 +1,17 @@
+-- =========================================================
+-- gold_rebuild_drill_reconciliation.sql
+-- Purpose : Disaster-recovery drill. Proves the whole Gold layer can be
+--           rebuilt from stored procedures and reconciles to the riyal.
+-- Run in  : wh_gold (Fabric Warehouse), each STEP in its own window
+-- Result  : 2026-10-24 -> 21 / 21 OK, full rebuild in 1 min 55 s
+--           revenue 3,126,598,408.75 | margin 918,000,519.14
+--           expense 6,799,713,291.35 | hours 100,616,484
+-- Check   : row count + one money/flag total per table
+--           (count catches missing rows, total catches changed logic)
+-- Author  : Shamseldeen | 2026-10-24
+-- =========================================================
+
+-- ---------- STEP 1: snapshot BEFORE ----------
 DROP TABLE IF EXISTS dbo.tmp_drill_before;
 
 CREATE TABLE dbo.tmp_drill_before AS
@@ -25,7 +39,11 @@ UNION ALL SELECT 'agg_branch_scorecard_monthly', COUNT_BIG(*), SUM(revenue_sar) 
 
 SELECT * FROM dbo.tmp_drill_before ORDER BY t;
 
+-- ---------- STEP 2: the "disaster" (full rebuild, ~2 min) ----------
+-- Do not stop it halfway and do not close the tab.
+EXEC gold.usp_build_all;
 
+-- ---------- STEP 3: compare AFTER vs BEFORE (expect 21 x OK) ----------
 WITH after_ AS (
     SELECT 'ref_calendar_events' AS t, COUNT_BIG(*) AS n, CAST(0 AS decimal(18,2)) AS amount FROM gold.ref_calendar_events
     UNION ALL SELECT 'dim_date',                COUNT_BIG(*), 0 FROM gold.dim_date
@@ -52,7 +70,10 @@ WITH after_ AS (
 SELECT b.t,
        b.n      AS n_before,      a.n      AS n_after,
        b.amount AS amount_before, a.amount AS amount_after,
-       CASE WHEN b.n = a.n AND b.amount = a.amount THEN 'OK' ELSE '❌ DIFF' END AS result
+       CASE WHEN b.n = a.n AND b.amount = a.amount THEN 'OK' ELSE 'DIFF' END AS result
 FROM dbo.tmp_drill_before b
 JOIN after_ a ON a.t = b.t
 ORDER BY CASE WHEN b.n = a.n AND b.amount = a.amount THEN 1 ELSE 0 END, b.t;
+
+-- ---------- STEP 4: clean up ----------
+DROP TABLE dbo.tmp_drill_before;
