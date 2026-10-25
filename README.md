@@ -63,6 +63,9 @@ Every dimension has a surrogate key (`ROW_NUMBER` over the natural id, stable on
 | `fact_branch_expense` | pharmacy × expense category × month | 741,300 |
 | `fact_timekeeping` | employee × month | 527,682 |
 
+
+![Gold bus matrix](docs/architecture/04_gold_bus_matrix.png)
+
 **Analytical tables:**
 
 - `agg_product_loss_summary` – products sold below cost, cumulative loss, stock still on the shelf
