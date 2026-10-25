@@ -29,6 +29,15 @@
 # CELL 01 — READ-ONLY CROSS-LAKEHOUSE CONNECTION CHECK
 # ============================================================
 
+# ------------------------------------------------------------
+# HISTORY
+# v1: wrote Silver tables to dbo.* (rx_dispenses, rx_prescriptions,
+#     rx_prescription_items, rx_doctors, erp_pharmacies).
+#     Tables were then moved MANUALLY from dbo to silver.
+# v2 (2026-10-25): code now writes silver.* directly (no manual step).
+# NOTE: tables already exist -> the BLOCKED guards stop overwrites.
+# ------------------------------------------------------------
+
 source_table = (
     "`Pharmacy-Enterprise-DW-DEV`."
     "lh_bronze.bronze.rx_prescription_dispenses_fixed"
@@ -493,10 +502,10 @@ if distinct_dispense_ids != expected_rows:
     rx_dispense_candidate_df.write
         .format("delta")
         .mode("errorifexists")
-        .saveAsTable("dbo.rx_dispenses")
+        .saveAsTable("silver.rx_dispenses")
 )
 
-print("Created Silver Delta table: dbo.rx_dispenses")
+print("Created Silver Delta table: silver.rx_dispenses")
 print(f"Rows written: {candidate_rows}")
 
 # METADATA ********************
@@ -510,7 +519,7 @@ print(f"Rows written: {candidate_rows}")
 
 from pyspark.sql import functions as F
 
-silver_rx_df = spark.table("dbo.rx_dispenses")
+silver_rx_df = spark.table("silver.rx_dispenses")
 
 readback_profile = silver_rx_df.agg(
     F.count("*").alias("rows_read_back"),
@@ -540,7 +549,7 @@ display(silver_rx_df.limit(10))
 # CELL ********************
 
 silver_tables_df = (
-    spark.sql("SHOW TABLES IN dbo")
+    spark.sql("SHOW TABLES IN silver")
         .orderBy("tableName")
 )
 
@@ -588,10 +597,10 @@ if distinct_item_ids != expected_rows:
     rx_items_silver_df.write
         .format("delta")
         .mode("errorifexists")
-        .saveAsTable("dbo.rx_prescription_items")
+        .saveAsTable("silver.rx_prescription_items")
 )
 
-print("Created Silver Delta table: dbo.rx_prescription_items")
+print("Created Silver Delta table: silver.rx_prescription_items")
 print(f"Rows written: {item_rows}")
 
 # METADATA ********************
@@ -605,7 +614,7 @@ print(f"Rows written: {item_rows}")
 
 from pyspark.sql import functions as F
 
-silver_items_df = spark.table("dbo.rx_prescription_items")
+silver_items_df = spark.table("silver.rx_prescription_items")
 
 items_readback_profile = silver_items_df.agg(
     F.count("*").alias("rows_read_back"),
@@ -641,9 +650,9 @@ silver_items_df.printSchema()
 
 from pyspark.sql import functions as F
 
-silver_dispenses = spark.table("dbo.rx_dispenses")
+silver_dispenses = spark.table("silver.rx_dispenses")
 silver_item_keys = (
-    spark.table("dbo.rx_prescription_items")
+    spark.table("silver.rx_prescription_items")
     .select("prescription_item_id")
     .filter(F.col("prescription_item_id").isNotNull())
     .distinct()
@@ -737,23 +746,23 @@ source_rx_headers = spark.sql("""
 """)
 
 target_exists = (
-    spark.sql("SHOW TABLES IN dbo")
+    spark.sql("SHOW TABLES IN silver")
     .filter(F.col("tableName") == "rx_prescriptions")
     .limit(1)
     .count() > 0
 )
 
 if target_exists:
-    print("BLOCKED: dbo.rx_prescriptions already exists. Do not overwrite it.")
+    print("BLOCKED: silver.rx_prescriptions already exists. Do not overwrite it.")
 else:
     source_row_count = source_rx_headers.count()
 
     source_rx_headers.write \
         .format("delta") \
         .mode("errorifexists") \
-        .saveAsTable("dbo.rx_prescriptions")
+        .saveAsTable("silver.rx_prescriptions")
 
-    print("Created Silver Delta table: dbo.rx_prescriptions")
+    print("Created Silver Delta table: silver.rx_prescriptions")
     print("Source rows:", source_row_count)
     print("Source columns:", len(source_rx_headers.columns))
 
@@ -768,7 +777,7 @@ else:
 
 from pyspark.sql import functions as F
 
-silver_rx_headers = spark.table("dbo.rx_prescriptions")
+silver_rx_headers = spark.table("silver.rx_prescriptions")
 
 rx_readback_profile = silver_rx_headers.agg(
     F.count("*").alias("rows_read_back"),
@@ -814,8 +823,8 @@ silver_rx_headers.printSchema()
 
 from pyspark.sql import functions as F
 
-silver_rx_items = spark.table("dbo.rx_prescription_items")
-silver_rx_headers = spark.table("dbo.rx_prescriptions")
+silver_rx_items = spark.table("silver.rx_prescription_items")
+silver_rx_headers = spark.table("silver.rx_prescriptions")
 
 header_keys = (
     silver_rx_headers
@@ -856,8 +865,8 @@ else:
 
 from pyspark.sql import functions as F
 
-rx_headers = spark.table("dbo.rx_prescriptions")
-rx_items = spark.table("dbo.rx_prescription_items")
+rx_headers = spark.table("silver.rx_prescriptions")
+rx_items = spark.table("silver.rx_prescription_items")
 
 actual_item_counts = (
     rx_items
@@ -977,14 +986,14 @@ rx_doctors_source = spark.sql("""
 """)
 
 target_exists = (
-    spark.sql("SHOW TABLES IN dbo")
+    spark.sql("SHOW TABLES IN silver")
     .filter(F.col("tableName") == "rx_doctors")
     .limit(1)
     .count() > 0
 )
 
 if target_exists:
-    print("BLOCKED: dbo.rx_doctors already exists. Do not overwrite it.")
+    print("BLOCKED: silver.rx_doctors already exists. Do not overwrite it.")
 else:
     source_row_count = rx_doctors_source.count()
     source_column_count = len(rx_doctors_source.columns)
@@ -992,9 +1001,9 @@ else:
     rx_doctors_source.write \
         .format("delta") \
         .mode("errorifexists") \
-        .saveAsTable("dbo.rx_doctors")
+        .saveAsTable("silver.rx_doctors")
 
-    print("Created Silver Delta table: dbo.rx_doctors")
+    print("Created Silver Delta table: silver.rx_doctors")
     print("Source rows:", source_row_count)
     print("Source columns:", source_column_count)
 
@@ -1009,7 +1018,7 @@ else:
 
 from pyspark.sql import functions as F
 
-silver_rx_doctors = spark.table("dbo.rx_doctors")
+silver_rx_doctors = spark.table("silver.rx_doctors")
 
 doctor_readback_profile = silver_rx_doctors.agg(
     F.count("*").alias("rows_read_back"),
@@ -1047,8 +1056,8 @@ silver_rx_doctors.printSchema()
 
 from pyspark.sql import functions as F
 
-silver_rx_headers = spark.table("dbo.rx_prescriptions")
-silver_rx_doctors = spark.table("dbo.rx_doctors")
+silver_rx_headers = spark.table("silver.rx_prescriptions")
+silver_rx_doctors = spark.table("silver.rx_doctors")
 
 doctor_keys = (
     silver_rx_doctors
@@ -1090,13 +1099,13 @@ else:
 from pyspark.sql import functions as F
 
 silver_tables_df = (
-    spark.sql("SHOW TABLES IN dbo")
+    spark.sql("SHOW TABLES IN silver")
         .filter(F.col("isTemporary") == False)
         .select(F.col("tableName").alias("silver_table"))
         .orderBy("silver_table")
 )
 
-print(f"Persisted dbo Silver tables: {silver_tables_df.count()}")
+print(f"Persisted silver tables: {silver_tables_df.count()}")
 display(silver_tables_df)
 
 # METADATA ********************
@@ -1187,7 +1196,7 @@ display(duplicate_pharmacy_keys_df)
 
 # CELL ********************
 
-target_table = "dbo.erp_pharmacies"
+target_table = "silver.erp_pharmacies"
 
 source_rows = pharmacy_stage_df.count()
 
@@ -1223,7 +1232,7 @@ silver_pharmacies_df.printSchema()
 
 from pyspark.sql import functions as F
 
-silver_pharmacies_df = spark.table("dbo.erp_pharmacies")
+silver_pharmacies_df = spark.table("silver.erp_pharmacies")
 
 invalid_key_condition = (
     F.col("pharmacy_id").isNull()
@@ -1271,7 +1280,7 @@ print("PHARMACY SILVER KEY STATUS:", "PASS" if status else "REVIEW")
 # CELL ********************
 
 silver_tables_df = (
-    spark.sql("SHOW TABLES IN dbo")
+    spark.sql("SHOW TABLES IN silver")
          .filter("isTemporary = false")
          .select("namespace", "tableName")
          .orderBy("tableName")
@@ -1292,7 +1301,7 @@ display(silver_tables_df)
 from pyspark.sql import functions as F
 
 rx_headers = (
-    spark.table("dbo.rx_prescriptions")
+    spark.table("silver.rx_prescriptions")
          .withColumn(
              "_prescription_key",
              F.trim(F.col("prescription_id").cast("string"))
@@ -1360,8 +1369,8 @@ print("STATUS:", status)
 
 from pyspark.sql import functions as F
 
-items = spark.table("dbo.rx_prescription_items")
-headers = spark.table("dbo.rx_prescriptions")
+items = spark.table("silver.rx_prescription_items")
+headers = spark.table("silver.rx_prescriptions")
 
 item_rows = items.count()
 
@@ -1409,7 +1418,7 @@ print("STATUS:", status)
 from pyspark.sql import functions as F
 
 doctors = (
-    spark.table("dbo.rx_doctors")
+    spark.table("silver.rx_doctors")
          .withColumn(
              "_doctor_key",
              F.trim(F.col("doctor_id").cast("string"))
@@ -1478,8 +1487,8 @@ print("STATUS:", status)
 
 from pyspark.sql import functions as F
 
-prescriptions = spark.table("dbo.rx_prescriptions")
-doctors = spark.table("dbo.rx_doctors").select("doctor_id")
+prescriptions = spark.table("silver.rx_prescriptions")
+doctors = spark.table("silver.rx_doctors").select("doctor_id")
 
 prescription_rows = prescriptions.count()
 
@@ -1523,8 +1532,8 @@ print("STATUS:", status)
 
 from pyspark.sql import functions as F
 
-prescriptions = spark.table("dbo.rx_prescriptions")
-pharmacies = spark.table("dbo.erp_pharmacies").select("pharmacy_id")
+prescriptions = spark.table("silver.rx_prescriptions")
+pharmacies = spark.table("silver.erp_pharmacies").select("pharmacy_id")
 
 prescription_rows = prescriptions.count()
 
@@ -1569,7 +1578,7 @@ print("STATUS:", status)
 from pyspark.sql import functions as F
 
 items = (
-    spark.table("dbo.rx_prescription_items")
+    spark.table("silver.rx_prescription_items")
          .withColumn(
              "_item_key",
              F.trim(F.col("prescription_item_id").cast("string"))
@@ -1638,8 +1647,8 @@ print("STATUS:", status)
 
 from pyspark.sql import functions as F
 
-dispenses = spark.table("dbo.rx_dispenses")
-pharmacies = spark.table("dbo.erp_pharmacies").select("pharmacy_id")
+dispenses = spark.table("silver.rx_dispenses")
+pharmacies = spark.table("silver.erp_pharmacies").select("pharmacy_id")
 
 dispense_rows = dispenses.count()
 
