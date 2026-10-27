@@ -1,0 +1,190 @@
+table dim_date
+	lineageTag: ad225352-0690-4283-9216-a4f692d24bb8
+	sourceLineageTag: [gold].[dim_date]
+	dataCategory: Time
+
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ee04aa11-37ed-49c9-825d-f0480268bd4e
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_date
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: c8a92f50-db79-40b8-9516-f92943d6618b
+		sourceLineageTag: full_date
+		summarizeBy: none
+		sourceColumn: full_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f83b69fd-bd21-43ab-b884-f4668849f77b
+		sourceLineageTag: year_number
+		summarizeBy: sum
+		sourceColumn: year_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0bda2c1e-e48d-47c1-a4ba-0da6810f1cb2
+		sourceLineageTag: quarter_number
+		summarizeBy: sum
+		sourceColumn: quarter_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 20517ded-24b7-4f9e-83b0-cb4c5d1c8d9c
+		sourceLineageTag: month_number
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		sourceProviderType: varchar(3)
+		lineageTag: 176fcb12-83dd-4a76-bb01-3d8f58da5ae5
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_start
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 26bf2269-97a2-4d93-ad1a-1a7fd3853d7e
+		sourceLineageTag: month_start
+		summarizeBy: none
+		sourceColumn: month_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8558c088-ff2a-4f07-90d3-64e176ff7515
+		sourceLineageTag: day_of_month
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a2779b97-164e-4ded-9aa2-08ee200e1d31
+		sourceLineageTag: day_of_week
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		sourceProviderType: varchar(3)
+		lineageTag: 956cb6bb-26a2-49a7-a455-e732ae16c033
+		sourceLineageTag: day_name
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ca88007d-486c-423d-8cf4-1a4035903161
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_ramadan
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 8eed2d05-017c-4b75-a1e1-1005634aa9ee
+		sourceLineageTag: is_ramadan
+		summarizeBy: none
+		sourceColumn: is_ramadan
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_eid_al_fitr
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 20b13aa5-1f2c-4c5b-aaee-613ec1c70565
+		sourceLineageTag: is_eid_al_fitr
+		summarizeBy: none
+		sourceColumn: is_eid_al_fitr
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_eid_al_adha
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 6a0d046c-39f3-49e0-a480-7532eda3caae
+		sourceLineageTag: is_eid_al_adha
+		summarizeBy: none
+		sourceColumn: is_eid_al_adha
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_school_holiday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ea52dc28-4cdb-4953-bcc1-747dfd3b0036
+		sourceLineageTag: is_school_holiday
+		summarizeBy: none
+		sourceColumn: is_school_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_national_holiday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 7be621f4-a6d7-409d-8334-912a5cc30ac2
+		sourceLineageTag: is_national_holiday
+		summarizeBy: none
+		sourceColumn: is_national_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

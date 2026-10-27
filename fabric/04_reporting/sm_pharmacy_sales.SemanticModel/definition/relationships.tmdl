@@ -1,0 +1,73 @@
+relationship fc832212-e11d-763d-d897-1a87ca85e907
+	fromColumn: fact_sales_line.date_key
+	toColumn: dim_date.date_key
+
+relationship 44a13ffe-8c3b-33cf-fe9c-fdccbf5d822d
+	fromColumn: fact_sales_line.pharmacy_key
+	toColumn: dim_pharmacy.pharmacy_key
+
+relationship f493648b-5ae1-c021-40f0-070cba777ab4
+	fromColumn: fact_sales_line.product_key
+	toColumn: dim_product.product_key
+
+relationship 17108e10-35d9-5414-91d2-33026d0750a8
+	fromColumn: fact_sales_line.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 528769f5-eea6-9965-782f-469054f508f9
+	fromColumn: fact_sales_line.employee_key
+	toColumn: dim_employee.employee_key
+
+relationship 7b5af6e7-9b1d-e5bd-6d1b-eaa56d9b2f75
+	fromColumn: fact_sales_transaction.date_key
+	toColumn: dim_date.date_key
+
+relationship e22e1021-924b-4a12-56d5-fb59e34bef44
+	fromColumn: fact_sales_transaction.pharmacy_key
+	toColumn: dim_pharmacy.pharmacy_key
+
+relationship 6eb629dc-e9f0-834e-3f2d-2052e0267027
+	fromColumn: fact_sales_transaction.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 60521023-d6ba-a390-af05-cb922d7df234
+	fromColumn: fact_sales_transaction.employee_key
+	toColumn: dim_employee.employee_key
+
+relationship 248eae4c-7a4e-cb3f-3dc9-a659f02ddd1a
+	fromColumn: fact_return.return_date_key
+	toColumn: dim_date.date_key
+
+relationship d8386de8-a6ec-da6e-cc66-5b7ff3d9887d
+	isActive: false
+	fromColumn: fact_return.sale_date_key
+	toColumn: dim_date.date_key
+
+relationship 4b3b8038-a711-747e-7126-58a1fd7653ee
+	fromColumn: fact_return.pharmacy_key
+	toColumn: dim_pharmacy.pharmacy_key
+
+relationship da774879-094e-4f16-0a79-8284fd5fe2c9
+	fromColumn: fact_return.employee_key
+	toColumn: dim_employee.employee_key
+
+relationship 79c182c4-6312-2664-63de-58641d746cef
+	fromColumn: fact_return.product_key
+	toColumn: dim_product.product_key
+
+relationship 1b3c0557-fa86-80d9-b04d-56049006af9a
+	fromColumn: fact_return.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 5eb26dc4-9a9f-0145-557a-0caf1a5b81e6
+	fromColumn: agg_branch_scorecard_monthly.date_key
+	toColumn: dim_date.date_key
+
+relationship 5282e617-9d82-5616-bd59-23fd257cb8e2
+	fromColumn: agg_branch_scorecard_monthly.pharmacy_key
+	toColumn: dim_pharmacy.pharmacy_key
+
+relationship 8fc45ab5-a9aa-aff9-e4c9-87bcce608540
+	fromColumn: agg_product_loss_summary.product_key
+	toColumn: dim_product.product_key
+

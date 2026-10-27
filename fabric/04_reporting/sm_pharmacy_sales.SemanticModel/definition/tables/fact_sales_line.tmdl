@@ -1,0 +1,256 @@
+table fact_sales_line
+	lineageTag: d13ce14e-88b1-42d4-bee1-31437acdebd3
+	sourceLineageTag: [gold].[fact_sales_line]
+
+	column sales_line_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8042deff-69df-4079-9693-48d5e0d65846
+		sourceLineageTag: sales_line_id
+		summarizeBy: none
+		sourceColumn: sales_line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: be479dba-e277-488c-b2a0-33bb5c6ac7ae
+		sourceLineageTag: transaction_id
+		summarizeBy: none
+		sourceColumn: transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e70b5e84-b94b-462e-bad6-3807b8ea3ac2
+		sourceLineageTag: line_number
+		summarizeBy: sum
+		sourceColumn: line_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 010b797a-4d60-4664-b0f0-8c920b0d4634
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_ts
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 3f8a2af3-5ec3-4d09-965b-8a37174ca145
+		sourceLineageTag: transaction_ts
+		summarizeBy: none
+		sourceColumn: transaction_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacy_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b3d48d91-c559-4b87-a6e0-038d05730460
+		sourceLineageTag: pharmacy_key
+		summarizeBy: none
+		sourceColumn: pharmacy_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d42b7afd-a696-46af-82cb-3d4d4d85a952
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 68cdfe13-93dc-4595-bf57-83d9f6050d9b
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 18e9f0d3-898a-4f2f-bd91-9eb1c3822280
+		sourceLineageTag: employee_key
+		summarizeBy: none
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1b404e81-f38f-4dc2-a3f2-5e723916c72e
+		sourceLineageTag: channel_id
+		summarizeBy: none
+		sourceColumn: channel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 398511e2-7b11-453c-ae84-8581258762f7
+		sourceLineageTag: quantity
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 6a352c5e-27b5-4908-aa54-7c9b137e17a0
+		sourceLineageTag: unit_price_sar
+		summarizeBy: sum
+		sourceColumn: unit_price_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gross_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 31da5d8d-59c2-4051-935c-58ae5874503f
+		sourceLineageTag: gross_amount_sar
+		summarizeBy: sum
+		sourceColumn: gross_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 5a39d434-fa98-46bb-90f0-7d9f22d60b61
+		sourceLineageTag: discount_amount_sar
+		summarizeBy: sum
+		sourceColumn: discount_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_before_vat_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 70e8502c-91d4-463b-a3eb-724257e44c78
+		sourceLineageTag: net_before_vat_sar
+		summarizeBy: sum
+		sourceColumn: net_before_vat_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vat_rate
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: 2ef30b31-a837-4fdd-bc76-f10f7509cbc1
+		sourceLineageTag: vat_rate
+		summarizeBy: sum
+		sourceColumn: vat_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column vat_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: a89cd0da-0084-4267-8134-d1b7d7aa5141
+		sourceLineageTag: vat_amount_sar
+		summarizeBy: sum
+		sourceColumn: vat_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 2723e92f-7392-4c83-8d48-21e4857f7dd8
+		sourceLineageTag: net_amount_sar
+		summarizeBy: sum
+		sourceColumn: net_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column est_cost_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 509feb58-9d19-4429-a3aa-a43fe87cc8a9
+		sourceLineageTag: est_cost_sar
+		summarizeBy: sum
+		sourceColumn: est_cost_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column est_margin_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: b6885b0b-be51-49da-afd2-32112cee013d
+		sourceLineageTag: est_margin_sar
+		summarizeBy: sum
+		sourceColumn: est_margin_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_sold_below_cost
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 0db30f21-a6a5-450f-bfcd-a82263aed2cf
+		sourceLineageTag: is_sold_below_cost
+		summarizeBy: none
+		sourceColumn: is_sold_below_cost
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales_line = entity
+		mode: directLake
+		source
+			entityName: fact_sales_line
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

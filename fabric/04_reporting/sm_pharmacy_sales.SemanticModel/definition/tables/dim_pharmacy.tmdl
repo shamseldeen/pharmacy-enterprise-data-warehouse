@@ -1,0 +1,195 @@
+table dim_pharmacy
+	lineageTag: 18b78178-324b-43a3-a9a0-4a96d28944be
+	sourceLineageTag: [gold].[dim_pharmacy]
+
+	column pharmacy_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 45e30e28-12c7-4f2a-8b9d-5bc6d17a9b61
+		sourceLineageTag: pharmacy_key
+		summarizeBy: none
+		sourceColumn: pharmacy_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacy_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 63edfd04-c898-453f-8738-b3341b629471
+		sourceLineageTag: pharmacy_id
+		summarizeBy: none
+		sourceColumn: pharmacy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacy_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: bb0e0cc7-d451-4fb6-9639-98efe6c0ab27
+		sourceLineageTag: pharmacy_name
+		summarizeBy: none
+		sourceColumn: pharmacy_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_type
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 335b187b-0920-451c-bd36-c9f5cc9dc0bb
+		sourceLineageTag: branch_type
+		summarizeBy: none
+		sourceColumn: branch_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: edf5b96c-a8b9-4040-92b4-73de7c4b2ccf
+		sourceLineageTag: region_id
+		summarizeBy: none
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8c24f5fe-0541-4d48-a223-32237ef402d6
+		sourceLineageTag: region_name
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 84e6d084-ad33-4e03-ac5e-db8c715084cd
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column district_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 859ed2c6-8c76-4c9e-b104-1800b7b35b70
+		sourceLineageTag: district_name
+		summarizeBy: none
+		sourceColumn: district_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column map_location
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 61b376fd-32dd-4d06-acf9-cb394931acf8
+		sourceLineageTag: map_location
+		summarizeBy: none
+		sourceColumn: map_location
+
+		annotation SummarizationSetBy = Automatic
+
+	column opening_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 945ced45-044f-4e10-9260-1bab1a66194a
+		sourceLineageTag: opening_date
+		summarizeBy: none
+		sourceColumn: opening_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column opening_year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a011d679-93ca-4eed-b517-6e9a9c3e8ca3
+		sourceLineageTag: opening_year
+		summarizeBy: sum
+		sourceColumn: opening_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekly_operating_hours
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(6, 1)
+		lineageTag: 69c726b5-545e-49ba-845c-a763fddf710a
+		sourceLineageTag: weekly_operating_hours
+		summarizeBy: sum
+		sourceColumn: weekly_operating_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column is_24h
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: cfd066cf-ddfb-493e-a130-a3a452090f19
+		sourceLineageTag: is_24h
+		summarizeBy: none
+		sourceColumn: is_24h
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_activity_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 917ea312-710c-4ef2-8b26-53d8bb6e5446
+		sourceLineageTag: first_activity_date
+		summarizeBy: none
+		sourceColumn: first_activity_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column effective_opening_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 98ff9c5d-c398-4f1a-b566-420dbe99758d
+		sourceLineageTag: effective_opening_date
+		summarizeBy: none
+		sourceColumn: effective_opening_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_opening_date_conflict
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: fb700adc-841a-4d60-a5da-e1ff4c22f3b1
+		sourceLineageTag: is_opening_date_conflict
+		summarizeBy: none
+		sourceColumn: is_opening_date_conflict
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_age_lower_bound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 4af48b0e-69d0-4743-b089-e32092e4af70
+		sourceLineageTag: is_age_lower_bound
+		summarizeBy: none
+		sourceColumn: is_age_lower_bound
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_pharmacy = entity
+		mode: directLake
+		source
+			entityName: dim_pharmacy
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

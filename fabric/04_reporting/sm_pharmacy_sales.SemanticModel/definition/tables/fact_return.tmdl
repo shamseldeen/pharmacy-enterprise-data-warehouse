@@ -1,0 +1,215 @@
+table fact_return
+	lineageTag: 3117c7a2-dbaf-4bc4-8ca5-427bc2781746
+	sourceLineageTag: [gold].[fact_return]
+
+	column return_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 24d79115-6d7e-442e-b4f3-4b29ca436420
+		sourceLineageTag: return_id
+		summarizeBy: none
+		sourceColumn: return_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column original_transaction_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2208404b-3d67-4bb4-8d23-c4b00475f993
+		sourceLineageTag: original_transaction_id
+		summarizeBy: none
+		sourceColumn: original_transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column original_sales_line_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: bb499c3c-b1da-4657-8f34-bfdbfcdbb738
+		sourceLineageTag: original_sales_line_id
+		summarizeBy: none
+		sourceColumn: original_sales_line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 474991d8-eb85-4e9e-895b-7486d3894207
+		sourceLineageTag: return_date_key
+		summarizeBy: none
+		sourceColumn: return_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_ts
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 713e7797-34f6-496a-8218-77e1da770043
+		sourceLineageTag: return_ts
+		summarizeBy: none
+		sourceColumn: return_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	column sale_date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 742bae5a-d0cf-49fb-8445-6f214f5738b2
+		sourceLineageTag: sale_date_key
+		summarizeBy: sum
+		sourceColumn: sale_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_to_return
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4277bd85-6f2e-4f02-8629-811bbebc0d76
+		sourceLineageTag: days_to_return
+		summarizeBy: sum
+		sourceColumn: days_to_return
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacy_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1dce5cc0-6986-4061-adb0-1c6f42675eb6
+		sourceLineageTag: pharmacy_key
+		summarizeBy: none
+		sourceColumn: pharmacy_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1950fcce-a59f-4993-88d7-a250e092b7c4
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0bae5eae-b270-49ce-bc7e-4751b401c256
+		sourceLineageTag: employee_key
+		summarizeBy: none
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a2538fce-3e56-4cb3-affd-54f9333f7ff5
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_reason
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ba2a7eb3-84ee-4ce6-bce3-174b29f8c9f1
+		sourceLineageTag: return_reason
+		summarizeBy: none
+		sourceColumn: return_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 43ec3dc8-b311-49dc-b7ed-81a09b347aa4
+		sourceLineageTag: return_quantity
+		summarizeBy: sum
+		sourceColumn: return_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column refund_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: aa394fd9-ae81-40dd-9e46-60fe94f8c77a
+		sourceLineageTag: refund_amount_sar
+		summarizeBy: sum
+		sourceColumn: refund_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sold_quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5123d5c0-f0e2-4d9d-be55-847b3d9b99c3
+		sourceLineageTag: sold_quantity
+		summarizeBy: sum
+		sourceColumn: sold_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column sold_net_amount_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: c7a03a46-d33c-42fc-9312-dc14b15613e7
+		sourceLineageTag: sold_net_amount_sar
+		summarizeBy: sum
+		sourceColumn: sold_net_amount_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_refund_above_sale
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ce0313be-31ec-4d90-b6dd-d330930e15ee
+		sourceLineageTag: is_refund_above_sale
+		summarizeBy: none
+		sourceColumn: is_refund_above_sale
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_qty_above_sale
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 349f4149-2b14-49b2-a8b5-e232064a83e3
+		sourceLineageTag: is_qty_above_sale
+		summarizeBy: none
+		sourceColumn: is_qty_above_sale
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_return = entity
+		mode: directLake
+		source
+			entityName: fact_return
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

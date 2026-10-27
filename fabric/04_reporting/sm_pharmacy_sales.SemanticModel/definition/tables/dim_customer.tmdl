@@ -1,0 +1,246 @@
+table dim_customer
+	lineageTag: 4f2a9750-c9f1-458d-9be7-32fc81ced50d
+	sourceLineageTag: [gold].[dim_customer]
+
+	column customer_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: bf88a5f8-9249-495f-9e3a-8121d6c46c7c
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f1ac9666-d6d2-4aa2-a159-4c0d09afe2eb
+		sourceLineageTag: customer_id
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 080aa922-3d31-4a2e-886c-143b4f3dd443
+		sourceLineageTag: full_name
+		summarizeBy: none
+		sourceColumn: full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1f6b7657-f2b7-42b0-9085-3df77661e4ec
+		sourceLineageTag: gender
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality_group
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3795990c-1357-4884-968d-85105d99b02a
+		sourceLineageTag: nationality_group
+		summarizeBy: none
+		sourceColumn: nationality_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: e471a41b-9232-403e-ae3f-2903d997da15
+		sourceLineageTag: region_name
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3064915e-1f75-4451-80de-d24d5ad2c292
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column birth_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: c27d1904-1fb8-4c30-aa68-02cd504024d3
+		sourceLineageTag: birth_date
+		summarizeBy: none
+		sourceColumn: birth_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_at_asof
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d0b89ba9-ce8d-45f7-9c58-483312a15f5e
+		sourceLineageTag: age_at_asof
+		summarizeBy: sum
+		sourceColumn: age_at_asof
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_band
+		dataType: string
+		sourceProviderType: varchar(7)
+		lineageTag: 4d58f0f2-cffa-4538-9e47-9993db0ba245
+		sourceLineageTag: age_band
+		summarizeBy: none
+		sourceColumn: age_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 1faeeb43-f255-4f65-949b-67e3ab36f549
+		sourceLineageTag: registration_date
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column tenure_years
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5d6d5830-8f56-4b28-860f-3fd0a520444e
+		sourceLineageTag: tenure_years
+		summarizeBy: sum
+		sourceColumn: tenure_years
+
+		annotation SummarizationSetBy = Automatic
+
+	column preferred_contact_channel
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b234f468-cd43-484c-a504-5b5fc881f8ce
+		sourceLineageTag: preferred_contact_channel
+		summarizeBy: none
+		sourceColumn: preferred_contact_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_loyalty_enrolled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 66ce2146-0796-436c-999d-fb3f2b6a375e
+		sourceLineageTag: is_loyalty_enrolled
+		summarizeBy: none
+		sourceColumn: is_loyalty_enrolled
+
+		annotation SummarizationSetBy = Automatic
+
+	column loyalty_tier
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: cbe68bcd-81b7-4b06-91b4-02be62f04c81
+		sourceLineageTag: loyalty_tier
+		summarizeBy: none
+		sourceColumn: loyalty_tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column loyalty_status
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0a9354a9-d603-4d18-990b-997877eae275
+		sourceLineageTag: loyalty_status
+		summarizeBy: none
+		sourceColumn: loyalty_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_insurance_ever
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 9149b7f6-688a-4acd-b52c-f52c8fa8ba04
+		sourceLineageTag: has_insurance_ever
+		summarizeBy: none
+		sourceColumn: has_insurance_ever
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_insured_at_asof
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 0c61908e-99c3-445b-bc63-2b0d9160b825
+		sourceLineageTag: is_insured_at_asof
+		summarizeBy: none
+		sourceColumn: is_insured_at_asof
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_contact_sms
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: f12435bb-e972-4608-b8f2-ab93581150f0
+		sourceLineageTag: can_contact_sms
+		summarizeBy: none
+		sourceColumn: can_contact_sms
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_contact_email
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: e36bc912-2151-47be-8ca8-722b13c46141
+		sourceLineageTag: can_contact_email
+		summarizeBy: none
+		sourceColumn: can_contact_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_contact_app
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 11820b06-b8b6-4fe2-aa3d-b5400eaaddab
+		sourceLineageTag: can_contact_app
+		summarizeBy: none
+		sourceColumn: can_contact_app
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_marketable
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 28b3ced6-ee35-4f8e-9633-0822a24232fd
+		sourceLineageTag: is_marketable
+		summarizeBy: none
+		sourceColumn: is_marketable
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = entity
+		mode: directLake
+		source
+			entityName: dim_customer
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

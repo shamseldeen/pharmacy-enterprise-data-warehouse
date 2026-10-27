@@ -1,0 +1,468 @@
+table agg_branch_scorecard_monthly
+	lineageTag: c6e8520a-b448-4a14-9721-23bae27221a4
+	sourceLineageTag: [gold].[agg_branch_scorecard_monthly]
+
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 27bb1834-5442-47b3-88a3-42746db2200a
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_start
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: c63a8c84-4d86-4697-85d2-2d28c5e6d7fd
+		sourceLineageTag: month_start
+		summarizeBy: none
+		sourceColumn: month_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacy_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1b2763d6-e53c-4588-ba40-8dfda16e93c6
+		sourceLineageTag: pharmacy_key
+		summarizeBy: none
+		sourceColumn: pharmacy_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_type
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1853c070-f454-4d89-aa26-392f22fe7c86
+		sourceLineageTag: branch_type
+		summarizeBy: none
+		sourceColumn: branch_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f3db15a7-7156-422e-a96f-2135ed090ca0
+		sourceLineageTag: region_name
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 82d03e7f-9fbd-4313-a8cd-ea629db1bc45
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_tier
+		dataType: string
+		sourceProviderType: varchar(5)
+		lineageTag: c9c34fd7-e5fb-424f-bcea-b61ffdfcbd08
+		sourceLineageTag: region_tier
+		summarizeBy: none
+		sourceColumn: region_tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column effective_opening_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 1dcb116f-dc9c-4da8-b925-d95f77c491b5
+		sourceLineageTag: effective_opening_date
+		summarizeBy: none
+		sourceColumn: effective_opening_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_age_lower_bound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 740ca482-d335-414c-95d1-79aaa391b13f
+		sourceLineageTag: is_age_lower_bound
+		summarizeBy: none
+		sourceColumn: is_age_lower_bound
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_months
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3248f5ca-56c1-49f5-866e-940e3ebd9d79
+		sourceLineageTag: age_months
+		summarizeBy: sum
+		sourceColumn: age_months
+
+		annotation SummarizationSetBy = Automatic
+
+	column size_band
+		dataType: string
+		sourceProviderType: varchar(1)
+		lineageTag: 4e141029-1daf-46a6-b722-5aa8dcff8723
+		sourceLineageTag: size_band
+		summarizeBy: none
+		sourceColumn: size_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_band_from_same_year
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: d6a9855d-a031-4e05-a9bb-9dfa198e953b
+		sourceLineageTag: is_band_from_same_year
+		summarizeBy: none
+		sourceColumn: is_band_from_same_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column peer_group
+		dataType: string
+		sourceProviderType: varchar(7)
+		lineageTag: 6b202733-4501-445a-b869-031f7cebe6cf
+		sourceLineageTag: peer_group
+		summarizeBy: none
+		sourceColumn: peer_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_ranked
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 12efa4de-0c99-4d21-a69e-84058bffdf2a
+		sourceLineageTag: is_ranked
+		summarizeBy: none
+		sourceColumn: is_ranked
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_growth_ranked
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 60c0e67f-4345-4c95-b858-5f88d4460c94
+		sourceLineageTag: is_growth_ranked
+		summarizeBy: none
+		sourceColumn: is_growth_ranked
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 3bc20475-5d65-442b-b62b-b2e302cd2665
+		sourceLineageTag: revenue_sar
+		summarizeBy: sum
+		sourceColumn: revenue_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column margin_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: b41ffd61-05c9-46ea-a27a-d0516d00158e
+		sourceLineageTag: margin_sar
+		summarizeBy: sum
+		sourceColumn: margin_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column transactions
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fa90495f-a96a-4181-82a6-2e167b389968
+		sourceLineageTag: transactions
+		summarizeBy: sum
+		sourceColumn: transactions
+
+		annotation SummarizationSetBy = Automatic
+
+	column refund_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: eb7806ad-5c9d-41d2-874a-a954e82017ba
+		sourceLineageTag: refund_sar
+		summarizeBy: sum
+		sourceColumn: refund_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column worked_hours
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 21fcdba4-a6be-4676-97cb-df1b5eed19fd
+		sourceLineageTag: worked_hours
+		summarizeBy: sum
+		sourceColumn: worked_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column expense_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: cb6f3603-d846-4175-820e-65a81a6d037c
+		sourceLineageTag: expense_sar
+		summarizeBy: sum
+		sourceColumn: expense_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue_ly_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: d5548df5-0d6b-45b5-8f91-d43d981be5ea
+		sourceLineageTag: revenue_ly_sar
+		summarizeBy: sum
+		sourceColumn: revenue_ly_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sales_per_hour
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 821bb793-be77-409d-8549-c0dcaf521b6b
+		sourceLineageTag: sales_per_hour
+		summarizeBy: sum
+		sourceColumn: sales_per_hour
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column margin_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 2)
+		lineageTag: 1a23e0c4-dd57-45f7-b9c7-5351422fa0a3
+		sourceLineageTag: margin_pct
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column expense_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 2)
+		lineageTag: d741c0bb-c6a9-40c7-9932-a188687f3f49
+		sourceLineageTag: expense_pct
+		summarizeBy: sum
+		sourceColumn: expense_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column avg_basket_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: c2e1cf41-c001-4c71-b63c-b0a8d405a46f
+		sourceLineageTag: avg_basket_sar
+		summarizeBy: sum
+		sourceColumn: avg_basket_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column return_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 2)
+		lineageTag: 7455f03f-b61f-4e49-9856-5a5d0ee9a83a
+		sourceLineageTag: return_pct
+		summarizeBy: sum
+		sourceColumn: return_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column yoy_growth_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 2)
+		lineageTag: 812277f8-f107-491c-bcce-2cf4c53fd63b
+		sourceLineageTag: yoy_growth_pct
+		summarizeBy: sum
+		sourceColumn: yoy_growth_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_sales_per_hour
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: 3d60af81-83e5-4651-ba2d-bdbbbbb54e81
+		sourceLineageTag: pr_sales_per_hour
+		summarizeBy: sum
+		sourceColumn: pr_sales_per_hour
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_margin_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: fa786b29-bf19-4e2e-93b5-71876508a782
+		sourceLineageTag: pr_margin_pct
+		summarizeBy: sum
+		sourceColumn: pr_margin_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_expense_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: 8a5bb646-44f3-4a00-badf-f282c2004e11
+		sourceLineageTag: pr_expense_pct
+		summarizeBy: sum
+		sourceColumn: pr_expense_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_avg_basket
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: bc5e125a-5d9a-4720-8028-a353f80d8185
+		sourceLineageTag: pr_avg_basket
+		summarizeBy: sum
+		sourceColumn: pr_avg_basket
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_return_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: 3036dea1-b9de-4631-a33c-23db90433bfd
+		sourceLineageTag: pr_return_pct
+		summarizeBy: sum
+		sourceColumn: pr_return_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column pr_yoy_growth
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: e9d8f25f-b5d3-4487-8120-ba4984ac96fb
+		sourceLineageTag: pr_yoy_growth
+		summarizeBy: sum
+		sourceColumn: pr_yoy_growth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column overall_score
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 4)
+		lineageTag: 415e7666-0ee4-4760-8922-003869d9d5a7
+		sourceLineageTag: overall_score
+		summarizeBy: sum
+		sourceColumn: overall_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column responsible_employee_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5fcbb939-1a8b-451c-b3ab-b2f8ed9e7a8d
+		sourceLineageTag: responsible_employee_key
+		summarizeBy: sum
+		sourceColumn: responsible_employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_responsible_inferred
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: b27357e0-033e-49ce-ac2e-a0c1e32874f7
+		sourceLineageTag: is_responsible_inferred
+		summarizeBy: none
+		sourceColumn: is_responsible_inferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_responsible_changed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ea68ec89-4e41-4392-9214-813f1b78f697
+		sourceLineageTag: is_responsible_changed
+		summarizeBy: none
+		sourceColumn: is_responsible_changed
+
+		annotation SummarizationSetBy = Automatic
+
+	column months_with_current_responsible
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: d5a17aa3-5773-4a21-b59a-4064d7bc1f31
+		sourceLineageTag: months_with_current_responsible
+		summarizeBy: sum
+		sourceColumn: months_with_current_responsible
+
+		annotation SummarizationSetBy = Automatic
+
+	partition agg_branch_scorecard_monthly = entity
+		mode: directLake
+		source
+			entityName: agg_branch_scorecard_monthly
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

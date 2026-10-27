@@ -1,0 +1,248 @@
+table agg_product_loss_summary
+	lineageTag: 056ecff7-b13f-4c05-a589-e974c5b8198d
+	sourceLineageTag: [gold].[agg_product_loss_summary]
+
+	column product_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c1588bab-0d92-45c2-8adf-c1215f64ffa3
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 861deb81-68e3-4337-95b5-59f535c3e5af
+		sourceLineageTag: product_id
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column trade_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 9ff805f9-bea7-418e-a421-595049e678b7
+		sourceLineageTag: trade_name
+		summarizeBy: none
+		sourceColumn: trade_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0e63ffe6-b173-4d34-8274-1f0a1a47dd26
+		sourceLineageTag: category
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_cost_imputed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ff3e66b2-6da4-42c3-b873-254c71618fbc
+		sourceLineageTag: is_cost_imputed
+		summarizeBy: none
+		sourceColumn: is_cost_imputed
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_cost_ratio_suspicious
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 8c8622a2-8e6c-4265-b59a-25477e8a7f76
+		sourceLineageTag: is_cost_ratio_suspicious
+		summarizeBy: none
+		sourceColumn: is_cost_ratio_suspicious
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_lines
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: f87d7b96-2c50-4483-878a-2d15344a79c9
+		sourceLineageTag: total_lines
+		summarizeBy: sum
+		sourceColumn: total_lines
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_lines
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d450d479-6025-43ff-ad90-0fe5ea9fde9e
+		sourceLineageTag: loss_lines
+		summarizeBy: sum
+		sourceColumn: loss_lines
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_lines_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: d45bcc15-3584-4475-9b74-f82e197d0da8
+		sourceLineageTag: loss_lines_pct
+		summarizeBy: sum
+		sourceColumn: loss_lines_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column total_qty
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 63b09d28-5b4e-44d4-85df-931931f1eb24
+		sourceLineageTag: total_qty
+		summarizeBy: sum
+		sourceColumn: total_qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_qty
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 5c13c647-4dcc-43d4-9af0-c81e8a7303be
+		sourceLineageTag: loss_qty
+		summarizeBy: sum
+		sourceColumn: loss_qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 289f92f3-288f-4773-8df9-7c10de8bb348
+		sourceLineageTag: revenue_sar
+		summarizeBy: sum
+		sourceColumn: revenue_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column margin_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4a31d9cb-7920-4008-a151-3aeb8ec007d3
+		sourceLineageTag: margin_sar
+		summarizeBy: sum
+		sourceColumn: margin_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column loss_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: d99d11dd-7e8f-4794-94ab-81a760d9aea7
+		sourceLineageTag: loss_sar
+		summarizeBy: sum
+		sourceColumn: loss_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column first_loss_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 680a869d-305d-42d4-8e04-fcef388ddf8f
+		sourceLineageTag: first_loss_date
+		summarizeBy: none
+		sourceColumn: first_loss_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_loss_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 46bf3105-cae8-457e-a84f-5262789d1426
+		sourceLineageTag: last_loss_date
+		summarizeBy: none
+		sourceColumn: last_loss_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_span_days
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8861891f-63c9-4bb2-8eee-5ed0df3a8e29
+		sourceLineageTag: loss_span_days
+		summarizeBy: sum
+		sourceColumn: loss_span_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_months
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 51bd8bdc-e099-4519-b5b0-76282de343bf
+		sourceLineageTag: loss_months
+		summarizeBy: sum
+		sourceColumn: loss_months
+
+		annotation SummarizationSetBy = Automatic
+
+	column loss_pharmacies
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e9a83581-c9ba-4d4d-bbc2-acf51dc456dc
+		sourceLineageTag: loss_pharmacies
+		summarizeBy: sum
+		sourceColumn: loss_pharmacies
+
+		annotation SummarizationSetBy = Automatic
+
+	column closing_stock_asof
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 84f9b576-b1d9-4654-9f05-c24ad00d105c
+		sourceLineageTag: closing_stock_asof
+		summarizeBy: sum
+		sourceColumn: closing_stock_asof
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_value_asof_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 35808474-068e-4b5c-a504-cea2f84ed402
+		sourceLineageTag: stock_value_asof_sar
+		summarizeBy: sum
+		sourceColumn: stock_value_asof_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition agg_product_loss_summary = entity
+		mode: directLake
+		source
+			entityName: agg_product_loss_summary
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

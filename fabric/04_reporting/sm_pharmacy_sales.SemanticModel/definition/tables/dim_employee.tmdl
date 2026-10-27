@@ -1,0 +1,141 @@
+table dim_employee
+	lineageTag: 8fa19ce7-0e35-4518-8bed-0db193d63329
+	sourceLineageTag: [gold].[dim_employee]
+
+	column employee_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4fc880ed-b6f3-4c65-a57f-640ac03e5ad1
+		sourceLineageTag: employee_key
+		summarizeBy: none
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8f3b37e3-24c3-4a1c-b30d-50f91a9ca74c
+		sourceLineageTag: employee_id
+		summarizeBy: none
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2ba8eb87-0b4d-4414-ae73-aff06861a449
+		sourceLineageTag: full_name
+		summarizeBy: none
+		sourceColumn: full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 505e1c32-3937-447e-86d3-9ee299d11d26
+		sourceLineageTag: gender
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality_group
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 9ae2fa3d-971f-4ce9-9b91-1bf47848242c
+		sourceLineageTag: nationality_group
+		summarizeBy: none
+		sourceColumn: nationality_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column job_role
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 83464f14-ea99-4f2b-93ae-85de54c57799
+		sourceLineageTag: job_role
+		summarizeBy: none
+		sourceColumn: job_role
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_pharmacist
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: ca06e733-8091-489e-8228-195580b11aea
+		sourceLineageTag: is_pharmacist
+		summarizeBy: none
+		sourceColumn: is_pharmacist
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_dispense
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 13ebd369-3e81-4d60-9d17-fcf39b614248
+		sourceLineageTag: can_dispense
+		summarizeBy: none
+		sourceColumn: can_dispense
+
+		annotation SummarizationSetBy = Automatic
+
+	column hire_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 6929792c-1329-4200-923e-72af8ff1edb2
+		sourceLineageTag: hire_date
+		summarizeBy: none
+		sourceColumn: hire_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column termination_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 2ce9cb80-fb1d-4ab3-a30c-c8ab7eefc460
+		sourceLineageTag: termination_date
+		summarizeBy: none
+		sourceColumn: termination_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active_at_asof
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: e6f3a4e1-46dc-4bc2-aa26-654ec3de2bd1
+		sourceLineageTag: is_active_at_asof
+		summarizeBy: none
+		sourceColumn: is_active_at_asof
+
+		annotation SummarizationSetBy = Automatic
+
+	column tenure_years
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 30c9ba5a-2a46-45d2-97dd-bb2a9dd0fe99
+		sourceLineageTag: tenure_years
+		summarizeBy: sum
+		sourceColumn: tenure_years
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_employee = entity
+		mode: directLake
+		source
+			entityName: dim_employee
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

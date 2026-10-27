@@ -1,0 +1,26 @@
+model Model
+	culture: en-US
+	collation: Latin1_General_100_BIN2_UTF8
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DatabaseQuery"]
+
+annotation PBI_ProTooling = ["WebModelingEdit","TMDLView_Desktop"]
+
+ref table fact_sales_line
+ref table fact_sales_transaction
+ref table fact_return
+ref table agg_product_loss_summary
+ref table agg_branch_scorecard_monthly
+ref table dim_date
+ref table dim_pharmacy
+ref table dim_product
+ref table dim_customer
+ref table dim_employee
+

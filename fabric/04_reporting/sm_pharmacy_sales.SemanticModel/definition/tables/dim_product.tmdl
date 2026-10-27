@@ -1,0 +1,200 @@
+table dim_product
+	lineageTag: 8d4280d6-e317-4f83-9642-44eb6941c759
+	sourceLineageTag: [gold].[dim_product]
+
+	column product_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 59019f33-0f89-4266-b4a7-5a0bad9976f3
+		sourceLineageTag: product_key
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 9236ef2f-e418-4e97-b4c5-9c5a93341e72
+		sourceLineageTag: product_id
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column trade_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: d4e8cc1a-8d1a-42f1-a161-3ce8ffd71151
+		sourceLineageTag: trade_name
+		summarizeBy: none
+		sourceColumn: trade_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column generic_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0ed3f8d5-24da-4f0d-9dd1-f570d06d0fe0
+		sourceLineageTag: generic_name
+		summarizeBy: none
+		sourceColumn: generic_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column strength
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a32f47ea-784c-4dab-8900-e878db86fcf0
+		sourceLineageTag: strength
+		summarizeBy: none
+		sourceColumn: strength
+
+		annotation SummarizationSetBy = Automatic
+
+	column strength_unit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 317be1b3-c7a6-4f71-b3aa-0636c56d2c51
+		sourceLineageTag: strength_unit
+		summarizeBy: none
+		sourceColumn: strength_unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column dosage_form
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 899b6104-2d09-42a4-89af-6dd78f6c19e3
+		sourceLineageTag: dosage_form
+		summarizeBy: none
+		sourceColumn: dosage_form
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: c3d11f26-6e3b-4206-acef-27a4d7f333aa
+		sourceLineageTag: category
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column list_price_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: a0da0045-0331-4d8b-953b-06b1eaf3e550
+		sourceLineageTag: list_price_sar
+		summarizeBy: sum
+		sourceColumn: list_price_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column est_unit_cost_sar
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 919e6c36-540f-48fd-bad3-49446aee0d9a
+		sourceLineageTag: est_unit_cost_sar
+		summarizeBy: sum
+		sourceColumn: est_unit_cost_sar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column est_cost_ratio
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 417d83f5-83c5-4388-8f0d-419ee6b9449c
+		sourceLineageTag: est_cost_ratio
+		summarizeBy: sum
+		sourceColumn: est_cost_ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column est_margin_pct
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 51baf151-8a33-410b-a7c1-d7118aab7a54
+		sourceLineageTag: est_margin_pct
+		summarizeBy: sum
+		sourceColumn: est_margin_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column batch_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 78690a64-41e4-4f92-8c78-05eb452613d8
+		sourceLineageTag: batch_count
+		summarizeBy: sum
+		sourceColumn: batch_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_recalled_batch
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: a5ce100b-30e6-411c-b4fe-eae856cae69a
+		sourceLineageTag: has_recalled_batch
+		summarizeBy: none
+		sourceColumn: has_recalled_batch
+
+		annotation SummarizationSetBy = Automatic
+
+	column needs_cold_chain
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 951b55db-88dc-4705-a143-fb1433223b2a
+		sourceLineageTag: needs_cold_chain
+		summarizeBy: none
+		sourceColumn: needs_cold_chain
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_cost_imputed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 41c9a23f-7e67-43cb-84c3-47fd1963583e
+		sourceLineageTag: is_cost_imputed
+		summarizeBy: none
+		sourceColumn: is_cost_imputed
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_cost_ratio_suspicious
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: a3fce25c-937e-43d3-bfbe-1d90d2c35934
+		sourceLineageTag: is_cost_ratio_suspicious
+		summarizeBy: none
+		sourceColumn: is_cost_ratio_suspicious
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_product = entity
+		mode: directLake
+		source
+			entityName: dim_product
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
