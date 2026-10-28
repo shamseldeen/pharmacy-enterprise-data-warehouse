@@ -4,6 +4,7 @@ table fact_sales_transaction
 
 	column transaction_id
 		dataType: string
+		isHidden
 		sourceProviderType: varchar(8000)
 		lineageTag: f70a9171-5901-48d9-8211-8e3391260894
 		sourceLineageTag: transaction_id
@@ -14,6 +15,7 @@ table fact_sales_transaction
 
 	column receipt_number
 		dataType: string
+		isHidden
 		sourceProviderType: varchar(8000)
 		lineageTag: 5b86c777-2d9d-465a-84c7-e431f6e393a5
 		sourceLineageTag: receipt_number
@@ -36,6 +38,7 @@ table fact_sales_transaction
 
 	column transaction_ts
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		sourceProviderType: datetime2
 		lineageTag: 8df86c87-9262-49c8-a5c2-fa67c2a0dcc2
@@ -51,7 +54,7 @@ table fact_sales_transaction
 		sourceProviderType: int
 		lineageTag: 63d049da-c265-4dc3-8666-85373bf9ee57
 		sourceLineageTag: hour_of_day
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: hour_of_day
 
 		annotation SummarizationSetBy = Automatic
@@ -114,6 +117,7 @@ table fact_sales_transaction
 
 	column is_completed
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: 33f8a956-4a02-4bbf-9b75-5757eabcda33
@@ -125,6 +129,7 @@ table fact_sales_transaction
 
 	column is_cancelled
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: e7692487-de25-4fd3-a2ce-9810cf1a8f9a
@@ -136,6 +141,7 @@ table fact_sales_transaction
 
 	column is_voided
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: 0289a0bd-4473-4b37-bd8a-8961fcb80d6f
@@ -147,6 +153,7 @@ table fact_sales_transaction
 
 	column line_count
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: c33a285c-91fa-4ba6-a219-21be5825d010
@@ -158,6 +165,7 @@ table fact_sales_transaction
 
 	column items_qty
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 475041e7-200f-4e1c-9837-001818206378
@@ -169,6 +177,7 @@ table fact_sales_transaction
 
 	column gross_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 662ae56e-2a38-44f2-a050-12688cd726fe
 		sourceLineageTag: gross_amount_sar
@@ -181,6 +190,7 @@ table fact_sales_transaction
 
 	column discount_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 1a964f75-933e-4fed-a9f2-5de4a9dfbf50
 		sourceLineageTag: discount_amount_sar
@@ -193,6 +203,7 @@ table fact_sales_transaction
 
 	column net_before_vat_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 20cc2c0d-ad38-47dd-ba14-417067dabf29
 		sourceLineageTag: net_before_vat_sar
@@ -205,6 +216,7 @@ table fact_sales_transaction
 
 	column vat_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: a4b959ef-8396-4892-85fb-fc63c656d6d5
 		sourceLineageTag: vat_amount_sar
@@ -217,6 +229,7 @@ table fact_sales_transaction
 
 	column net_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 1054ce69-f93d-4564-942a-00a46121be78
 		sourceLineageTag: net_amount_sar
@@ -229,6 +242,7 @@ table fact_sales_transaction
 
 	column est_margin_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 55dfb9ef-07e8-4f59-893a-dcef81f72b24
 		sourceLineageTag: est_margin_sar
@@ -251,6 +265,7 @@ table fact_sales_transaction
 
 	column paid_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: 33a5e478-b7b9-4a2d-b2fc-7da68d7c3f4f
 		sourceLineageTag: paid_amount_sar
@@ -263,6 +278,7 @@ table fact_sales_transaction
 
 	column return_lines
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 2f66e3e9-bf44-4cfe-9086-f66b2dc74dda
@@ -274,6 +290,7 @@ table fact_sales_transaction
 
 	column refund_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(38, 2)
 		lineageTag: effd481d-34d2-4f50-affe-59c48dee6c3d
 		sourceLineageTag: refund_amount_sar
@@ -286,6 +303,7 @@ table fact_sales_transaction
 
 	column has_return
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: 39ce0906-79d9-4762-ba8d-6299b1b76ede

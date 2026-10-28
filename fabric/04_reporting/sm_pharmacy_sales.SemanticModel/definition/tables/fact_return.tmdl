@@ -4,6 +4,7 @@ table fact_return
 
 	column return_id
 		dataType: string
+		isHidden
 		sourceProviderType: varchar(8000)
 		lineageTag: 24d79115-6d7e-442e-b4f3-4b29ca436420
 		sourceLineageTag: return_id
@@ -14,6 +15,7 @@ table fact_return
 
 	column original_transaction_id
 		dataType: string
+		isHidden
 		sourceProviderType: varchar(8000)
 		lineageTag: 2208404b-3d67-4bb4-8d23-c4b00475f993
 		sourceLineageTag: original_transaction_id
@@ -24,6 +26,7 @@ table fact_return
 
 	column original_sales_line_id
 		dataType: string
+		isHidden
 		sourceProviderType: varchar(8000)
 		lineageTag: bb499c3c-b1da-4657-8f34-bfdbfcdbb738
 		sourceLineageTag: original_sales_line_id
@@ -46,6 +49,7 @@ table fact_return
 
 	column return_ts
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		sourceProviderType: datetime2
 		lineageTag: 713e7797-34f6-496a-8218-77e1da770043
@@ -69,6 +73,7 @@ table fact_return
 
 	column days_to_return
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 4277bd85-6f2e-4f02-8629-811bbebc0d76
@@ -138,6 +143,7 @@ table fact_return
 
 	column return_quantity
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 43ec3dc8-b311-49dc-b7ed-81a09b347aa4
@@ -149,6 +155,7 @@ table fact_return
 
 	column refund_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(18, 2)
 		lineageTag: aa394fd9-ae81-40dd-9e46-60fe94f8c77a
 		sourceLineageTag: refund_amount_sar
@@ -161,6 +168,7 @@ table fact_return
 
 	column sold_quantity
 		dataType: int64
+		isHidden
 		formatString: 0
 		sourceProviderType: int
 		lineageTag: 5123d5c0-f0e2-4d9d-be55-847b3d9b99c3
@@ -172,6 +180,7 @@ table fact_return
 
 	column sold_net_amount_sar
 		dataType: double
+		isHidden
 		sourceProviderType: decimal(18, 2)
 		lineageTag: c7a03a46-d33c-42fc-9312-dc14b15613e7
 		sourceLineageTag: sold_net_amount_sar
@@ -184,6 +193,7 @@ table fact_return
 
 	column is_refund_above_sale
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: ce0313be-31ec-4d90-b6dd-d330930e15ee
@@ -195,6 +205,7 @@ table fact_return
 
 	column is_qty_above_sale
 		dataType: boolean
+		isHidden
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		sourceProviderType: bit
 		lineageTag: 349f4149-2b14-49b2-a8b5-e232064a83e3
