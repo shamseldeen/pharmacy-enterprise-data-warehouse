@@ -63,11 +63,11 @@ table _Measures
 		displayFolder: 1. Sales
 		lineageTag: 7dbc1842-d5cb-407f-b0a2-515c37a8df75
 
-	/// Growth vs same period last year. Blank when this period or last year has no data (avoids a fake -100%).
-	measure 'Revenue YoY %' = VAR _cur = [Revenue] VAR _ly = [Revenue LY] RETURN IF ( NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
+	/// Growth vs same period last year. Only when ONE year is in context (all-years total has no meaningful LY). Blank when this period or LY has no data.
+	measure 'Revenue YoY %' = VAR _cur = [Revenue] VAR _ly = [Revenue LY] RETURN IF ( HASONEVALUE ( dim_date[year_number] ) && NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 1. Sales
-		lineageTag: 78970550-47d5-48e5-b0a6-31272f4b9398
+		lineageTag: fc4036da-1d7c-43e9-9753-c674614329d1
 
 	measure 'Units Sold' = SUM ( fact_sales_line[quantity] )
 		formatString: #,0
@@ -91,11 +91,11 @@ table _Measures
 		displayFolder: 1. Sales
 		lineageTag: 55ec000e-fd9b-404f-9b8e-45be73039933
 
-	/// Growth vs same period last year. Blank when this period or last year has no data.
-	measure 'Transactions YoY %' = VAR _cur = [Transactions] VAR _ly = [Transactions LY] RETURN IF ( NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
+	/// Growth vs same period last year. Only when ONE year is in context.
+	measure 'Transactions YoY %' = VAR _cur = [Transactions] VAR _ly = [Transactions LY] RETURN IF ( HASONEVALUE ( dim_date[year_number] ) && NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 1. Sales
-		lineageTag: b0879077-d0c7-4705-8632-80cae6614578
+		lineageTag: 3937e953-ede5-41b0-bc49-4295f4f7529f
 
 	measure 'Avg Days to Return' = AVERAGE ( fact_return[days_to_return] )
 		formatString: 0.0
@@ -168,6 +168,16 @@ table _Measures
 		formatString: #,0.0
 		displayFolder: 5. Branch scorecard
 		lineageTag: 87979177-e0aa-4900-8d28-7028a6ca7cc4
+
+	/// Card subtitle: arrow + signed % + "vs LY". Text, so the meaning never depends on color alone.
+	measure 'Revenue YoY Label' = VAR _y = [Revenue YoY %] RETURN IF ( ISBLANK ( _y ), "Select a year to compare", IF ( _y >= 0, "▲ ", "▼ " ) & FORMAT ( _y, "+0.0%;-0.0%" ) & " vs LY" )
+		displayFolder: 1. Sales\Card labels
+		lineageTag: 3747dda8-86d1-4f82-9bbe-ed30536700f8
+
+	/// Color for the YoY label: status green / red from the theme.
+	measure 'Revenue YoY Color' = VAR _y = [Revenue YoY %] RETURN SWITCH ( TRUE (), ISBLANK ( _y ), "#8A8984", _y >= 0, "#0CA30C", "#D03B3B" )
+		displayFolder: 1. Sales\Card labels
+		lineageTag: e8a44fac-38ff-4750-97c3-e02ea980c5d2
 
 	column Placeholder
 		isHidden
