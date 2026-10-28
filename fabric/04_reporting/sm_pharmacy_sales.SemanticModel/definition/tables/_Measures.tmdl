@@ -1,0 +1,187 @@
+table _Measures
+	lineageTag: c6ec393f-507e-42f1-9d3e-99bd760b811f
+
+	/// Distinct identified customers (Unknown member excluded).
+	measure Customers = CALCULATE ( DISTINCTCOUNT ( fact_sales_line[customer_key] ), fact_sales_line[customer_key] <> -1 )
+		formatString: #,0
+		displayFolder: 3. Customers
+		lineageTag: 701f479e-ac38-48b5-b976-045c3ff6c87b
+
+	/// Margin % excluding the 314 products with a suspicious cost ratio (< 0.30 or > 1.00).
+	measure 'Trusted Margin %' = CALCULATE ( [Est. Margin %], dim_product[is_cost_ratio_suspicious] = FALSE () )
+		formatString: 0.0%
+		displayFolder: 2. Margin
+		lineageTag: f5b15368-5cab-4c31-9685-7f133d8f6837
+
+	/// Money lost on lines sold below estimated cost, shown as a positive number.
+	measure 'Loss Below Cost' = - CALCULATE ( [Est. Margin], fact_sales_line[is_sold_below_cost] = TRUE () )
+		formatString: #,0
+		displayFolder: 2. Margin
+		lineageTag: 75cbd334-a769-46ec-a498-8e5f925e0e3b
+
+	measure 'Lines Below Cost' = CALCULATE ( COUNTROWS ( fact_sales_line ), fact_sales_line[is_sold_below_cost] = TRUE () )
+		formatString: #,0
+		displayFolder: 2. Margin
+		lineageTag: ec4c5749-26e9-43ba-a2d6-d6eb7ca87dc5
+
+	measure 'Est. Margin LY' = CALCULATE ( [Est. Margin], SAMEPERIODLASTYEAR ( dim_date[full_date] ) )
+		formatString: #,0
+		displayFolder: 2. Margin
+		lineageTag: 2520a721-b221-4c3f-b7cf-546ba222b660
+
+	measure 'Est. Margin %' = DIVIDE ( [Est. Margin], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 2. Margin
+		lineageTag: f8841e9b-0ed2-46f8-80cf-bb61feb50a99
+
+	/// Estimated margin: net before VAT minus (gross x estimated cost ratio). An estimate, not accounting profit.
+	measure 'Est. Margin' = SUM ( fact_sales_line[est_margin_sar] )
+		formatString: #,0
+		displayFolder: 2. Margin
+		lineageTag: ad283b7a-745b-4789-b09e-2980c9daeabb
+
+	measure Discount = SUM ( fact_sales_line[discount_amount_sar] )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: 8fefbe9d-7d65-45a8-9328-5a8afff54baf
+
+	/// Discount as a share of gross amount.
+	measure 'Discount %' = DIVIDE ( [Discount], SUM ( fact_sales_line[gross_amount_sar] ) )
+		formatString: 0.0%
+		displayFolder: 1. Sales
+		lineageTag: beb5c7b7-e46a-4bad-abd4-92f66f1d6495
+
+	/// Revenue before VAT, completed sales only. VAT is not revenue.
+	measure Revenue = SUM ( fact_sales_line[net_before_vat_sar] )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: f63addca-40bc-4dab-99fe-0fe10bb7b3cb
+
+	/// Revenue for the same period last year (needs the marked date table).
+	measure 'Revenue LY' = CALCULATE ( [Revenue], SAMEPERIODLASTYEAR ( dim_date[full_date] ) )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: 7dbc1842-d5cb-407f-b0a2-515c37a8df75
+
+	/// Growth vs same period last year. Blank when this period or last year has no data (avoids a fake -100%).
+	measure 'Revenue YoY %' = VAR _cur = [Revenue] VAR _ly = [Revenue LY] RETURN IF ( NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1. Sales
+		lineageTag: 78970550-47d5-48e5-b0a6-31272f4b9398
+
+	measure 'Units Sold' = SUM ( fact_sales_line[quantity] )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: c6e02111-37bb-421c-b772-90a0f90103d3
+
+	/// Revenue before VAT per completed receipt.
+	measure 'Avg Basket' = DIVIDE ( [Revenue], [Transactions] )
+		formatString: #,0.00
+		displayFolder: 1. Sales
+		lineageTag: 4a7f646f-183e-44a0-aebd-925db409e94d
+
+	/// Completed receipts.
+	measure Transactions = CALCULATE ( COUNTROWS ( fact_sales_transaction ), fact_sales_transaction[is_completed] = TRUE () )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: a51805c1-56cd-4e3a-a3c5-d8821d8e1af3
+
+	measure 'Transactions LY' = CALCULATE ( [Transactions], SAMEPERIODLASTYEAR ( dim_date[full_date] ) )
+		formatString: #,0
+		displayFolder: 1. Sales
+		lineageTag: 55ec000e-fd9b-404f-9b8e-45be73039933
+
+	/// Growth vs same period last year. Blank when this period or last year has no data.
+	measure 'Transactions YoY %' = VAR _cur = [Transactions] VAR _ly = [Transactions LY] RETURN IF ( NOT ISBLANK ( _cur ) && NOT ISBLANK ( _ly ), DIVIDE ( _cur - _ly, _ly ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1. Sales
+		lineageTag: b0879077-d0c7-4705-8632-80cae6614578
+
+	measure 'Avg Days to Return' = AVERAGE ( fact_return[days_to_return] )
+		formatString: 0.0
+		displayFolder: 4. Returns
+		lineageTag: 3c87aa30-d22f-470b-9f86-09b5f8ed2a1a
+
+	/// Refunds by return date (active relationship).
+	measure Refunds = SUM ( fact_return[refund_amount_sar] )
+		formatString: #,0
+		displayFolder: 4. Returns
+		lineageTag: 73d8d49e-5440-488d-bc29-fe31521a6475
+
+	/// Refunds assigned to the month of the original sale (uses the inactive relationship).
+	measure 'Refunds by Sale Date' = CALCULATE ( [Refunds], USERELATIONSHIP ( fact_return[sale_date_key], dim_date[date_key] ) )
+		formatString: #,0
+		displayFolder: 4. Returns
+		lineageTag: 86bdddad-b100-4ce3-819e-a7abe67ead24
+
+	measure 'Return Lines' = COUNTROWS ( fact_return )
+		formatString: #,0
+		displayFolder: 4. Returns
+		lineageTag: 9500f498-0280-45a9-be9f-201834ee7822
+
+	/// Returned lines per 100 sold lines (count-based, avoids mixing VAT bases).
+	measure 'Return Rate %' = DIVIDE ( [Return Lines], COUNTROWS ( fact_sales_line ) )
+		formatString: 0.00%
+		displayFolder: 4. Returns
+		lineageTag: 0fc690a0-6341-4e5b-8579-f89586bef945
+
+	measure 'Loss (All Period)' = SUM ( agg_product_loss_summary[loss_sar] )
+		formatString: #,0
+		displayFolder: 6. Loss products (all period)
+		lineageTag: 3fc2dbd8-66d5-4d01-996a-bc21eb505d74
+
+	/// Whole period 2020-2025: not affected by the date filter.
+	measure 'Loss Products' = COUNTROWS ( agg_product_loss_summary )
+		formatString: #,0
+		displayFolder: 6. Loss products (all period)
+		lineageTag: 1fa205d7-8776-4b84-be83-010f6d2f54e2
+
+	/// Stock value still on the shelf for products that sell below cost.
+	measure 'Loss Stock at Risk' = SUM ( agg_product_loss_summary[stock_value_asof_sar] )
+		formatString: #,0
+		displayFolder: 6. Loss products (all period)
+		lineageTag: b175f98e-0f7d-43e5-a646-c487d3799529
+
+	/// Average of the monthly overall percentile score (0 to 1, 1 = best within peer group).
+	measure 'Branch Score' = AVERAGE ( agg_branch_scorecard_monthly[overall_score] )
+		formatString: 0.00
+		displayFolder: 5. Branch scorecard
+		lineageTag: 83cb3db0-d093-4d2c-b5c8-36e3b2722dbd
+
+	/// Expense % only over months where expenses are known (unknown is not zero).
+	measure 'Expense %' = DIVIDE ( CALCULATE ( SUM ( agg_branch_scorecard_monthly[expense_sar] ), NOT ISBLANK ( agg_branch_scorecard_monthly[expense_pct] ) ), CALCULATE ( SUM ( agg_branch_scorecard_monthly[revenue_sar] ), NOT ISBLANK ( agg_branch_scorecard_monthly[expense_pct] ) ) )
+		formatString: 0.0%
+		displayFolder: 5. Branch scorecard
+		lineageTag: 6fd0d6f4-6a7b-42a3-bddc-f416ca5f2d09
+
+	measure 'Months Without Pharmacist' = CALCULATE ( COUNTROWS ( agg_branch_scorecard_monthly ), agg_branch_scorecard_monthly[responsible_employee_key] = -1 )
+		formatString: #,0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 84ef1fca-57a7-49b5-aadf-bd6b11f009c7
+
+	measure 'Ranked Branches' = CALCULATE ( DISTINCTCOUNT ( agg_branch_scorecard_monthly[pharmacy_key] ), agg_branch_scorecard_monthly[is_ranked] = TRUE () )
+		formatString: #,0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 77bd124b-267b-420c-a4df-6797768b819a
+
+	measure 'Sales per Hour' = DIVIDE ( SUM ( agg_branch_scorecard_monthly[revenue_sar] ), SUM ( agg_branch_scorecard_monthly[worked_hours] ) )
+		formatString: #,0.0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 87979177-e0aa-4900-8d28-7028a6ca7cc4
+
+	column Placeholder
+		isHidden
+		formatString: 0
+		lineageTag: 571f52d3-80ae-4e6f-b724-0a430cec5948
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW ( "Placeholder", BLANK () )
+
+	annotation PBI_Id = cfac8f1dd04a42e5a2c4daddc79c5a39
+

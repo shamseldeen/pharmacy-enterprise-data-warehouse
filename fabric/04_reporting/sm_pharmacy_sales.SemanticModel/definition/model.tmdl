@@ -11,7 +11,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["DatabaseQuery"]
 
-annotation PBI_ProTooling = ["WebModelingEdit","TMDLView_Desktop"]
+annotation PBI_ProTooling = ["WebModelingEdit","TMDLView_Desktop","DaxQueryView_Desktop"]
 
 ref table fact_sales_line
 ref table fact_sales_transaction
@@ -23,4 +23,5 @@ ref table dim_pharmacy
 ref table dim_product
 ref table dim_customer
 ref table dim_employee
+ref table _Measures
 
