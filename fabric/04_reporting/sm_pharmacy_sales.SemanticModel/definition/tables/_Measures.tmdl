@@ -232,6 +232,27 @@ table _Measures
 		displayFolder: 1. Sales\Card labels
 		lineageTag: 7221a7f7-cebc-4c09-9306-833a47d9f3aa
 
+	/// Executive page answer sentence. Changes with the year slicer; explains when there is no comparison.
+	measure 'Exec Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _g = [Revenue YoY %] VAR _t = [Transactions YoY %] VAR _b = [Avg Basket] VAR _bg = [Avg Basket YoY %] RETURN SWITCH ( TRUE (), ISBLANK ( _yr ), "Revenue of " & FORMAT ( [Revenue] / 1000000000, "0.00" ) & "bn SAR over 2020-2025. Select a year to see what drove growth.", ISBLANK ( _g ), "Revenue of " & FORMAT ( [Revenue] / 1000000, "#,0" ) & "M SAR in " & _yr & ", the first year of data, so there is no comparison.", "Revenue " & IF ( _g >= 0, "grew ", "fell " ) & FORMAT ( ABS ( _g ), "0.0%" ) & " in " & _yr & ": transactions " & FORMAT ( _t, "+0.0%;-0.0%" ) & ", average basket " & IF ( ROUND ( _bg, 3 ) = 0, "flat at ", IF ( _bg > 0, "up to ", "down to " ) ) & FORMAT ( _b, "#,0" ) & " SAR." )
+		displayFolder: 0. Page text
+		lineageTag: fca8c82c-5df3-45e9-856d-230192f1d19f
+
+	/// Share of revenue within the current region selection context (other filters such as year are kept).
+	measure 'Revenue Share %' = DIVIDE ( [Revenue], CALCULATE ( [Revenue], ALL ( dim_pharmacy[region_name] ) ) )
+		formatString: 0.0%
+		displayFolder: 1. Sales
+		lineageTag: 54d5ebe2-acf0-42b5-964d-852aaf5e1b7b
+
+	/// Finding-style title for the region chart: share of the top 3 regions, changes with filters.
+	measure 'Region Chart Title' = VAR _top3 = TOPN ( 3, ALL ( dim_pharmacy[region_name] ), [Revenue] ) VAR _s = SUMX ( _top3, [Revenue] ) VAR _t = CALCULATE ( [Revenue], ALL ( dim_pharmacy[region_name] ) ) RETURN "Top 3 regions bring " & FORMAT ( DIVIDE ( _s, _t ), "0%" ) & " of revenue"
+		displayFolder: 0. Page text
+		lineageTag: 3fe435f4-c9ff-4961-8291-6b92f7dcd1bd
+
+	/// Bar color: teal for the top 3 regions, gray for the rest (one accent color).
+	measure 'Region Bar Color' = VAR _r = RANKX ( ALL ( dim_pharmacy[region_name] ), [Revenue], , DESC ) RETURN IF ( _r <= 3, "#1A9E8F", "#B5B4AE" )
+		displayFolder: 9. Formatting
+		lineageTag: 4eb84a40-50c6-4fbd-bfa8-95cf4b52396f
+
 	column Placeholder
 		isHidden
 		formatString: 0
