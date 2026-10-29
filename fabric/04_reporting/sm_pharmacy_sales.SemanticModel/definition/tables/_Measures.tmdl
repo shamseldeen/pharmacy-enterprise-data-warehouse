@@ -169,25 +169,25 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 87979177-e0aa-4900-8d28-7028a6ca7cc4
 
-	/// Card subtitle for Revenue: arrow + signed change + 'vs LY'. Explains why it is blank.
-	measure 'Revenue YoY Label' = VAR _y = [Revenue YoY %] RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", IF ( _y >= 0, "▲ ", "▼ " ) & FORMAT ( _y, "+0.0%;-0.0%" ) & " vs LY" )
+	/// Card subtitle for Revenue: arrow follows the DISPLAYED (rounded) change; zero shows a neutral dot.
+	measure 'Revenue YoY Label' = VAR _y = [Revenue YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", _r = 0, "● 0.0% vs LY", IF ( _r > 0, "▲ ", "▼ " ) & FORMAT ( _r, "+0.0%;-0.0%" ) & " vs LY" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: 7ed6d1fa-97dd-4f79-b189-5938455d26a8
+		lineageTag: fe3b72fd-a051-41b5-992a-0d4c73af9616
 
-	/// Status color for the Revenue card subtitle (gray when there is no comparison).
-	measure 'Revenue YoY Color' = VAR _y = [Revenue YoY %] RETURN SWITCH ( TRUE (), ISBLANK ( _y ), "#8A8984", _y >= 0, "#0CA30C", "#D03B3B" )
+	/// Status color for the Revenue subtitle: gray when blank or rounded change is zero.
+	measure 'Revenue YoY Color' = VAR _y = [Revenue YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), ISBLANK ( _y ) || _r = 0, "#8A8984", _r > 0, "#0CA30C", "#D03B3B" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: 30082b08-997e-460b-b0b3-acaac6a6c2fb
+		lineageTag: aa3a0b70-ac57-4c7a-aa81-a4ae7d624f95
 
-	/// Card subtitle for Transactions: arrow + signed change + 'vs LY'. Explains why it is blank.
-	measure 'Transactions YoY Label' = VAR _y = [Transactions YoY %] RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", IF ( _y >= 0, "▲ ", "▼ " ) & FORMAT ( _y, "+0.0%;-0.0%" ) & " vs LY" )
+	/// Card subtitle for Transactions: arrow follows the DISPLAYED (rounded) change; zero shows a neutral dot.
+	measure 'Transactions YoY Label' = VAR _y = [Transactions YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", _r = 0, "● 0.0% vs LY", IF ( _r > 0, "▲ ", "▼ " ) & FORMAT ( _r, "+0.0%;-0.0%" ) & " vs LY" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: d83f741f-e443-43bb-b839-186b35a6f104
+		lineageTag: 78861dab-e02f-414d-984d-be8319137b1b
 
-	/// Status color for the Transactions card subtitle (gray when there is no comparison).
-	measure 'Transactions YoY Color' = VAR _y = [Transactions YoY %] RETURN SWITCH ( TRUE (), ISBLANK ( _y ), "#8A8984", _y >= 0, "#0CA30C", "#D03B3B" )
+	/// Status color for the Transactions subtitle: gray when blank or rounded change is zero.
+	measure 'Transactions YoY Color' = VAR _y = [Transactions YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), ISBLANK ( _y ) || _r = 0, "#8A8984", _r > 0, "#0CA30C", "#D03B3B" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: 47e9b503-6c6c-444c-a9e7-953aa2bcb0f4
+		lineageTag: 03d14677-500e-4f40-95f8-5b0a57ac54ab
 
 	/// Estimated margin % for the same period last year.
 	measure 'Est. Margin % LY' = CALCULATE ( [Est. Margin %], SAMEPERIODLASTYEAR ( dim_date[full_date] ) )
@@ -201,15 +201,15 @@ table _Measures
 		displayFolder: 2. Margin
 		lineageTag: db0b5b19-5206-44e3-bfeb-845c40505d72
 
-	/// Card subtitle for Est. Margin: arrow + signed change + 'vs LY'. Explains why it is blank.
-	measure 'Est. Margin YoY Label' = VAR _y = [Est. Margin pts vs LY] RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", IF ( _y >= 0, "▲ ", "▼ " ) & FORMAT ( _y, "+0.0;-0.0" ) & " pts vs LY" )
+	/// Card subtitle for Est. Margin: arrow follows the DISPLAYED (rounded) change; zero shows a neutral dot.
+	measure 'Est. Margin YoY Label' = VAR _y = [Est. Margin pts vs LY] VAR _r = ROUND ( _y, 1 ) RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", _r = 0, "● 0.0 pts vs LY", IF ( _r > 0, "▲ ", "▼ " ) & FORMAT ( _r, "+0.0;-0.0" ) & " pts vs LY" )
 		displayFolder: 2. Margin\Card labels
-		lineageTag: 0a8e9ce3-aa48-47fe-91a2-951199b21c57
+		lineageTag: 1a2cf3f9-79ac-494f-8f73-0d77e36765f6
 
-	/// Status color for the Est. Margin card subtitle (gray when there is no comparison).
-	measure 'Est. Margin YoY Color' = VAR _y = [Est. Margin pts vs LY] RETURN SWITCH ( TRUE (), ISBLANK ( _y ), "#8A8984", _y >= 0, "#0CA30C", "#D03B3B" )
+	/// Status color for the Est. Margin subtitle: gray when blank or rounded change is zero.
+	measure 'Est. Margin YoY Color' = VAR _y = [Est. Margin pts vs LY] VAR _r = ROUND ( _y, 1 ) RETURN SWITCH ( TRUE (), ISBLANK ( _y ) || _r = 0, "#8A8984", _r > 0, "#0CA30C", "#D03B3B" )
 		displayFolder: 2. Margin\Card labels
-		lineageTag: 80d0c842-97c9-42af-aca4-dcba259c699c
+		lineageTag: f411360b-f3ff-4c1f-aa8e-0b176e8b68f4
 
 	measure 'Avg Basket LY' = CALCULATE ( [Avg Basket], SAMEPERIODLASTYEAR ( dim_date[full_date] ) )
 		formatString: #,0.00
@@ -222,15 +222,15 @@ table _Measures
 		displayFolder: 1. Sales
 		lineageTag: 95e2dab2-d489-43d3-a4db-c94ed72372f1
 
-	/// Card subtitle for Avg Basket: arrow + signed change + 'vs LY'. Explains why it is blank.
-	measure 'Avg Basket YoY Label' = VAR _y = [Avg Basket YoY %] RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", IF ( _y >= 0, "▲ ", "▼ " ) & FORMAT ( _y, "+0.0%;-0.0%" ) & " vs LY" )
+	/// Card subtitle for Avg Basket: arrow follows the DISPLAYED (rounded) change; zero shows a neutral dot.
+	measure 'Avg Basket YoY Label' = VAR _y = [Avg Basket YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), NOT HASONEVALUE ( dim_date[year_number] ), "Select a year to compare", ISBLANK ( _y ), "No prior-year data", _r = 0, "● 0.0% vs LY", IF ( _r > 0, "▲ ", "▼ " ) & FORMAT ( _r, "+0.0%;-0.0%" ) & " vs LY" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: 0ce1c689-d2cc-440a-8d1b-bbb4211de03c
+		lineageTag: 4a9801cc-48ec-4a07-a328-865f73f8825d
 
-	/// Status color for the Avg Basket card subtitle (gray when there is no comparison).
-	measure 'Avg Basket YoY Color' = VAR _y = [Avg Basket YoY %] RETURN SWITCH ( TRUE (), ISBLANK ( _y ), "#8A8984", _y >= 0, "#0CA30C", "#D03B3B" )
+	/// Status color for the Avg Basket subtitle: gray when blank or rounded change is zero.
+	measure 'Avg Basket YoY Color' = VAR _y = [Avg Basket YoY %] VAR _r = ROUND ( _y, 3 ) RETURN SWITCH ( TRUE (), ISBLANK ( _y ) || _r = 0, "#8A8984", _r > 0, "#0CA30C", "#D03B3B" )
 		displayFolder: 1. Sales\Card labels
-		lineageTag: 0381906d-03c4-4ea8-a4b7-4311346b29c5
+		lineageTag: 7221a7f7-cebc-4c09-9306-833a47d9f3aa
 
 	column Placeholder
 		isHidden
