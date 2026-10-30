@@ -265,6 +265,34 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 12987ae1-5923-4e6f-89c1-01b0e91d179a
 
+	/// Peer group of the selected branch (latest ranked month in the period).
+	measure 'Peer Group' = IF ( HASONEVALUE ( dim_pharmacy[pharmacy_id] ), CALCULATE ( MAX ( agg_branch_scorecard_monthly[peer_group] ), agg_branch_scorecard_monthly[is_ranked] = TRUE (), LASTDATE ( agg_branch_scorecard_monthly[month_start] ) ) )
+		displayFolder: 5. Branch scorecard
+		lineageTag: 9924a46d-f7bb-414e-82fd-546b93eb58fe
+
+	/// Where the branch's average score sits among its peer group in the selected period (0% = lowest, 100% = best). Peer = same size band x region tier. COUNTROWS + 0 so the lowest branch returns 0%, not blank.
+	measure 'Peer Percentile' = VAR _pg = [Peer Group] VAR _me = [Branch Score] VAR _peers = CALCULATETABLE ( VALUES ( agg_branch_scorecard_monthly[pharmacy_key] ), ALLSELECTED ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg, agg_branch_scorecard_monthly[is_ranked] = TRUE () ) VAR _scored = ADDCOLUMNS ( _peers, "@s", CALCULATE ( [Branch Score], ALLSELECTED ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg ) ) VAR _n = COUNTROWS ( _scored ) VAR _below = COUNTROWS ( FILTER ( _scored, [@s] < _me ) ) + 0 RETURN IF ( NOT ISBLANK ( _me ) && _n > 1, DIVIDE ( _below, _n - 1 ) )
+		formatString: 0%
+		displayFolder: 5. Branch scorecard
+		lineageTag: 6a41e0d1-9dd5-431e-a2c7-2caac8dad188
+
+	/// 1 when the branch is in the bottom 10% of its peer group. A flag for review, not a verdict.
+	measure 'Needs Attention' = IF ( NOT ISBLANK ( [Peer Percentile] ) && [Peer Percentile] <= 0.10, 1, 0 )
+		formatString: 0
+		displayFolder: 5. Branch scorecard
+		lineageTag: fd706e99-31df-4424-a8e3-b0c95f3c74ab
+
+	/// Count of branches in the bottom 10% of their peer group.
+	measure 'Branches Needing Attention' = SUMX ( VALUES ( dim_pharmacy[pharmacy_id] ), [Needs Attention] )
+		formatString: #,0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 5b925f8f-a081-4dcd-8521-d3710cd6b114
+
+	/// Branches page answer sentence.
+	measure 'Branches Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _n = [Branches Needing Attention] VAR _r = [Ranked Branches] VAR _np = [Months Without Pharmacist] RETURN IF ( ISBLANK ( _yr ), "Select a year: branches are compared with peers of the same size band and region tier.", IF ( ISBLANK ( _r ) || _r = 0, "No branch is ranked in " & _yr & " (branches need 12 months of history).", FORMAT ( _n, "#,0" ) & " of " & FORMAT ( _r, "#,0" ) & " branches rank in the bottom 10% of their peer group in " & _yr & "; " & FORMAT ( _np, "#,0" ) & " branch-months had no pharmacist on record." ) )
+		displayFolder: 0. Page text
+		lineageTag: 58e8b3fc-d8fd-4cfe-b6cb-a0ead7e6824e
+
 	column Placeholder
 		isHidden
 		formatString: 0
