@@ -237,11 +237,11 @@ table _Measures
 		displayFolder: 0. Page text
 		lineageTag: fca8c82c-5df3-45e9-856d-230192f1d19f
 
-	/// Share of revenue within the current region selection context (other filters such as year are kept).
-	measure 'Revenue Share %' = DIVIDE ( [Revenue], CALCULATE ( [Revenue], ALL ( dim_pharmacy[region_name] ) ) )
+	/// Share of revenue within the current selection (slicers kept, the visual's own grouping on dim_pharmacy removed). Works for region, city, branch type.
+	measure 'Revenue Share %' = DIVIDE ( [Revenue], CALCULATE ( [Revenue], ALLSELECTED ( dim_pharmacy ) ) )
 		formatString: 0.0%
 		displayFolder: 1. Sales
-		lineageTag: 54d5ebe2-acf0-42b5-964d-852aaf5e1b7b
+		lineageTag: b879ca81-5efe-457c-ab02-c03c748349ee
 
 	/// Finding-style title for the region chart: share of the top 3 regions, changes with filters.
 	measure 'Region Chart Title' = VAR _top3 = TOPN ( 3, ALL ( dim_pharmacy[region_name] ), [Revenue] ) VAR _s = SUMX ( _top3, [Revenue] ) VAR _t = CALCULATE ( [Revenue], ALL ( dim_pharmacy[region_name] ) ) RETURN "Top 3 regions bring " & FORMAT ( DIVIDE ( _s, _t ), "0%" ) & " of revenue"
@@ -252,6 +252,18 @@ table _Measures
 	measure 'Region Bar Color' = VAR _r = RANKX ( ALL ( dim_pharmacy[region_name] ), [Revenue], , DESC ) RETURN IF ( _r <= 3, "#1A9E8F", "#B5B4AE" )
 		displayFolder: 9. Formatting
 		lineageTag: 4eb84a40-50c6-4fbd-bfa8-95cf4b52396f
+
+	/// Pharmacies with at least one completed sale in the period.
+	measure 'Active Branches' = CALCULATE ( DISTINCTCOUNT ( fact_sales_transaction[pharmacy_key] ), fact_sales_transaction[is_completed] = TRUE () )
+		formatString: #,0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 0791e747-8c65-46ef-a4f4-3bfc82a9592b
+
+	/// Average revenue per active pharmacy: compares groups of different size fairly.
+	measure 'Revenue per Branch' = DIVIDE ( [Revenue], [Active Branches] )
+		formatString: #,0
+		displayFolder: 5. Branch scorecard
+		lineageTag: 12987ae1-5923-4e6f-89c1-01b0e91d179a
 
 	column Placeholder
 		isHidden
