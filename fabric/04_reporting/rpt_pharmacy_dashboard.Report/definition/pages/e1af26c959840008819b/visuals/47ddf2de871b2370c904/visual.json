@@ -129,6 +129,23 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Peer Percentile"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
@@ -156,13 +173,41 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "328.80375160545805D"
+                  "Value": "300.6802129712268D"
                 }
               }
             }
           },
           "selector": {
             "metadata": "dim_pharmacy.pharmacy_name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "98.17092280234579D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Sales per Hour"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "176.17088035423706D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Months Without Pharmacist"
           }
         }
       ],
