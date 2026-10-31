@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "cdaf83da85ebcae369bc",
+  "position": {
+    "x": 192,
+    "y": 204,
+    "z": 8000,
+    "height": 36,
+    "width": 1072,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note: generated data. Expenses are about 2x revenue and sales per hour about 34 SAR (real branches: 250-625). Compare branches with peers, not with these absolute numbers.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8a8984"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

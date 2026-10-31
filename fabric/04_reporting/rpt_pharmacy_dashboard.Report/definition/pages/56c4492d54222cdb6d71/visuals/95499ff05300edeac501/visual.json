@@ -4,10 +4,10 @@
   "position": {
     "x": 192,
     "y": 200,
-    "z": 5,
+    "z": 5000,
     "height": 313,
     "width": 704,
-    "tabOrder": 5
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "lineChart",
@@ -180,51 +180,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5997cf113b1d9193400b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "month_start"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "28ab16ce5c09dc1ce05e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6b067eddab47a4a976da",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue LY"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

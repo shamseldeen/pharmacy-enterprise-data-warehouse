@@ -4,10 +4,10 @@
   "position": {
     "x": 464,
     "y": 80,
-    "z": 2,
+    "z": 2000,
     "height": 112,
     "width": 256,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -322,23 +322,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4fd228429c954be3e36a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Est. Margin %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

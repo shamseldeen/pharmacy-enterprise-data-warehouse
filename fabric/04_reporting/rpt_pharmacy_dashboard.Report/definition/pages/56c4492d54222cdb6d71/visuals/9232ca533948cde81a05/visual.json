@@ -4,10 +4,10 @@
   "position": {
     "x": 912,
     "y": 200,
-    "z": 8,
+    "z": 8000,
     "height": 313,
     "width": 352,
-    "tabOrder": 8
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -257,37 +257,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "8c7c4dcb30eb07673980",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_pharmacy"
-              }
-            },
-            "Property": "region_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b77ba6c20e743e048804",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue Share %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

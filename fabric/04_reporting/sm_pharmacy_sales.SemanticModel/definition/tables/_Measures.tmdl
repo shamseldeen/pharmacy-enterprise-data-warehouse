@@ -270,11 +270,11 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 9924a46d-f7bb-414e-82fd-546b93eb58fe
 
-	/// Where the branch's average score sits among its peer group in the selected period (0% = lowest, 100% = best). Peer = same size band x region tier. COUNTROWS + 0 so the lowest branch returns 0%, not blank.
-	measure 'Peer Percentile' = VAR _pg = [Peer Group] VAR _me = [Branch Score] VAR _peers = CALCULATETABLE ( VALUES ( agg_branch_scorecard_monthly[pharmacy_key] ), ALLSELECTED ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg, agg_branch_scorecard_monthly[is_ranked] = TRUE () ) VAR _scored = ADDCOLUMNS ( _peers, "@s", CALCULATE ( [Branch Score], ALLSELECTED ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg ) ) VAR _n = COUNTROWS ( _scored ) VAR _below = COUNTROWS ( FILTER ( _scored, [@s] < _me ) ) + 0 RETURN IF ( NOT ISBLANK ( _me ) && _n > 1, DIVIDE ( _below, _n - 1 ) )
+	/// Where the branch's average score sits among ALL branches of its peer group in the selected period (0% = lowest, 100% = best). ALL, not ALLSELECTED: visual filters (e.g. Needs Attention = 1) or region slicers must not shrink the peer set.
+	measure 'Peer Percentile' = VAR _pg = [Peer Group] VAR _me = [Branch Score] VAR _peers = CALCULATETABLE ( VALUES ( agg_branch_scorecard_monthly[pharmacy_key] ), ALL ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg, agg_branch_scorecard_monthly[is_ranked] = TRUE () ) VAR _scored = ADDCOLUMNS ( _peers, "@s", CALCULATE ( [Branch Score], ALL ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg ) ) VAR _n = COUNTROWS ( _scored ) VAR _below = COUNTROWS ( FILTER ( _scored, [@s] < _me ) ) + 0 RETURN IF ( NOT ISBLANK ( _me ) && _n > 1, DIVIDE ( _below, _n - 1 ) )
 		formatString: 0%
 		displayFolder: 5. Branch scorecard
-		lineageTag: 6a41e0d1-9dd5-431e-a2c7-2caac8dad188
+		lineageTag: eb38bb59-91e0-4406-9b48-9dd00d1ccb2e
 
 	/// 1 when the branch is in the bottom 10% of its peer group. A flag for review, not a verdict.
 	measure 'Needs Attention' = IF ( NOT ISBLANK ( [Peer Percentile] ) && [Peer Percentile] <= 0.10, 1, 0 )
