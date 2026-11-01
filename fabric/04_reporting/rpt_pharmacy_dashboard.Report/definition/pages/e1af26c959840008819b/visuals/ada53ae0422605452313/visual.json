@@ -103,6 +103,11 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "year_number",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
