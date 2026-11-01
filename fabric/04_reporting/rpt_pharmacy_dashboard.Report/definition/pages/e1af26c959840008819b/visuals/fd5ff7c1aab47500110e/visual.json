@@ -185,5 +185,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "615f78e30d6ba30cc128",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Months Without Pharmacist"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
