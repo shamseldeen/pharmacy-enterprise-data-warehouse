@@ -4,5 +4,17 @@
   "displayName": "Executive",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "e554f4b8d42204d75467",
+      "target": "9232ca533948cde81a05",
+      "type": "NoFilter"
+    },
+    {
+      "source": "c12699a7637ded89adcb",
+      "target": "3a8f0537568046b4c20b",
+      "type": "NoFilter"
+    }
+  ]
 }
