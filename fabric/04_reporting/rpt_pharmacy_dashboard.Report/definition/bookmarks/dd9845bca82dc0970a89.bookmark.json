@@ -10,15 +10,15 @@
   },
   "explorationState": {
     "version": "1.3",
-    "activeSection": "56c4492d54222cdb6d71",
+    "activeSection": "e1af26c959840008819b",
     "sections": {
-      "56c4492d54222cdb6d71": {
+      "e1af26c959840008819b": {
         "visualContainers": {
-          "134bbbba4c2109cda89d": {
+          "deb1891b5770940c0d00": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "978b09c40dbcd3874770",
+                  "name": "2bfffb3e94804c4c596c",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -27,7 +27,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Revenue"
+                      "Property": "Sales per Hour"
                     }
                   },
                   "howCreated": 0
@@ -47,14 +47,14 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Revenue"
+                      "Property": "Sales per Hour"
                     }
                   }
                 }
               ]
             }
           },
-          "0978f6a41d8a8c27dbce": {
+          "ada53ae0422605452313": {
             "filters": {
               "byExpr": [
                 {
@@ -209,11 +209,11 @@
               }
             }
           },
-          "76dd3f616a85e0688d08": {
+          "992225e1a2a9856e5066": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "0f4bc3b330824486c8e4",
+                  "name": "9ab1ec5188a0b7cb8503",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -222,7 +222,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Est. Margin %"
+                      "Property": "Expense %"
                     }
                   },
                   "howCreated": 0
@@ -242,18 +242,18 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Est. Margin %"
+                      "Property": "Expense %"
                     }
                   }
                 }
               ]
             }
           },
-          "6ca2501e297090c8a4be": {
+          "0a8bace2309506548028": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "9f4fb158b560c0d852d5",
+                  "name": "ed37d206719b34e90930",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -262,7 +262,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Transactions"
+                      "Property": "Branches Needing Attention"
                     }
                   },
                   "howCreated": 0
@@ -282,18 +282,18 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Transactions"
+                      "Property": "Branches Needing Attention"
                     }
                   }
                 }
               ]
             }
           },
-          "4b61847e5840e911074c": {
+          "fd5ff7c1aab47500110e": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "37a4c81d689c0230219e",
+                  "name": "615f78e30d6ba30cc128",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -302,7 +302,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Avg Basket"
+                      "Property": "Months Without Pharmacist"
                     }
                   },
                   "howCreated": 0
@@ -322,114 +322,169 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Avg Basket"
+                      "Property": "Months Without Pharmacist"
                     }
                   }
                 }
               ]
             }
           },
-          "95499ff05300edeac501": {
+          "27fd2210974a67694907": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "290ada46644bc0eb814b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "47ddf2de871b2370c904": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "24dff64643360abd8ee5",
+                  "name": "ae44b9672c8e5a270600",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Branch Score"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "485042bb17443855ee12",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_Measures",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "Needs Attention"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Needs Attention"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "11fa7afb9a0630c0d4d0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Months Without Pharmacist"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f28f10641ba3224d1cda",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Peer Group"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "39c62bc88313817bd3d0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Peer Percentile"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4e437fa03227dbbcc732",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_date"
+                          "Entity": "dim_pharmacy"
                         }
                       },
-                      "Property": "month_start"
+                      "Property": "pharmacy_id"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "cf8a379f10c55eb038dc",
-                  "type": "Advanced",
+                  "name": "16b5c19552bbc4ab0229",
+                  "type": "Categorical",
                   "expression": {
-                    "Measure": {
+                    "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_Measures"
+                          "Entity": "dim_pharmacy"
                         }
                       },
-                      "Property": "Revenue"
+                      "Property": "pharmacy_name"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "754eec588e12ebd80cb6",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue LY"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "lineChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 1,
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_date"
-                        }
-                      },
-                      "Property": "month_start"
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_date"
-                        }
-                      },
-                      "Property": "month_start"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "d4930e0d3c81ea60e4b3": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
-            }
-          },
-          "9cd2d2d02085e01bd710": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
-            }
-          },
-          "9232ca533948cde81a05": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "3e49a94e422d9c0744cc",
+                  "name": "dcbc0d52626869d0252b",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -444,7 +499,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "8d72dd0e0d70a2c65000",
+                  "name": "c39d12b07e8e80bba94b",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -453,151 +508,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Revenue Share %"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "clusteredBarChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 2,
-                  "Expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue Share %"
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_pharmacy"
-                        }
-                      },
-                      "Property": "region_name"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "3a8f0537568046b4c20b": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "834a2a9b9b03198176e0",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_pharmacy"
-                        }
-                      },
-                      "Property": "branch_type"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a2fcda4a2a0172e01b6c",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Active Branches"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a24ae4e03c200931e90a",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "1512551d19c727e7b023",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue Share %"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "06d13d01a2d90dbbab07",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue per Branch"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a3eb4017070258c9ceba",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue YoY %"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "d744dde697a722378bdb",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Avg Basket"
+                      "Property": "Sales per Hour"
                     }
                   },
                   "howCreated": 0
@@ -609,7 +520,7 @@
               "objects": {},
               "orderBy": [
                 {
-                  "Direction": 2,
+                  "Direction": 1,
                   "Expression": {
                     "Measure": {
                       "Expression": {
@@ -617,26 +528,32 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Revenue per Branch"
+                      "Property": "Peer Percentile"
                     }
                   }
                 }
               ]
             }
           },
-          "852846aca9ad4ab0842c": {
+          "cdaf83da85ebcae369bc": {
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "textbox",
               "objects": {}
             }
           },
-          "5756604a3a1c7180d934": {
+          "ed02b92c490abd864452": {
             "singleVisual": {
               "visualType": "pageNavigator",
               "objects": {}
             }
           },
-          "e554f4b8d42204d75467": {
+          "7a9c8ce1624975b6d472": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e34dacd301dce7991584": {
             "filters": {
               "byExpr": [
                 {
@@ -734,7 +651,7 @@
               }
             }
           },
-          "c12699a7637ded89adcb": {
+          "c4529ec206e606e28c39": {
             "filters": {
               "byExpr": [
                 {
@@ -833,6 +750,67 @@
                         }
                       },
                       "Property": "branch_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e52349656eeb5d0c4240": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8ca53931e80682b2ae40": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0fc17333b574c17d6a6b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "agg_branch_scorecard_monthly"
+                        }
+                      },
+                      "Property": "peer_group"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "agg_branch_scorecard_monthly"
+                        }
+                      },
+                      "Property": "peer_group"
                     }
                   }
                 ]

@@ -154,10 +154,11 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 6fd0d6f4-6a7b-42a3-bddc-f416ca5f2d09
 
-	measure 'Months Without Pharmacist' = CALCULATE ( COUNTROWS ( agg_branch_scorecard_monthly ), agg_branch_scorecard_monthly[responsible_employee_key] = -1 )
+	/// Months without a responsible pharmacist on record. 0 means none found (a real zero, not unknown).
+	measure 'Months Without Pharmacist' = CALCULATE ( COUNTROWS ( agg_branch_scorecard_monthly ), agg_branch_scorecard_monthly[responsible_employee_key] = -1 ) + 0
 		formatString: #,0
 		displayFolder: 5. Branch scorecard
-		lineageTag: 84ef1fca-57a7-49b5-aadf-bd6b11f009c7
+		lineageTag: 41a421ba-eea0-4867-8691-84de6412883a
 
 	measure 'Ranked Branches' = CALCULATE ( DISTINCTCOUNT ( agg_branch_scorecard_monthly[pharmacy_key] ), agg_branch_scorecard_monthly[is_ranked] = TRUE () )
 		formatString: #,0
