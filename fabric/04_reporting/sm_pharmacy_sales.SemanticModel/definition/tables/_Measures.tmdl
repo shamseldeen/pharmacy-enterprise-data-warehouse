@@ -273,7 +273,7 @@ table _Measures
 
 	/// Where the branch's average score sits among ALL branches of its peer group in the selected period (0% = lowest, 100% = best). ALL, not ALLSELECTED: visual filters (e.g. Needs Attention = 1) or region slicers must not shrink the peer set.
 	measure 'Peer Percentile' = VAR _pg = [Peer Group] VAR _me = [Branch Score] VAR _peers = CALCULATETABLE ( VALUES ( agg_branch_scorecard_monthly[pharmacy_key] ), ALL ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg, agg_branch_scorecard_monthly[is_ranked] = TRUE () ) VAR _scored = ADDCOLUMNS ( _peers, "@s", CALCULATE ( [Branch Score], ALL ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg ) ) VAR _n = COUNTROWS ( _scored ) VAR _below = COUNTROWS ( FILTER ( _scored, [@s] < _me ) ) + 0 RETURN IF ( NOT ISBLANK ( _me ) && _n > 1, DIVIDE ( _below, _n - 1 ) )
-		formatString: 0%
+		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: 5. Branch scorecard
 		lineageTag: eb38bb59-91e0-4406-9b48-9dd00d1ccb2e
 
@@ -293,6 +293,16 @@ table _Measures
 	measure 'Branches Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _n = [Branches Needing Attention] VAR _r = [Ranked Branches] VAR _np = [Months Without Pharmacist] RETURN IF ( ISBLANK ( _yr ), "Select a year: branches are compared with peers of the same size band and region tier.", IF ( ISBLANK ( _r ) || _r = 0, "No branch is ranked in " & _yr & " (branches need 12 months of history).", FORMAT ( _n, "#,0" ) & " of " & FORMAT ( _r, "#,0" ) & " branches rank in the bottom 10% of their peer group in " & _yr & "; " & FORMAT ( _np, "#,0" ) & " branch-months had no pharmacist on record." ) )
 		displayFolder: 0. Page text
 		lineageTag: 58e8b3fc-d8fd-4cfe-b6cb-a0ead7e6824e
+
+	/// Marker color for the branch scatter: red = bottom 10% of its peer group (review), gray = other branches.
+	measure 'Attention Color' = IF ( [Needs Attention] = 1, "#D03B3B", "#B5B4AE" )
+		displayFolder: 9. Formatting
+		lineageTag: 967cf92b-c39f-49c7-a77f-320ac65260a1
+
+	/// Dynamic title for the branch scatter.
+	measure 'Branch Scatter Title' = VAR _n = [Branches Needing Attention] RETURN IF ( ISBLANK ( SELECTEDVALUE ( dim_date[year_number] ) ), "Select a year to see branches against their sales per hour", FORMAT ( _n + 0, "#,0" ) & " branches in red: low score is not only low sales per hour" )
+		displayFolder: 0. Page text
+		lineageTag: f49efd1e-2730-4f44-b283-125136e5c661
 
 	column Placeholder
 		isHidden
