@@ -223,5 +223,98 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "06300dd0e3079e28de9b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Sales per Hour"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "40399ae74b5a0a6b509d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Branch Score"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f9978ece287960012c22",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_pharmacy"
+              }
+            },
+            "Property": "pharmacy_id"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c20471dd5abe9b061c00",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Peer Group"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8348f03400cd1735b404",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Peer Percentile"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f4340a4f4671dd082b42",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_pharmacy"
+                  }
+                },
+                "Property": "pharmacy_name"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
