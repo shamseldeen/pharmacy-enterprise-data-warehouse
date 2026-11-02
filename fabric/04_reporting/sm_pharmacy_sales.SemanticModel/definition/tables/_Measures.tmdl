@@ -304,6 +304,22 @@ table _Measures
 		displayFolder: 0. Page text
 		lineageTag: f49efd1e-2730-4f44-b283-125136e5c661
 
+	/// Header for the Branch profile page: name, id, region and peer group of the drilled branch.
+	measure 'Profile Title' = VAR _id = SELECTEDVALUE ( dim_pharmacy[pharmacy_id] ) RETURN IF ( ISBLANK ( _id ), "Branch profile: right-click a branch on the Branches page > Drill through", SELECTEDVALUE ( dim_pharmacy[pharmacy_name] ) & "  (" & _id & ")  " & SELECTEDVALUE ( dim_pharmacy[region_name] ) & "  |  " & [Peer Group] )
+		displayFolder: 0. Page text
+		lineageTag: a4acb025-effb-46b9-acf1-876c214b4d4c
+
+	/// Answer sentence for the Branch profile page.
+	measure 'Profile Insight' = VAR _id = SELECTEDVALUE ( dim_pharmacy[pharmacy_id] ) VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _p = [Peer Percentile] VAR _np = [Months Without Pharmacist] RETURN IF ( ISBLANK ( _id ), "Open this page from a branch to see its profile.", IF ( ISBLANK ( _yr ), "Select a year to rank this branch against its peers.", IF ( ISBLANK ( _p ), "This branch is not ranked in " & _yr & " (it needs 12 months of history).", "In " & _yr & " this branch scores better than " & FORMAT ( _p, "0.0%" ) & " of its " & [Peer Group] & " peers" & IF ( [Needs Attention] = 1, " (bottom 10%: review)", "" ) & "; " & FORMAT ( _np, "#,0" ) & " months without a pharmacist on record." ) ) )
+		displayFolder: 0. Page text
+		lineageTag: 6a8e16b0-0875-4d04-a5f9-4bfe08d48d2b
+
+	/// Average Branch Score of all ranked branches in the same peer group, same period (region and type slicers ignored).
+	measure 'Peer Avg Score' = VAR _pg = [Peer Group] RETURN IF ( NOT ISBLANK ( _pg ), CALCULATE ( AVERAGE ( agg_branch_scorecard_monthly[overall_score] ), ALL ( dim_pharmacy ), agg_branch_scorecard_monthly[peer_group] = _pg, agg_branch_scorecard_monthly[is_ranked] = TRUE () ) )
+		formatString: 0.00
+		displayFolder: 5. Branch scorecard
+		lineageTag: 2c024a72-60f0-4479-b709-4c10d33d7ec0
+
 	column Placeholder
 		isHidden
 		formatString: 0

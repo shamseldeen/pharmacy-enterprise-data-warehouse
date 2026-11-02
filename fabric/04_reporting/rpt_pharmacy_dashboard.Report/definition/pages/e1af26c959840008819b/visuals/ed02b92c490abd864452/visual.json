@@ -4,10 +4,10 @@
   "position": {
     "x": 8,
     "y": 80,
-    "z": 8002,
+    "z": 10000,
     "height": 104,
     "width": 160,
-    "tabOrder": 1000
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "pageNavigator",
@@ -171,6 +171,19 @@
           },
           "selector": {
             "id": "default"
+          }
+        }
+      ],
+      "pages": [
+        {
+          "properties": {
+            "showHiddenPages": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ]

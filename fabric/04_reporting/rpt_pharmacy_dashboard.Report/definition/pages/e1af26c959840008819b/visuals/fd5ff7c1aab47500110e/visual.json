@@ -7,7 +7,7 @@
     "z": 4000,
     "height": 112,
     "width": 256,
-    "tabOrder": 4000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -185,23 +185,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "615f78e30d6ba30cc128",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Months Without Pharmacist"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

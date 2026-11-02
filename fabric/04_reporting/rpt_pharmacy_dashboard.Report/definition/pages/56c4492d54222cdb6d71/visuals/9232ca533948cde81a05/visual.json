@@ -257,37 +257,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "886f062fc3be65286b8a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_pharmacy"
-              }
-            },
-            "Property": "region_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b4ceeccd93c9ce61aea1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue Share %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
