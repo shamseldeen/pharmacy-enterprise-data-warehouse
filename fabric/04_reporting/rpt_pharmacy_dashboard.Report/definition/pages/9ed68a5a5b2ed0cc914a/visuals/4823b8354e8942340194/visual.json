@@ -6,7 +6,8 @@
     "y": 0,
     "z": 1000,
     "height": 112,
-    "width": 256
+    "width": 256,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -244,23 +245,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "65d4c4f7b35bc3a3b83b",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7ec412b4d4747683b8d6",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Expense %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "65d4c4f7b35bc3a3b83b"
 }

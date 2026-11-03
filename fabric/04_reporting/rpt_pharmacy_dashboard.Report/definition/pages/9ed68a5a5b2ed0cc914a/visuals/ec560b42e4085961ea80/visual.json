@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ec560b42e4085961ea80",
+  "position": {
+    "x": 192,
+    "y": 684,
+    "z": 13001,
+    "height": 36,
+    "width": 1072,
+    "tabOrder": 12001
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note: generated data. Branch score = average monthly percentile rank within the peer group (1 = best); the peer average stays near 0.5 by design. Red flag = review, not a verdict.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8a8984"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

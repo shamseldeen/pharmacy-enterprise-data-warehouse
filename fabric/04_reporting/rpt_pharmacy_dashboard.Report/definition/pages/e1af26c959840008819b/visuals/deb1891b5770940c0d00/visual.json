@@ -176,23 +176,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "1b88383d4880e0a79555",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Sales per Hour"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

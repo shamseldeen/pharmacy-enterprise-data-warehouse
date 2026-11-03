@@ -4,10 +4,10 @@
   "position": {
     "x": 192,
     "y": 256,
-    "z": 11002,
-    "height": 448,
+    "z": 13000,
+    "height": 424,
     "width": 528,
-    "tabOrder": 10002
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "lineChart",
@@ -168,51 +168,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f5332d24b5ac51650304",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "month_start"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "6fde6cb220980680b84e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Branch Score"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5d81a47f6665e1c37a33",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Peer Avg Score"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

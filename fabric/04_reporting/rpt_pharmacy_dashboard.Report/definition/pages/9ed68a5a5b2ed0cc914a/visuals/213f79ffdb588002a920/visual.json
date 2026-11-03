@@ -6,7 +6,8 @@
     "y": 0,
     "z": 2000,
     "height": 112,
-    "width": 256
+    "width": 256,
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -201,23 +202,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "65d4c4f7b35bc3a3b83b",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7737fe060ebc2a033699",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Peer Percentile"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "65d4c4f7b35bc3a3b83b"
 }
