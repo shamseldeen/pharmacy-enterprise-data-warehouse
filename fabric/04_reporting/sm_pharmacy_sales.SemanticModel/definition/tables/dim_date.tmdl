@@ -72,14 +72,18 @@ table dim_date
 
 	column month_start
 		dataType: dateTime
-		formatString: General Date
+		formatString: mmm yy
 		sourceProviderType: date
 		lineageTag: 26bf2269-97a2-4d93-ad1a-1a7fd3853d7e
 		sourceLineageTag: month_start
 		summarizeBy: none
 		sourceColumn: month_start
 
+		changedProperty = FormatString
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	column day_of_month
 		dataType: int64
