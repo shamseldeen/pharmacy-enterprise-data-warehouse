@@ -361,6 +361,11 @@ table _Measures
 		displayFolder: 0. Page text
 		lineageTag: f2e821cd-494f-4909-af9e-e6d1f61af19a
 
+	/// Dynamic title for the loss-by-category chart: top 3 categories and their share of the loss.
+	measure 'Category Loss Title' = VAR _tot = [Margin-Destroying Loss] VAR _cats = FILTER ( ALLSELECTED ( dim_product[category] ), [Margin-Destroying Loss] > 0 ) VAR _top = TOPN ( 3, _cats, [Margin-Destroying Loss], DESC ) VAR _topLoss = SUMX ( _top, [Margin-Destroying Loss] ) VAR _names = CONCATENATEX ( _top, dim_product[category], ", ", [Margin-Destroying Loss], DESC ) RETURN IF ( ISBLANK ( _tot ) || _tot = 0, "No product sold below cost for this selection", FORMAT ( COUNTROWS ( _top ), "0" ) & " categories carry " & FORMAT ( DIVIDE ( _topLoss, _tot ), "0%" ) & " of the loss: " & _names )
+		displayFolder: 0. Page text
+		lineageTag: f055496e-8db0-486f-a78e-3ada7cba23b6
+
 	column Placeholder
 		isHidden
 		formatString: 0

@@ -4,10 +4,10 @@
   "position": {
     "x": 736,
     "y": 87,
-    "z": 13003,
+    "z": 11000,
     "height": 112,
     "width": 256,
-    "tabOrder": 13003
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -222,23 +222,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "47478c70519ed0783c13",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Margin-Destroying Loss"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

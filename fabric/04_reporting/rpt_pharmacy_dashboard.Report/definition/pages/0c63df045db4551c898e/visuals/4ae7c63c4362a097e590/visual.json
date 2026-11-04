@@ -4,10 +4,10 @@
   "position": {
     "x": 1008,
     "y": 87,
-    "z": 13004,
+    "z": 12000,
     "height": 112,
     "width": 256,
-    "tabOrder": 13004
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -185,23 +185,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "63bc7106374d8562636e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Trusted Margin %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

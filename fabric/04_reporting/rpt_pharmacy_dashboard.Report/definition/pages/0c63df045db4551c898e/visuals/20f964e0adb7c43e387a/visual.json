@@ -4,10 +4,10 @@
   "position": {
     "x": 464,
     "y": 87,
-    "z": 13002,
+    "z": 10000,
     "height": 112,
     "width": 256,
-    "tabOrder": 13002
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -245,23 +245,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "2110d80cd213386ab336",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Margin-Destroying Revenue %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
