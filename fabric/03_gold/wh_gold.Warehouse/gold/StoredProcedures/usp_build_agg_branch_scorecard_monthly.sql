@@ -4,6 +4,15 @@ AS
 -- Rebuilds gold.agg_branch_scorecard_monthly (DROP + CTAS)
 -- Generated 2026-10-24 from queryinsights (last successful build)
 -- Backup of the original statement: dbo.gold_script_backup
+-- 2026-11-03 fix: a metric with no variation inside its peer group and month
+--   (e.g. no return records at all -> every branch 0) carries no information:
+--   its percentile is NULL and it is left out of overall_score (Unknown <> zero).
+--   Before the fix every branch got 0 for returns in months without return data.
+-- 2026-11-03 fix: growth is ranked only when the branch has sales this month.
+-- 2026-11-04 decision: returns are NOT part of overall_score. Returns are rare
+--   (weeks or months without any), depend on location and customer type
+--   (travel route, market street, residential) and can be under-recorded.
+--   pr_return_pct is still stored for monitoring (Sales integrity page).
 -- =========================================================
 BEGIN
     DROP TABLE IF EXISTS gold.agg_branch_scorecard_monthly;
@@ -130,7 +139,7 @@ calc2 AS (
     SELECT c.*,
         c.size_band + '-' + c.region_tier                                     AS peer_group,
         CASE WHEN c.age_months >= 12 AND c.revenue_sar > 0 THEN 1 ELSE 0 END   AS ranked_int,
-        CASE WHEN c.age_months >= 24 AND c.revenue_ly_sar > 0 THEN 1 ELSE 0 END AS growth_ranked_int,
+        CASE WHEN c.age_months >= 24 AND c.revenue_ly_sar > 0 AND c.revenue_sar > 0 THEN 1 ELSE 0 END AS growth_ranked_int,
         CAST((c.revenue_sar - c.revenue_ly_sar) * 100.0 / NULLIF(c.revenue_ly_sar, 0) AS decimal(9,2)) AS yoy_growth_pct,
         SUM(c.resp_changed_int) OVER (PARTITION BY c.pharmacy_key ORDER BY c.month_start
                                       ROWS UNBOUNDED PRECEDING)               AS resp_run_id
@@ -138,22 +147,40 @@ calc2 AS (
 ),
 ranked AS (
     SELECT c.*,
-        CASE WHEN ranked_int = 1 AND sales_per_hour IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN ranked_int = 1 AND sales_per_hour IS NOT NULL
+              AND MIN(sales_per_hour) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN sales_per_hour IS NULL THEN 0 ELSE 1 END)
+               <> MAX(sales_per_hour) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN sales_per_hour IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, ranked_int, CASE WHEN sales_per_hour IS NULL THEN 0 ELSE 1 END
              ORDER BY sales_per_hour) END                                     AS pr_sales_per_hour,
-        CASE WHEN ranked_int = 1 AND margin_pct IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN ranked_int = 1 AND margin_pct IS NOT NULL
+              AND MIN(margin_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN margin_pct IS NULL THEN 0 ELSE 1 END)
+               <> MAX(margin_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN margin_pct IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, ranked_int, CASE WHEN margin_pct IS NULL THEN 0 ELSE 1 END
              ORDER BY margin_pct) END                                         AS pr_margin_pct,
-        CASE WHEN ranked_int = 1 AND expense_pct IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN ranked_int = 1 AND expense_pct IS NOT NULL
+              AND MIN(expense_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN expense_pct IS NULL THEN 0 ELSE 1 END)
+               <> MAX(expense_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN expense_pct IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, ranked_int, CASE WHEN expense_pct IS NULL THEN 0 ELSE 1 END
              ORDER BY expense_pct DESC) END                                   AS pr_expense_pct,
-        CASE WHEN ranked_int = 1 AND avg_basket_sar IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN ranked_int = 1 AND avg_basket_sar IS NOT NULL
+              AND MIN(avg_basket_sar) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN avg_basket_sar IS NULL THEN 0 ELSE 1 END)
+               <> MAX(avg_basket_sar) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN avg_basket_sar IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, ranked_int, CASE WHEN avg_basket_sar IS NULL THEN 0 ELSE 1 END
              ORDER BY avg_basket_sar) END                                     AS pr_avg_basket,
-        CASE WHEN ranked_int = 1 AND return_pct IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN ranked_int = 1 AND return_pct IS NOT NULL
+              AND MIN(return_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN return_pct IS NULL THEN 0 ELSE 1 END)
+               <> MAX(return_pct) OVER (PARTITION BY month_start, peer_group, ranked_int, CASE WHEN return_pct IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, ranked_int, CASE WHEN return_pct IS NULL THEN 0 ELSE 1 END
              ORDER BY return_pct DESC) END                                    AS pr_return_pct,
-        CASE WHEN growth_ranked_int = 1 AND yoy_growth_pct IS NOT NULL THEN PERCENT_RANK() OVER (
+        CASE WHEN growth_ranked_int = 1 AND yoy_growth_pct IS NOT NULL
+              AND MIN(yoy_growth_pct) OVER (PARTITION BY month_start, peer_group, growth_ranked_int, CASE WHEN yoy_growth_pct IS NULL THEN 0 ELSE 1 END)
+               <> MAX(yoy_growth_pct) OVER (PARTITION BY month_start, peer_group, growth_ranked_int, CASE WHEN yoy_growth_pct IS NULL THEN 0 ELSE 1 END)
+             THEN PERCENT_RANK() OVER (
              PARTITION BY month_start, peer_group, growth_ranked_int, CASE WHEN yoy_growth_pct IS NULL THEN 0 ELSE 1 END
              ORDER BY yoy_growth_pct) END                                     AS pr_yoy_growth,
         ROW_NUMBER() OVER (PARTITION BY pharmacy_key, resp_run_id ORDER BY month_start) AS months_with_current_responsible
@@ -181,12 +208,11 @@ SELECT
     CAST(pr_return_pct     AS decimal(5,4)) AS pr_return_pct,
     CAST(pr_yoy_growth     AS decimal(5,4)) AS pr_yoy_growth,
     CAST( (COALESCE(pr_sales_per_hour, 0) + COALESCE(pr_margin_pct, 0) + COALESCE(pr_expense_pct, 0)
-         + COALESCE(pr_avg_basket, 0)     + COALESCE(pr_return_pct, 0))
+         + COALESCE(pr_avg_basket, 0))
         / NULLIF( CASE WHEN pr_sales_per_hour IS NULL THEN 0 ELSE 1 END
                 + CASE WHEN pr_margin_pct     IS NULL THEN 0 ELSE 1 END
                 + CASE WHEN pr_expense_pct    IS NULL THEN 0 ELSE 1 END
-                + CASE WHEN pr_avg_basket     IS NULL THEN 0 ELSE 1 END
-                + CASE WHEN pr_return_pct     IS NULL THEN 0 ELSE 1 END, 0)
+                + CASE WHEN pr_avg_basket     IS NULL THEN 0 ELSE 1 END, 0)
         AS decimal(5,4))                    AS overall_score,
     responsible_employee_key,
     CAST(responsible_inferred_int AS bit)   AS is_responsible_inferred,
