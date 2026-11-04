@@ -320,6 +320,47 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 2c024a72-60f0-4479-b709-4c10d33d7ec0
 
+	/// Products sold in the period whose recorded cost is above their selling price (cost ratio suspicious flag).
+	measure 'Margin-Destroying Products' = CALCULATE ( DISTINCTCOUNT ( fact_sales_line[product_key] ), dim_product[is_cost_ratio_suspicious] = TRUE () ) + 0
+		formatString: #,0
+		displayFolder: 7. Products
+		lineageTag: 3624a50f-9206-453d-9957-f54dd55364f0
+
+	/// Share of revenue that comes from margin-destroying products.
+	measure 'Margin-Destroying Revenue %' = DIVIDE ( CALCULATE ( [Revenue], dim_product[is_cost_ratio_suspicious] = TRUE () ), [Revenue] )
+		formatString: 0.0%
+		displayFolder: 7. Products
+		lineageTag: abf6d128-a653-42a1-9da6-124d164b4108
+
+	/// Loss below cost on margin-destroying products, shown as a positive number.
+	measure 'Margin-Destroying Loss' = CALCULATE ( [Loss Below Cost], dim_product[is_cost_ratio_suspicious] = TRUE () )
+		formatString: #,0
+		displayFolder: 7. Products
+		lineageTag: 492c5af3-776b-4c1a-a04c-ca01c596e589
+
+	/// Share of all loss below cost that comes from margin-destroying products.
+	measure 'Margin-Destroying Loss %' = DIVIDE ( [Margin-Destroying Loss], [Loss Below Cost] )
+		formatString: 0.0%
+		displayFolder: 7. Products
+		lineageTag: 32f28075-78ff-46c6-9fb6-24aa8c970338
+
+	/// Recorded unit cost divided by list price for one product (1.0 = sold at cost).
+	measure 'Cost to Price' = IF ( HASONEVALUE ( dim_product[product_key] ), DIVIDE ( MAX ( dim_product[est_unit_cost_sar] ), MAX ( dim_product[list_price_sar] ) ) )
+		formatString: 0.0
+		displayFolder: 7. Products
+		lineageTag: 72344e03-3926-43b8-8e84-2fe33a4f4941
+
+	/// Discount the supplier must give on the current cost so the product earns a 20% margin at its list price. Blank when no discount is needed.
+	measure 'Supplier Discount Needed' = IF ( HASONEVALUE ( dim_product[product_key] ), VAR _cost = MAX ( dim_product[est_unit_cost_sar] ) VAR _target = MAX ( dim_product[list_price_sar] ) * 0.8 RETURN IF ( _cost > _target, 1 - DIVIDE ( _target, _cost ) ) )
+		formatString: 0%
+		displayFolder: 7. Products
+		lineageTag: 069b19fc-363f-4919-949f-50226c836632
+
+	/// Answer sentence for the Products page.
+	measure 'Products Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _n = [Margin-Destroying Products] RETURN IF ( ISBLANK ( _yr ), "Select a year to see which products destroy margin.", IF ( _n = 0, "No product sold below cost in " & _yr & ".", "In " & _yr & ", " & FORMAT ( _n, "#,0" ) & " products (" & FORMAT ( [Margin-Destroying Revenue %], "0.0%" ) & " of revenue) cost more to buy than they sell for and cause " & FORMAT ( [Margin-Destroying Loss %], "0.0%" ) & " of the loss below cost (" & FORMAT ( [Margin-Destroying Loss] / 1000000, "#,0.0" ) & "M SAR); all other products earn " & FORMAT ( [Trusted Margin %], "0%" ) & "." ) )
+		displayFolder: 0. Page text
+		lineageTag: f2e821cd-494f-4909-af9e-e6d1f61af19a
+
 	column Placeholder
 		isHidden
 		formatString: 0
