@@ -6,7 +6,8 @@
     "y": 0,
     "z": 3000,
     "height": 112,
-    "width": 275.1044776119403
+    "width": 275.1044776119403,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -185,23 +186,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "4591b62d74ea8e522ba6",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "d03178975c702d2d05c3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Trusted Margin %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "4591b62d74ea8e522ba6"
 }

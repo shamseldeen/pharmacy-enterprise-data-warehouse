@@ -185,23 +185,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "74cd6c0859d71b6b7656",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Trusted Margin %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

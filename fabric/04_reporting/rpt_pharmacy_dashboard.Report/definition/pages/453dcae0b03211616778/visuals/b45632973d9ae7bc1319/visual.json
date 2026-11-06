@@ -4,10 +4,10 @@
   "position": {
     "x": 192,
     "y": 83,
-    "z": 8001,
+    "z": 9000,
     "height": 300,
     "width": 1072,
-    "tabOrder": 8001
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "tableEx",
@@ -297,20 +297,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "6788eef60094be8ea911",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "ref_data_checks"
-              }
-            },
-            "Property": "result"
-          }
-        },
-        "type": "Categorical"
       }
     ],
     "filterSortOrder": "Custom"

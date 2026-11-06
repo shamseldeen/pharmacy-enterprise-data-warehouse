@@ -366,6 +366,11 @@ table _Measures
 		displayFolder: 0. Page text
 		lineageTag: f055496e-8db0-486f-a78e-3ada7cba23b6
 
+	/// Bubble color on the Executive map: teal when the city's region is one of the top 3 regions by revenue, gray otherwise. Removes the map_location filter so the ranking is over regions, not one city.
+	measure 'Map Bubble Color' = VAR _reg = SELECTEDVALUE ( dim_pharmacy[region_name] ) VAR _top3 = TOPN ( 3, ALL ( dim_pharmacy[region_name] ), CALCULATE ( [Revenue], REMOVEFILTERS ( dim_pharmacy[map_location] ) ) ) RETURN IF ( _reg IN _top3, "#1A9E8F", "#B5B4AE" )
+		displayFolder: 9. Formatting
+		lineageTag: e380efab-b725-4eea-a562-66f8a7908679
+
 	column Placeholder
 		isHidden
 		formatString: 0

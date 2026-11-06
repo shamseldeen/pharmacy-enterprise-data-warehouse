@@ -6,7 +6,8 @@
     "y": 0,
     "z": 0,
     "height": 112,
-    "width": 275.1044776119403
+    "width": 275.1044776119403,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -212,23 +213,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "4591b62d74ea8e522ba6",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "1ff91c790e9169aebd50",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "4591b62d74ea8e522ba6"
 }

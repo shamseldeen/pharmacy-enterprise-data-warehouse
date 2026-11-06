@@ -6,7 +6,8 @@
     "y": 0,
     "z": 2000,
     "height": 112,
-    "width": 275.1044776119403
+    "width": 275.1044776119403,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "cardVisual",
@@ -223,23 +224,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "4591b62d74ea8e522ba6",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "2629f45d30e2dc0d3c28",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Margin-Destroying Loss"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "4591b62d74ea8e522ba6"
 }
