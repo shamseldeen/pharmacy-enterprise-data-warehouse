@@ -1,31 +1,58 @@
 # 💊 Pharmacy Enterprise Data Warehouse
 
-> **Data protects the pharmacist, the patient, and the company.**
+> **A 1,000-branch pharmacy chain is growing, and still losing money. Where is the disease?**
 
-An end-to-end retail-pharmacy data warehouse on **Microsoft Fabric**, built by a pharmacist turned data engineer.
-It integrates 11 business domains (sales, prescriptions, insurance, inventory, procurement, suppliers, workforce, expenses, CRM, delivery, reference) for a synthetic Saudi chain of **1,000 pharmacies, 2020–2025**.
+An end-to-end data diagnosis on **Microsoft Fabric**, built by a pharmacist turned data engineer.
+Raw files → Lakehouse (PySpark) → Warehouse star schema (T-SQL) → Direct Lake semantic model → Power BI.
+Synthetic Saudi chain: **1,000 pharmacies, 11 business domains, 2020–2025, 60 million rows.**
 
 ![Microsoft Fabric](https://img.shields.io/badge/Microsoft%20Fabric-Lakehouse%20%2B%20Warehouse-742774)
 ![PySpark](https://img.shields.io/badge/PySpark-Bronze%20%26%20Silver-E25A1C?logo=apachespark&logoColor=white)
 ![T-SQL](https://img.shields.io/badge/T--SQL-Gold%20Star%20Schema-0078D4)
+![Power BI](https://img.shields.io/badge/Power%20BI-Direct%20Lake-F2C811?logo=powerbi&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-Fabric%20Integration-F05032?logo=git&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Gold%20Complete%20%E2%80%94%20Dashboard%20Next-2ea44f)
+![Status](https://img.shields.io/badge/Status-Published-2ea44f)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-![Project overview](docs/architecture/01_project_overview.png)
+![Dashboard home](docs/dashboard/00_home.png)
 
 ---
 
-## 📌 Status (2026-10-25)
+## 🩺 The story in one minute
 
-| Layer | Item | Result |
+The company called in a data analyst because it was bleeding money and nobody knew why.
+The analyst worked like a surgeon: examine every organ, rule out the healthy ones, then point at the disease.
+
+| Step | Page | Finding |
 |---|---|---|
-| **Bronze** | `lh_bronze` – 72 source tables | ✅ 60,234,021 rows, reconciled to RAW (difference 0) |
-| **Silver** | `lh_silver` – 58 cleaned tables | ✅ keys, types, money as `decimal(18,2)`, business-rule checks |
-| **Gold** | `wh_gold` – 9 dimensions, 9 facts, 3 analytical tables | ✅ reconciled to the riyal |
-| **Rebuild** | 22 stored procedures (`gold.usp_build_*`) | ✅ full Gold rebuild in **1 min 55 s**, 21 / 21 tables identical |
-| Semantic model & Power BI | Direct Lake, RLS | ⏳ next |
-| AI | claim-rejection model, demand forecast | ⏳ planned |
+| 1 | **Executive** | The patient **looks healthy**: revenue grows about 10% a year. |
+| 2 | **Branches** | **Branches are not the cause**: weakness is spread across peer groups, no region or type stands out. |
+| 3 | **Products** | **The hidden tumour**: 314 products (2.6% of revenue) are bought at about **10x their selling price** and cause **99.8% of the loss below cost** (114M SAR over 2020–2025). Every other product earns **33%**. |
+| 4 | **What we checked** | 7 integrity signals tested, **none shows a real signal**; 29 data fingerprints and 2 data gaps documented. |
+
+> *Sales were growing, branches were working, and the company was still bleeding. The disease was not where everyone was looking.*
+
+The analyst raises the red flag and brings the evidence; **the manager decides**. Every list in the report is labelled **"review, not a verdict"**.
+
+---
+
+## 📊 Dashboard
+
+| Page | Question | Highlights |
+|---|---|---|
+| Home | Where is the disease? | 4 headline numbers, page buttons |
+| Executive | Are we growing, and where does growth come from? | KPI cards vs last year, Saudi map (city bubbles, top-3 regions highlighted), branch-type table |
+| Branches | Which branches need attention, compared with their peers? | Peer percentile, scatter (sales per hour × score), review list |
+| Branch profile | How is this branch doing against its peers? | Drill-through: score vs peer average, revenue vs last year |
+| Products | Which products destroy our margin? | Loss by category, action list with **supplier discount needed** to reach a 20% margin |
+| What we checked | What can this data not tell us? | Integrity signals, data gaps, 29 fingerprints (from `gold.ref_data_checks`) |
+
+![Executive](docs/dashboard/01_executive.png)
+![Branches](docs/dashboard/02_branches.png)
+![Products](docs/dashboard/03_products.png)
+![What we checked](docs/dashboard/04_what_we_checked.png)
+
+**Design rules:** one question per page with a dynamic answer sentence, chart titles that state the finding (DAX, they change with filters), no pie or dual-axis charts, comparisons as arrow + sign + text, synced global slicers, Reset button, drill-through, performance checked (< 2 s per visual on a warm cache).
 
 ---
 
@@ -33,99 +60,58 @@ It integrates 11 business domains (sales, prescriptions, insurance, inventory, p
 
 ![Architecture](docs/architecture/02_architecture.png)
 
-| Fabric folder | Content |
-|---|---|
-| `01_bronze` | `lh_bronze`, `nb_01` reference exercise, `nb_02` ingestion framework |
-| `02_silver` | `lh_silver`, `nb_04`–`nb_07b` core entities, `nb_10`–`nb_15` by domain (reference, POS, insurance, inventory, CRM, operations) |
-| `03_gold` | `wh_gold` – tables, stored procedures, `usp_build_all` |
-| `99_archive` | discovery contract (`nb_03`) and an abandoned metadata framework (`nb_08`, `nb_09`) |
-
----
-
-## ⭐ Gold layer
-
-**Dimensions:** `dim_date` (+ `ref_calendar_events`: Ramadan, Eid, national days), `dim_pharmacy`, `dim_product`, `dim_customer`, `dim_employee`, `dim_doctor`, `dim_insurance_plan`, `dim_supplier`
-Every dimension has a surrogate key (`ROW_NUMBER` over the natural id, stable on rebuild) and an **Unknown member (-1)**.
-
-![Gold sales star schema](docs/architecture/03_gold_star_schema.png)
-
-**Facts:**
-
-| Fact | Grain | Rows |
+| Layer | Item | Result |
 |---|---|---|
-| `fact_sales_line` | sales line (completed sales) | 30,365,507 |
-| `fact_sales_transaction` | receipt (all statuses) | 10,000,000 |
-| `fact_return` | return line, linked to the original sale | 299,796 |
-| `fact_rx_dispense` | prescription dispense | 173,913 |
-| `fact_claim` | insurance claim (header amounts) | 75,000 |
-| `fact_inventory_snapshot` | pharmacy × product × month | 325,412 |
-| `fact_purchase_line` | purchase-order line (OTIF) | 82,140 |
-| `fact_branch_expense` | pharmacy × expense category × month | 741,300 |
-| `fact_timekeeping` | employee × month | 527,682 |
+| **Bronze** | `lh_bronze` – 72 source tables | 60,234,021 rows, reconciled to raw (difference 0) |
+| **Silver** | `lh_silver` – 58 cleaned tables | keys, types, money as `decimal(18,2)`, business-rule checks |
+| **Gold** | `wh_gold` – 9 dimensions, 9 facts, 4 analytical tables | reconciled to the riyal |
+| **Rebuild** | 23 stored procedures (`gold.usp_build_*`) | full Gold rebuild in about 2 minutes |
+| **Model** | `sm_pharmacy_sales` – Direct Lake | measures in a `_Measures` table, written in TMDL |
+| **Report** | `rpt_pharmacy_dashboard` | 6 pages + landing page |
 
-
-![Gold bus matrix](docs/architecture/04_gold_bus_matrix.png)
-
-**Analytical tables:**
-
-- `agg_product_loss_summary` – products sold below cost, cumulative loss, stock still on the shelf
-- `agg_stock_aging_asof` – dead stock per pharmacy and a recommended action: `ROTATE` (demand exists in another branch), `SUPPLIER_DEAL`, `WATCH`, `OK`
-- `agg_branch_scorecard_monthly` – branch KPIs ranked by **percentile within peer groups** (size band × region tier), ratios only, 1 = best
-
-**Reconciliation (Gold = facts = source):** revenue before VAT **3,126,598,408.75 SAR**, estimated margin **918,000,519.14 SAR (29.4%)**, expenses **6,799,713,291.35 SAR**, worked hours **100,616,484**.
+**Reconciliation (Gold = facts = source):** revenue before VAT **3,126,598,408.75 SAR**, estimated margin **918,000,519.14 SAR (29.4%)**, expenses **6,799,713,291.35 SAR**.
 
 ---
 
-## 🧠 Engineering decisions
+## 🧠 Engineering and business decisions
 
-- **VAT is not revenue.** Revenue = net before VAT; a discount lowers margin, not cost.
-- **Estimated cost** = gross amount × median batch cost ratio (category median as fallback). Products with a ratio below 0.30 or above 1.00 are **flagged, never altered** (`is_cost_ratio_suspicious`, 314 products) → a "trusted margin" filter in reports.
-- **Fair comparison:** branches are compared with similar branches (previous-year size band × region tier), on ratios, not totals. Growth is ranked only for branches older than 24 months.
-- **Unknown ≠ zero:** a month without recorded expenses gives `expense_pct = NULL`, and NULL metrics are excluded from ranking.
-- **Keep source values, add corrected ones:** 297 pharmacies sell before their registered opening date → `effective_opening_date` is added, the source date is kept, and the conflict is flagged.
-- **Safe dimension changes:** snapshot keys → rebuild → compare → drop the snapshot.
-- **Human decisions are labelled as inferred:** the responsible pharmacist per month is estimated and marked `is_responsible_inferred`.
+- **VAT is not revenue.** Revenue = net before VAT.
+- **Fair comparison:** branches are compared with peers (size band × region tier) on ratios, never totals.
+- **Unknown ≠ zero:** a metric with no data, or with no variation inside a peer group, is left out of the score instead of counted as zero. *This rule found a real bug in Gold:* months without return data gave every branch a zero, and every score dropped by 0.1. Fixed and documented in the procedure.
+- **Customer returns are not a performance metric.** A return is the customer's right; scoring pharmacists on it would push them to refuse returns. Returns are monitored for policy breaches only.
+- **No invented metrics.** Expiry and damage are what a pharmacist should be accountable for, but the data has no write-off records. The report says so instead of building a fake indicator.
+- **No accusation without evidence.** Buyers of loss-making products were compared with buyers of normal products (discount, turnover, leaving after purchase): no difference. The finding is a **missing control** (nothing stops buying above the selling price), not a person.
+- **Keep source values, add corrected ones:** suspicious costs and opening dates are flagged, never overwritten.
 
 ---
 
 ## 🔍 Data quality: what the checks found
 
-The dataset is synthetic. The checks found **10 generation fingerprints** that a real chain would not show. They are documented, labelled in reports, and used as calibration for the next project:
+The dataset is synthetic. **29 generation fingerprints** were found and are documented in the report (`What we checked` page, table `gold.ref_data_checks`). Examples:
 
-1. Selling price unrelated to list price
-2. About 4.6 receipts per branch per day with a 363 SAR basket (realistic: hundreds of receipts, 50–150 SAR)
-3. Uniform return reasons
-4. Near-uniform claim rejection reasons and no partial approvals
-5. Random dispenser roles and 36 hours from prescription to dispense
-6. Expenses about 2× revenue and about 31 SAR of sales per worked hour (realistic: 250–625 SAR per hour, expenses ≤ 30% of sales)
-7. Loss is a fixed product property, not an event with a start and an end
-8. About 103 SKUs per branch and 76% dead stock everywhere
-9. No product without demand anywhere; weak Pareto
-10. Branches selling before their registered opening date
+- every receipt has exactly 3 lines and every line exactly 2 units
+- flat margin (33–34% trusted margin in every category) and no seasonality
+- September 2025: the whole network's sales recorded in 203 of 1,000 branches
+- no night sales, even in 24-hour branches
+- expenses about 2x revenue
 
-Because of these, reports use **relative comparisons** (percentiles, structure, ratios) and avoid absolute market claims.
+Because of these, the report uses **relative comparisons** (percentiles, shares, ratios) and avoids absolute market claims. They are also the requirements list for the next project: a realistic synthetic dataset.
 
 ---
 
 ## 🔁 Reproducibility
 
-The whole Gold layer is code in Git (`fabric/03_gold/wh_gold.Warehouse/gold/StoredProcedures/`):
-
 ```sql
 EXEC gold.usp_build_all;   -- calendar → dimensions → facts → analytical tables
 ```
 
-Disaster-recovery drill (2026-10-24): all Gold tables rebuilt in 1 min 55 s; row counts and money totals identical for 21 / 21 tables.
-
-![Reconciliation and rebuild](docs/architecture/05_quality_and_reproducibility.png)
-
-Utilities in [`sql/utilities`](sql/utilities):
+Everything is in Git through Fabric Git integration: lakehouse notebooks, warehouse procedures, the semantic model (TMDL) and the report.
 
 | Script | Purpose |
 |---|---|
-| `extract_build_scripts_from_queryinsights.sql` | recover executed build scripts from the warehouse query history |
-| `generate_procedures_from_backup.sql` | generate one stored procedure per table (dynamic SQL) |
-| `gold_rebuild_drill_reconciliation.sql` | rebuild drill with before / after reconciliation |
+| `sql/utilities/extract_build_scripts_from_queryinsights.sql` | recover executed build scripts from the warehouse query history |
+| `sql/utilities/generate_procedures_from_backup.sql` | generate one stored procedure per table |
+| `sql/utilities/gold_rebuild_drill_reconciliation.sql` | rebuild drill with before / after reconciliation |
 
 ---
 
@@ -133,21 +119,19 @@ Utilities in [`sql/utilities`](sql/utilities):
 
 ```
 fabric/                 synced with the Fabric workspace (Git integration)
-  01_bronze/  02_silver/  03_gold/  99_archive/
+  01_bronze/  02_silver/  03_gold/  04_reporting/  99_archive/
 sql/utilities/          reusable SQL tools
-archive/sql_server/     first version on SQL Server (history only)
-docs/architecture/      verified diagrams
+docs/architecture/      diagrams
+docs/dashboard/         report screenshots
 ```
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Next
 
-1. Semantic model on Direct Lake, measures, row-level security
-2. Power BI dashboard (executive, branch scorecard, inventory, insurance, maps)
-3. Data Activator alerts (e.g. a branch with no pharmacist on duty)
-4. AI: insurance-claim rejection model, then demand forecasting
-5. **Project 2:** a realistic synthetic dataset generated inside Fabric, calibrated with the lessons above
+1. **Project 2:** a realistic synthetic pharmacy dataset (expiry and damage write-offs, procurement ownership, seasonality, planted fraud cases to test the integrity signals)
+2. Data Activator alerts
+3. Later: AI on realistic data
 
 ---
 
