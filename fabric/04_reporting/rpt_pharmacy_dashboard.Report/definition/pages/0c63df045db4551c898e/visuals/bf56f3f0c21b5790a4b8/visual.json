@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "bf56f3f0c21b5790a4b8",
   "position": {
-    "x": 192,
-    "y": 236,
+    "x": 192.26311870771423,
+    "y": 267.84241364798811,
     "z": 14000,
-    "height": 236,
-    "width": 1072,
+    "height": 249.27907804862258,
+    "width": 1071.3696545919524,
     "tabOrder": 14000
   },
   "visual": {
@@ -203,5 +203,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c10eb371064ab0c00b3e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "99b9a7143a006c0d0d4d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Margin-Destroying Loss"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

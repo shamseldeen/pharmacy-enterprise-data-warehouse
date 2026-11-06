@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0efe740057d40260161a",
   "position": {
-    "x": 192,
-    "y": 480,
+    "x": 192.26311870771423,
+    "y": 527.7291120391053,
     "z": 13000,
-    "height": 232,
-    "width": 1072,
+    "height": 184.30740345084328,
+    "width": 1071.3696545919524,
     "tabOrder": 13000
   },
   "visual": {
@@ -328,6 +328,132 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "4009da62d0db6cc78de6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "product_id"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cc22b0cb186e1e1cb7a6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "trade_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d7e5a4424dc53ee01c52",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "2e1c6caaedb19d34729c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "list_price_sar"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c01597678bdb882cb870",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_product"
+              }
+            },
+            "Property": "est_unit_cost_sar"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e9877fe456920a81c16d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cost to Price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "824643e188a7145e26ea",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3454b92960038085a7d0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Margin-Destroying Loss"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b3568b5148d110d373e8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Supplier Discount Needed"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

@@ -356,10 +356,10 @@ table _Measures
 		displayFolder: 7. Products
 		lineageTag: 069b19fc-363f-4919-949f-50226c836632
 
-	/// Answer sentence for the Products page.
-	measure 'Products Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _n = [Margin-Destroying Products] RETURN IF ( ISBLANK ( _yr ), "Select a year to see which products destroy margin.", IF ( _n = 0, "No product sold below cost in " & _yr & ".", "In " & _yr & ", " & FORMAT ( _n, "#,0" ) & " products (" & FORMAT ( [Margin-Destroying Revenue %], "0.0%" ) & " of revenue) cost more to buy than they sell for and cause " & FORMAT ( [Margin-Destroying Loss %], "0.0%" ) & " of the loss below cost (" & FORMAT ( [Margin-Destroying Loss] / 1000000, "#,0.0" ) & "M SAR); all other products earn " & FORMAT ( [Trusted Margin %], "0%" ) & "." ) )
+	/// Answer sentence for the Products page. Loss shown in K or M depending on size.
+	measure 'Products Insight' = VAR _yr = SELECTEDVALUE ( dim_date[year_number] ) VAR _n = [Margin-Destroying Products] VAR _loss = [Margin-Destroying Loss] VAR _lossTxt = IF ( _loss >= 1000000, FORMAT ( _loss / 1000000, "#,0.0" ) & "M", IF ( _loss >= 1000, FORMAT ( _loss / 1000, "#,0.0" ) & "K", FORMAT ( _loss, "#,0" ) ) ) RETURN IF ( ISBLANK ( _yr ), "Select a year to see which products destroy margin.", IF ( _n = 0, "No product sold below cost in " & _yr & ".", "In " & _yr & ", " & FORMAT ( _n, "#,0" ) & " products (" & FORMAT ( [Margin-Destroying Revenue %], "0.0%" ) & " of revenue) cost more to buy than they sell for and cause " & FORMAT ( [Margin-Destroying Loss %], "0.0%" ) & " of the loss below cost (" & _lossTxt & " SAR); all other products earn " & FORMAT ( [Trusted Margin %], "0%" ) & "." ) )
 		displayFolder: 0. Page text
-		lineageTag: f2e821cd-494f-4909-af9e-e6d1f61af19a
+		lineageTag: 978cba49-5aea-4560-a701-0dca62ca9629
 
 	/// Dynamic title for the loss-by-category chart: top 3 categories and their share of the loss.
 	measure 'Category Loss Title' = VAR _tot = [Margin-Destroying Loss] VAR _cats = FILTER ( ALLSELECTED ( dim_product[category] ), [Margin-Destroying Loss] > 0 ) VAR _top = TOPN ( 3, _cats, [Margin-Destroying Loss], DESC ) VAR _topLoss = SUMX ( _top, [Margin-Destroying Loss] ) VAR _names = CONCATENATEX ( _top, dim_product[category], ", ", [Margin-Destroying Loss], DESC ) RETURN IF ( ISBLANK ( _tot ) || _tot = 0, "No product sold below cost for this selection", FORMAT ( COUNTROWS ( _top ), "0" ) & " categories carry " & FORMAT ( DIVIDE ( _topLoss, _tot ), "0%" ) & " of the loss: " & _names )

@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Note: generated data. Cost is the recorded purchase cost; 314 products are bought at about 10x their selling price (possible unit-of-measure issue: verify pack size with procurement first). Red flag = review, not a verdict.",
+                    "value": "Note: generated data. Cost is the recorded purchase cost. Across all data, 314 products are bought at about 10x their selling price; the cards show those sold in the current selection (possible unit-of-measure issue: verify pack size with procurement first). Red flag = review, not a verdict.",
                     "textStyle": {
                       "fontSize": "9pt",
                       "color": "#8a8984"

@@ -139,7 +139,7 @@
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "43.18833923339844D"
+                  "Value": "42.743581771850614D"
                 }
               }
             },
