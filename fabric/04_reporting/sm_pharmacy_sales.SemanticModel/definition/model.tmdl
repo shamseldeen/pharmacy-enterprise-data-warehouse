@@ -24,4 +24,5 @@ ref table dim_product
 ref table dim_customer
 ref table dim_employee
 ref table _Measures
+ref table ref_data_checks
 

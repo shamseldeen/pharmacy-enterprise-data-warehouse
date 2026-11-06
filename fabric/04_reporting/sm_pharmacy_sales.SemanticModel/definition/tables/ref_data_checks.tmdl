@@ -1,0 +1,73 @@
+table ref_data_checks
+	lineageTag: 768b243b-e17b-47b6-8e87-53dfd7c6431c
+	sourceLineageTag: [gold].[ref_data_checks]
+
+	column check_id
+		dataType: string
+		sourceProviderType: varchar(10)
+		lineageTag: 17095433-a34f-4df7-ada3-107fca3ecc3c
+		sourceLineageTag: check_id
+		summarizeBy: none
+		sourceColumn: check_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column check_group
+		dataType: string
+		sourceProviderType: varchar(40)
+		lineageTag: 8223972a-803e-4b49-a87e-fe84bbe39165
+		sourceLineageTag: check_group
+		summarizeBy: none
+		sourceColumn: check_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column check_name
+		dataType: string
+		sourceProviderType: varchar(200)
+		lineageTag: 7a2fb86e-76ac-4a83-9899-716dd2312f3d
+		sourceLineageTag: check_name
+		summarizeBy: none
+		sourceColumn: check_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column what_tested
+		dataType: string
+		sourceProviderType: varchar(300)
+		lineageTag: b203dc5c-564c-4d82-ad04-561acb698663
+		sourceLineageTag: what_tested
+		summarizeBy: none
+		sourceColumn: what_tested
+
+		annotation SummarizationSetBy = Automatic
+
+	column result
+		dataType: string
+		sourceProviderType: varchar(300)
+		lineageTag: 5098b8f2-3c93-4c34-a26b-2522de6a42ee
+		sourceLineageTag: result
+		summarizeBy: none
+		sourceColumn: result
+
+		annotation SummarizationSetBy = Automatic
+
+	column verdict
+		dataType: string
+		sourceProviderType: varchar(40)
+		lineageTag: 0aaff03c-592a-4ed6-a57a-9a13463f5461
+		sourceLineageTag: verdict
+		summarizeBy: none
+		sourceColumn: verdict
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ref_data_checks = entity
+		mode: directLake
+		source
+			entityName: ref_data_checks
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
