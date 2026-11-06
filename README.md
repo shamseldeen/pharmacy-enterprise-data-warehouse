@@ -49,6 +49,7 @@ The analyst raises the red flag and brings the evidence; **the manager decides**
 
 ![Executive](docs/dashboard/01_executive.png)
 ![Branches](docs/dashboard/02_branches.png)
+![Branch profile (drill-through)](docs/dashboard/05_branch_profile.png)
 ![Products](docs/dashboard/03_products.png)
 ![What we checked](docs/dashboard/04_what_we_checked.png)
 
