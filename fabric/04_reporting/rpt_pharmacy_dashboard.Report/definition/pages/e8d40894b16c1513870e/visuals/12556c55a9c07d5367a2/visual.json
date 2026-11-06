@@ -1,0 +1,65 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "12556c55a9c07d5367a2",
+  "position": {
+    "x": 64,
+    "y": 650,
+    "z": 2002,
+    "height": 55,
+    "width": 1152,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Built by Shamseldeen, pharmacist and data engineer  ·  Microsoft Fabric: Lakehouse (PySpark) → Warehouse (T-SQL) → Direct Lake → Power BI  ·  Gold reconciled to the riyal  ·  Synthetic data: 29 fingerprints documented",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "color": "#b5b4ae"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
