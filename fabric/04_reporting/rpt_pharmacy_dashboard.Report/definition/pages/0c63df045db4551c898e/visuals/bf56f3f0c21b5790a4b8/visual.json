@@ -4,10 +4,10 @@
   "position": {
     "x": 192,
     "y": 236,
-    "z": 13001,
+    "z": 14000,
     "height": 236,
     "width": 1072,
-    "tabOrder": 13001
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -203,37 +203,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "0e10baed6a8bc39c601b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_product"
-              }
-            },
-            "Property": "category"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "4263707247b1036022d0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Margin-Destroying Loss"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
