@@ -1,0 +1,375 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "971bc757-6d98-bf28-49cb-1aad42eef23e",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze nb_02",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "c905bf8f-72a3-ade4-4a00-ec945ac58632",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 180,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_16",
+        "dependsOn": [
+          {
+            "activity": "Bronze nb_02",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "9a07cef7-e24e-9e89-4c7c-5e2feb94e4aa",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 180,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_10",
+        "dependsOn": [
+          {
+            "activity": "Bronze nb_02",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "5d4564b7-9499-9d6d-4f20-8fa06202d1b6",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 180,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_11",
+        "dependsOn": [
+          {
+            "activity": "Bronze nb_02",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "2c8659ee-14d8-85bd-49b9-1d07438ffd0d",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 180,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_12",
+        "dependsOn": [
+          {
+            "activity": "Bronze nb_02",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "34c96db9-5a4f-97fa-4802-a63faa23b6b2",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_05b",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_16",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "49d96e27-1b30-bd77-43fe-db788ff65bb8",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_07b",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_16",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "2996af38-f1c7-857b-437d-f679c881d439",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_13",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_16",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "5b232888-c588-b25c-4aa0-90ef5c557b31",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_14",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_16",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_10",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "20f61640-deb8-b81e-4a4f-9e506c6c4a3f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "silver"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver nb_15",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_10",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_11",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_14",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[gold].[usp_build_all]"
+        },
+        "linkedService": {
+          "name": "wh_gold",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "b7cc7c39-1a98-967b-4df5-239ef6d10b11",
+              "endpoint": "fh7vtyuyiisepjhr4brkp26kw4-b7xcz4lnxtwutcf5cjo3vzx2ce.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold usp_build_all",
+        "dependsOn": [
+          {
+            "activity": "Silver nb_05b",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_07b",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_13",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_12",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Silver nb_15",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "f12cee0f-bc6d-49ed-88bd-125dbae6fa11",
+          "datasetId": "292d01b2-eabc-41db-aba7-7233aa5be49c",
+          "commitMode": "Transactional",
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "13c78f70-01fe-43a4-b7ff-bfe3fc49d46e"
+        },
+        "policy": {
+          "timeout": "0.00:30:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Refresh sm_pharmacy_sales",
+        "dependsOn": [
+          {
+            "activity": "Gold usp_build_all",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Office365Email",
+        "typeProperties": {
+          "body": "<p>The pipeline @{pipeline().PipelineName} did not complete.</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Started: @{pipeline().TriggerTime}</p>\n<p>Open Monitor &gt; pipeline runs &gt; this Run ID to see which activity failed and its error.</p>",
+          "to": "pharmacian2050@gmail.com",
+          "subject": {
+            "value": "FAILED: @{pipeline().PipelineName} | @{formatDateTime(pipeline().TriggerTime, 'yyyy-MM-dd HH:mm')}",
+            "type": "Expression"
+          }
+        },
+        "externalReferences": {
+          "connection": "ebfa0024-9966-4e29-a26f-a18f772287b6"
+        },
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Email on failure",
+        "dependsOn": [
+          {
+            "activity": "Refresh sm_pharmacy_sales",
+            "dependencyConditions": [
+              "Failed",
+              "Skipped"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -2550,3 +2550,34 @@ display(bronze_schema_df)
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+# =========================================================
+# PIPELINE GATE — fail the notebook if any source failed
+# Without this cell the try/except hides failures and the
+# pipeline would continue to Silver with an incomplete Bronze.
+# =========================================================
+from pyspark.sql import functions as F
+
+expected_sources = len(metadata_list)
+processed = bronze_results_df.count()
+failed_sources = [
+    r["relative_path"]
+    for r in bronze_results_df.filter(F.col("overall_status") != "PASS")
+                              .select("relative_path").collect()
+]
+
+if processed != expected_sources:
+    raise RuntimeError(f"Bronze gate: {processed} of {expected_sources} sources processed")
+if failed_sources:
+    raise RuntimeError(f"Bronze gate: {len(failed_sources)} failed: {', '.join(failed_sources)}")
+
+print(f"BRONZE GATE: PASS — {processed}/{expected_sources} sources")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
