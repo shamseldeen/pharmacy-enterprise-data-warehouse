@@ -241,56 +241,27 @@ print("\nNot-closed interactions by status:")
 # META   "language_group": "synapse_pyspark"
 # META }
 
-# CELL ********************
+# MARKDOWN ********************
 
-# =========================================================
-# CELL 6 — Investigate duplicate interaction_id
-# =========================================================
-inter = spark.read.table(f"{SILVER}.crm_customer_service_interactions")
-biz_cols = [c for c in inter.columns if not c.startswith("_")]   # ignore audit columns
+# # =========================================================
+# # CELL 6 — Investigate duplicate interaction_id
+# # =========================================================
+# inter = spark.read.table(f"{SILVER}.crm_customer_service_interactions")
+# biz_cols = [c for c in inter.columns if not c.startswith("_")]   # ignore audit columns
+# 
+# print("total rows             :", inter.count())
+# print("distinct interaction_id:", inter.select("interaction_id").distinct().count())
+# print("distinct FULL rows     :", inter.select(*biz_cols).distinct().count())
+# 
+# # How many copies does a duplicated id have?
+# print("\nCopies per id:")
+# (inter.groupBy("interaction_id").count()
+#       .groupBy(F.col("count").alias("copies")).count()
+#       .orderBy("copies").show())
+# 
+# # Look at 2 duplicated ids side by side
+# dup_ids = (inter.groupBy("interaction_id").count()
+#                 .filter("count > 1").limit(2))
+# (inter.join(dup_ids.select("interaction_id"), "interaction_id")
+#       .select(*biz_cols).orderBy("interaction_id").show(truncate=False))
 
-print("total rows             :", inter.count())
-print("distinct interaction_id:", inter.select("interaction_id").distinct().count())
-print("distinct FULL rows     :", inter.select(*biz_cols).distinct().count())
-
-# How many copies does a duplicated id have?
-print("\nCopies per id:")
-(inter.groupBy("interaction_id").count()
-      .groupBy(F.col("count").alias("copies")).count()
-      .orderBy("copies").show())
-
-# Look at 2 duplicated ids side by side
-dup_ids = (inter.groupBy("interaction_id").count()
-                .filter("count > 1").limit(2))
-(inter.join(dup_ids.select("interaction_id"), "interaction_id")
-      .select(*biz_cols).orderBy("interaction_id").show(truncate=False))
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
-
-# CELL ********************
-
-spark.read.table(f"{SILVER}.crm_customer_consent_current").count()
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
-
-# CELL ********************
-
-inter = spark.read.table(f"{SILVER}.crm_customer_service_interactions")
-print(inter.select("source_interaction_id", "customer_id").distinct().count())
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
