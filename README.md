@@ -124,7 +124,12 @@ fabric/                 synced with the Fabric workspace (Git integration)
 sql/utilities/          reusable SQL tools
 docs/architecture/      diagrams
 docs/dashboard/         report screenshots
+docs/                   data catalog and naming conventions
 ```
+
+**Documentation**
+- [Data catalog](docs/data_catalog.md): all 22 Gold tables, with grain, purpose and columns
+- [Naming conventions](docs/naming_conventions.md): naming rules from Fabric items down to column names
 
 ---
 
