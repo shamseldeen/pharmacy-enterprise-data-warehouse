@@ -120,6 +120,7 @@ Because of these, the report uses **relative comparisons** (percentiles, shares,
 **Run of 12 Nov 2026:** 36 minutes in total (Bronze 18 min, Silver about 13 min, Gold 2 min 40 s, refresh 39 s).
 
 **Design rules**
+
 - **Dependencies, not a chain:** each notebook waits only for the notebooks whose tables it reads, so independent work runs in parallel.
 - **Safe to rerun:** every notebook writes with `overwrite`, so a retry or a *Rerun from failed activity* gives the same result. Four Silver tables were first built by one-time notebooks (`errorifexists`); `nb_16_silver_core_rebuild` replaced them for the pipeline.
 - **Fail loudly:** a gate cell at the end of `nb_02` raises an error if any source failed. Without it, `try/except` would hide the failure and Silver would be built on incomplete data.
