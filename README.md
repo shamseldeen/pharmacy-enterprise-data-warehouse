@@ -106,12 +106,13 @@ Because of these, the report uses **relative comparisons** (percentiles, shares,
 
 ![Pipeline run](docs/pipeline/pl_pharmacy_daily_build_run.png)
 
-`pl_pharmacy_daily_build` rebuilds the whole platform with no manual step. It ran on schedule at 03:00 (Riyadh) on 11 and 12 November 2026 and succeeded both nights.
+`pl_pharmacy_daily_build` rebuilds the whole platform with no manual step. It runs on schedule at 03:00 (Riyadh) and succeeded on 11, 12 and 13 November 2026.
 
 | Step | Activity | Waits for |
 |---|---|---|
 | 1. Bronze | `nb_02` loads the 72 source files | — |
-| 2. Silver, layer 1 | `nb_16`, `nb_10`, `nb_11`, `nb_12` in parallel | Bronze |
+| 1b. Wait | 180 s, so the Bronze Spark session releases capacity | Bronze |
+| 2. Silver, layer 1 | `nb_16`, `nb_10`, `nb_11`, `nb_12` in parallel | Wait |
 | 3. Silver, layer 2 | `nb_05b`, `nb_07b`, `nb_13` · `nb_14` · then `nb_15` | only the tables each one reads |
 | 4. Gold | stored procedure `gold.usp_build_all` | the last Silver notebooks |
 | 5. Model | refresh of `sm_pharmacy_sales` | Gold |
@@ -135,7 +136,7 @@ Because of these, the report uses **relative comparisons** (percentiles, shares,
 | A notebook passed cell by cell but failed in the pipeline | an old exploration cell used a renamed column | turned into a Markdown note with the finding |
 | Failure email not delivered | the Outlook activity needs an Exchange Online mailbox; the trial account has none | failure path proven to trigger; built-in schedule failure notifications set as a second channel |
 
-*Still open:* the first Silver attempt still waits for the Bronze Spark session to release capacity and succeeds on retry. A short *Wait* activity after Bronze is the next improvement.
+*Follow-up fix (13 Nov 2026):* the first Silver attempt kept failing every night and passing on retry, because the Bronze Spark session holds capacity for about two minutes after it ends. A 180-second *Wait* activity after Bronze replaced the failure: the next run had 13 activities, all succeeded on the first attempt, same 36 minutes.
 
 ---
 
