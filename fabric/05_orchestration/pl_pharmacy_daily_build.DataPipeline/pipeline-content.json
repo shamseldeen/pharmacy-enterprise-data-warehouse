@@ -34,7 +34,7 @@
         "name": "Silver nb_16",
         "dependsOn": [
           {
-            "activity": "Bronze nb_02",
+            "activity": "Wait capacity release",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -58,7 +58,7 @@
         "name": "Silver nb_10",
         "dependsOn": [
           {
-            "activity": "Bronze nb_02",
+            "activity": "Wait capacity release",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -82,7 +82,7 @@
         "name": "Silver nb_11",
         "dependsOn": [
           {
-            "activity": "Bronze nb_02",
+            "activity": "Wait capacity release",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -106,7 +106,7 @@
         "name": "Silver nb_12",
         "dependsOn": [
           {
-            "activity": "Bronze nb_02",
+            "activity": "Wait capacity release",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -313,8 +313,8 @@
         "type": "PBISemanticModelRefresh",
         "typeProperties": {
           "method": "POST",
-          "groupId": "f12cee0f-bc6d-49ed-88bd-125dbae6fa11",
-          "datasetId": "292d01b2-eabc-41db-aba7-7233aa5be49c",
+          "groupId": "00000000-0000-0000-0000-000000000000",
+          "datasetId": "aa5be49c-7233-aba7-41db-eabc292d01b2",
           "commitMode": "Transactional",
           "waitOnCompletion": true,
           "operationType": "SemanticModelRefresh"
@@ -366,6 +366,21 @@
             "dependencyConditions": [
               "Failed",
               "Skipped"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Wait",
+        "typeProperties": {
+          "waitTimeInSeconds": 180
+        },
+        "name": "Wait capacity release",
+        "dependsOn": [
+          {
+            "activity": "Bronze nb_02",
+            "dependencyConditions": [
+              "Succeeded"
             ]
           }
         ]
