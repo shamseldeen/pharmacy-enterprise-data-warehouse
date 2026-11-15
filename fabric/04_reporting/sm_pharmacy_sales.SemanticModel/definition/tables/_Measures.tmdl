@@ -7,7 +7,7 @@ table _Measures
 		displayFolder: 3. Customers
 		lineageTag: 701f479e-ac38-48b5-b976-045c3ff6c87b
 
-	/// Margin % excluding the 314 products with a suspicious cost ratio (< 0.30 or > 1.00).
+	/// Margin % excluding the 314 flagged products: 248 with cost above list price and 66 with cost under 30% of it (cost ratio < 0.30 or > 1.00).
 	measure 'Trusted Margin %' = CALCULATE ( [Est. Margin %], dim_product[is_cost_ratio_suspicious] = FALSE () )
 		formatString: 0.0%
 		displayFolder: 2. Margin
@@ -320,20 +320,20 @@ table _Measures
 		displayFolder: 5. Branch scorecard
 		lineageTag: 2c024a72-60f0-4479-b709-4c10d33d7ec0
 
-	/// Products sold in the period whose recorded cost is above their selling price (cost ratio suspicious flag).
-	measure 'Margin-Destroying Products' = CALCULATE ( DISTINCTCOUNT ( fact_sales_line[product_key] ), dim_product[is_cost_ratio_suspicious] = TRUE () ) + 0
+	/// Products sold in the period whose recorded cost is above their list price (flagged, cost ratio > 1.00: 248 products).
+	measure 'Margin-Destroying Products' = CALCULATE ( DISTINCTCOUNT ( fact_sales_line[product_key] ), dim_product[is_cost_ratio_suspicious] = TRUE (), dim_product[est_cost_ratio] > 1 ) + 0
 		formatString: #,0
 		displayFolder: 7. Products
 		lineageTag: 3624a50f-9206-453d-9957-f54dd55364f0
 
 	/// Share of revenue that comes from margin-destroying products.
-	measure 'Margin-Destroying Revenue %' = DIVIDE ( CALCULATE ( [Revenue], dim_product[is_cost_ratio_suspicious] = TRUE () ), [Revenue] )
+	measure 'Margin-Destroying Revenue %' = DIVIDE ( CALCULATE ( [Revenue], dim_product[is_cost_ratio_suspicious] = TRUE (), dim_product[est_cost_ratio] > 1 ), [Revenue] )
 		formatString: 0.0%
 		displayFolder: 7. Products
 		lineageTag: abf6d128-a653-42a1-9da6-124d164b4108
 
 	/// Loss below cost on margin-destroying products, shown as a positive number.
-	measure 'Margin-Destroying Loss' = CALCULATE ( [Loss Below Cost], dim_product[is_cost_ratio_suspicious] = TRUE () )
+	measure 'Margin-Destroying Loss' = CALCULATE ( [Loss Below Cost], dim_product[is_cost_ratio_suspicious] = TRUE (), dim_product[est_cost_ratio] > 1 )
 		formatString: #,0
 		displayFolder: 7. Products
 		lineageTag: 492c5af3-776b-4c1a-a04c-ca01c596e589
