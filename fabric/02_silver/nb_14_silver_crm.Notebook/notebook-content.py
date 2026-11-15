@@ -243,25 +243,8 @@ print("\nNot-closed interactions by status:")
 
 # MARKDOWN ********************
 
-# # =========================================================
-# # CELL 6 — Investigate duplicate interaction_id
-# # =========================================================
-# inter = spark.read.table(f"{SILVER}.crm_customer_service_interactions")
-# biz_cols = [c for c in inter.columns if not c.startswith("_")]   # ignore audit columns
-# 
-# print("total rows             :", inter.count())
-# print("distinct interaction_id:", inter.select("interaction_id").distinct().count())
-# print("distinct FULL rows     :", inter.select(*biz_cols).distinct().count())
-# 
-# # How many copies does a duplicated id have?
-# print("\nCopies per id:")
-# (inter.groupBy("interaction_id").count()
-#       .groupBy(F.col("count").alias("copies")).count()
-#       .orderBy("copies").show())
-# 
-# # Look at 2 duplicated ids side by side
-# dup_ids = (inter.groupBy("interaction_id").count()
-#                 .filter("count > 1").limit(2))
-# (inter.join(dup_ids.select("interaction_id"), "interaction_id")
-#       .select(*biz_cols).orderBy("interaction_id").show(truncate=False))
-
+# ### Finding: interaction_id is not unique (investigated 8 Nov 2026)
+# - The source reuses some `interaction_id` values for unrelated cases (different customers and times).
+# - They are separate cases, not duplicates, so no rows are removed.
+# - Cell 3 renames the column to `source_interaction_id` and builds a unique `interaction_key` = SHA-256 of (`source_interaction_id`, `customer_id`, `opened_timestamp`).
+# - The exploration code was removed so the pipeline runs this notebook end to end.
