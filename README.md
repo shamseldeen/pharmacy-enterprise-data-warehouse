@@ -30,7 +30,7 @@ The analyst worked like a surgeon: examine every organ, rule out the healthy one
 |---|---|---|
 | 1 | **Executive** | The patient **looks healthy**: revenue grows about 10% a year. |
 | 2 | **Branches** | **Branches are not the cause**: weakness is spread across peer groups, no region or type stands out. |
-| 3 | **Products** | **The hidden tumour**: 314 products (2.6% of revenue) are bought at about **10x their selling price** and cause **99.8% of the loss below cost** (114M SAR over 2020–2025). Every other product earns **33%**. |
+| 3 | **Products** | **The hidden tumour**: 248 products (2% of revenue) are bought above their list price (**about 2.5x on average**) and cause **99.8% of the loss below cost** (114M SAR over 2020–2025). The report flags 314 products with an unusual cost ratio: these 248 plus 66 that cost under 30% of list price and lose nothing. Every other product earns **33%**. |
 | 4 | **What we checked** | 7 integrity signals tested, **none shows a real signal**; 29 data fingerprints and 2 data gaps documented. |
 
 > *Sales were growing, branches were working, and the company was still bleeding. The disease was not where everyone was looking.*
