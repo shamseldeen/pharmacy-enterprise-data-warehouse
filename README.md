@@ -17,6 +17,8 @@ Synthetic Saudi chain: **1,000 pharmacies, 11 business domains, 2020–2025, 60 
 
 ![Dashboard home](docs/dashboard/00_home.png)
 
+**▶ Explore it yourself:** [interactive dashboard on shamsinsights.com](https://shamsinsights.com/pharmacy-dashboard.html) (English · [العربية](https://shamsinsights.com/pharmacy-dashboard-ar.html)). Filter by year and region, find the branches to review and search the products sold below cost. It is built from six Gold aggregates exported by `nb_90_export_gold_for_web`, so it stays online without a Fabric capacity.
+
 ---
 
 ## 🩺 The story in one minute
@@ -28,7 +30,7 @@ The analyst worked like a surgeon: examine every organ, rule out the healthy one
 |---|---|---|
 | 1 | **Executive** | The patient **looks healthy**: revenue grows about 10% a year. |
 | 2 | **Branches** | **Branches are not the cause**: weakness is spread across peer groups, no region or type stands out. |
-| 3 | **Products** | **The hidden tumour**: 314 products (2.6% of revenue) are bought at about **10x their selling price** and cause **99.8% of the loss below cost** (114M SAR over 2020–2025). Every other product earns **33%**. |
+| 3 | **Products** | **The hidden tumour**: 248 products (2% of revenue) are bought above their list price (**about 2.5x on average**) and cause **99.8% of the loss below cost** (114M SAR over 2020–2025). The report flags 314 products with an unusual cost ratio: these 248 plus 66 that cost under 30% of list price and lose nothing. Every other product earns **33%**. |
 | 4 | **What we checked** | 7 integrity signals tested, **none shows a real signal**; 29 data fingerprints and 2 data gaps documented. |
 
 > *Sales were growing, branches were working, and the company was still bleeding. The disease was not where everyone was looking.*
@@ -70,6 +72,7 @@ The analyst raises the red flag and brings the evidence; **the manager decides**
 | **Rebuild** | 23 stored procedures (`gold.usp_build_*`) | full Gold rebuild in about 2 minutes |
 | **Model** | `sm_pharmacy_sales` – Direct Lake | measures in a `_Measures` table, written in TMDL |
 | **Report** | `rpt_pharmacy_dashboard` | 6 pages + landing page |
+| **Web export** | `nb_90_export_gold_for_web` | 6 Gold aggregates to CSV for the [public web dashboard](https://shamsinsights.com/pharmacy-dashboard.html); totals reconcile to the riyal |
 | **Orchestration** | `pl_pharmacy_daily_build` – Data Pipeline | Bronze → Silver → Gold → model refresh, scheduled, about 36 minutes |
 
 **Reconciliation (Gold = facts = source):** revenue before VAT **3,126,598,408.75 SAR**, estimated margin **918,000,519.14 SAR (29.4%)**, expenses **6,799,713,291.35 SAR**.
