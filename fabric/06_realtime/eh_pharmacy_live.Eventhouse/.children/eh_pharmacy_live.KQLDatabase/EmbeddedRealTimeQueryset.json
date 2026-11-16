@@ -1,0 +1,22 @@
+{
+  "queryset": {
+    "version": "1.0.0",
+    "dataSources": [
+      {
+        "id": "51a85a78-9e66-45eb-8755-f099d3246e01",
+        "clusterUri": "https://trd-rgnkg2q47pe4adnrpx.z0.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "1993f769-220f-4ece-8c4f-443b488ac2f9"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "c13ef31e-3794-4ca1-b2c2-512ab24c70c5",
+        "content": ".show table live_sales ingestion json mappings",
+        "title": "Tab",
+        "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
+      }
+    ],
+    "querysetType": "Embedded"
+  }
+}

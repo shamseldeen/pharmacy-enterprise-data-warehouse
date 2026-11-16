@@ -1,0 +1,53 @@
+{
+  "sources": [
+    {
+      "id": "eba7d8ee-7717-47b2-9725-a1091c13dced",
+      "name": "src_simulator",
+      "type": "CustomEndpoint",
+      "properties": {}
+    }
+  ],
+  "destinations": [
+    {
+      "id": "43d6d14e-980b-4c11-9adc-807a8e858eb2",
+      "name": "dst_live_sales",
+      "type": "Eventhouse",
+      "properties": {
+        "dataIngestionMode": "DirectIngestion",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "488ac2f9-443b-8c4f-4ece-220f1993f769",
+        "tableName": "",
+        "connectionName": null,
+        "mappingRuleName": null
+      },
+      "inputNodes": [
+        {
+          "name": "es_pharmacy_sales-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "es_pharmacy_sales-stream",
+          "schema": {
+            "columns": []
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "36a4a10d-7bb5-4a63-85fd-4b000d654b55",
+      "name": "es_pharmacy_sales-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "src_simulator"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}
