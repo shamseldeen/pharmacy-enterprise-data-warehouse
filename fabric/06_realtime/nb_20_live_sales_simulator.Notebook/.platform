@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_20_live_sales_simulator"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "89b9b4f4-f9ba-91e8-4492-597c12ef1f5c"
+  }
+}
