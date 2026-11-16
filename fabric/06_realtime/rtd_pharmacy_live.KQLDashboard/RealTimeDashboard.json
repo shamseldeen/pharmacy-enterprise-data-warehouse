@@ -1,0 +1,229 @@
+{
+  "schema_version": 89,
+  "flavor": "RTDashboard_Regular",
+  "changeDetection": {
+    "kind": "liveUpdates",
+    "minRefreshRate": "30s",
+    "fallbackRefreshRate": "1m",
+    "minRefreshRate_V2": "30s"
+  },
+  "tiles": [
+    {
+      "id": "ad8a9801-8543-436c-89c9-25199c97006f",
+      "title": "Receipts per minute",
+      "visualType": "timechart",
+      "pageId": "375a3946-bf3d-4ed8-8381-06cc4424ab9c",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 9,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "348cb0a6-84be-42f6-9e38-e1dc4b1239d1"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {},
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": null,
+        "yColumns": null,
+        "seriesColumns": null,
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "crossFilter": [],
+        "drillthrough": []
+      }
+    },
+    {
+      "id": "9cc1a723-5285-46f7-a3b9-7e3dbf957d1e",
+      "title": "Feed health",
+      "visualType": "table",
+      "pageId": "375a3946-bf3d-4ed8-8381-06cc4424ab9c",
+      "layout": {
+        "x": 9,
+        "y": 0,
+        "width": 9,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "b7c653c3-e14a-42fd-bfef-1c3a7cafd795"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "b4829d01-a662-4cc0-996f-fc4308d87d91",
+      "title": "Silent branches (5+ min)",
+      "visualType": "table",
+      "pageId": "375a3946-bf3d-4ed8-8381-06cc4424ab9c",
+      "layout": {
+        "x": 0,
+        "y": 7,
+        "width": 9,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "649d2bbb-2409-4de3-817a-a8803ab6ab50"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "62a65a61-84c0-4858-9897-0dbf3b3fd550",
+      "title": "Revenue by region (last 30 min, SAR)",
+      "visualType": "bar",
+      "pageId": "375a3946-bf3d-4ed8-8381-06cc4424ab9c",
+      "layout": {
+        "x": 9,
+        "y": 7,
+        "width": 9,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "b090b592-6c50-4687-89c2-25bdf62abaf0"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {},
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": null,
+        "yColumns": null,
+        "seriesColumns": null,
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "crossFilter": [],
+        "drillthrough": []
+      }
+    }
+  ],
+  "baseQueries": [],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "9c4ed6d8-37a3-461d-8df0-e26f77cea4ae",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 1,
+        "unit": "hours"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "kind": "kusto-trident",
+      "clusterUri": "",
+      "name": "eh_pharmacy_live",
+      "databaseArtifactId": "1993f769-220f-4ece-8c4f-443b488ac2f9",
+      "database": "488ac2f9-443b-8c4f-4ece-220f1993f769",
+      "workspace": "00000000-0000-0000-0000-000000000000",
+      "id": "60479589-e821-4ff2-9cf6-c01cd0ab7c32"
+    }
+  ],
+  "pages": [
+    {
+      "name": "Page 1",
+      "id": "375a3946-bf3d-4ed8-8381-06cc4424ab9c"
+    }
+  ],
+  "queries": [
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "60479589-e821-4ff2-9cf6-c01cd0ab7c32"
+      },
+      "text": "live_sales\r\n| where event_time >= bin(ago(30m), 1m) and event_time < bin(now(), 1m)\r\n| summarize receipts = count() by bin(event_time, 1m)\r\n| order by event_time asc",
+      "id": "348cb0a6-84be-42f6-9e38-e1dc4b1239d1",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "60479589-e821-4ff2-9cf6-c01cd0ab7c32"
+      },
+      "text": "fn_feed_health(5)\r\n| project status, active_branches, silent_branches, expected_branches, feed_minutes_silent, feed_last_event",
+      "id": "b7c653c3-e14a-42fd-bfef-1c3a7cafd795",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "60479589-e821-4ff2-9cf6-c01cd0ab7c32"
+      },
+      "text": "fn_silent_branches(5)\r\n| extend last_sale_riyadh = datetime_utc_to_local(last_sale, 'Asia/Riyadh')\r\n| project pharmacy_id, region_name, minutes_silent, last_sale_riyadh, receipts",
+      "id": "649d2bbb-2409-4de3-817a-a8803ab6ab50",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "60479589-e821-4ff2-9cf6-c01cd0ab7c32"
+      },
+      "text": "live_sales\r\n| where event_time > ago(30m)\r\n| summarize revenue_sar = round(sum(amount_sar), 0) by region_name\r\n| order by revenue_sar desc",
+      "id": "b090b592-6c50-4687-89c2-25bdf62abaf0",
+      "usedVariables": []
+    }
+  ],
+  "embeddedApps": []
+}

@@ -27,6 +27,18 @@
         "content": "fn_silent_branches(5)",
         "title": "",
         "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
+      },
+      {
+        "id": "9e9962fe-2774-4667-96d3-c587764f3e2b",
+        "content": ".create-or-alter function with (folder = \"live\", docstring = \"One row: is the sales feed alive, and how many branches are silent\")\nfn_feed_health(threshold_min: int = 10) {\n    let expected_branches = toscalar(live_sales | where event_time > ago(1d) | summarize dcount(pharmacy_id));\n    live_sales\n    | where event_time > ago(1d)\n    | summarize last_sale = max(event_time) by pharmacy_id\n    | summarize feed_last_event = max(last_sale),\n                silent_branches = countif(datetime_diff('minute', now(), last_sale) >= threshold_min),\n                active_branches = countif(datetime_diff('minute', now(), last_sale) <  threshold_min)\n    | extend expected_branches = expected_branches,\n             feed_minutes_silent = datetime_diff('minute', now(), feed_last_event)\n    | extend status = case(\n        feed_minutes_silent >= threshold_min,             \"FEED DOWN\",\n        silent_branches * 2 > expected_branches,         \"FEED DEGRADED\",\n        silent_branches > 0,                             \"BRANCH ISSUE\",\n                                                         \"OK\")\n}",
+        "title": "",
+        "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
+      },
+      {
+        "id": "7337f83e-1f42-463c-83dc-54b9766ebf2f",
+        "content": "fn_feed_health(5)",
+        "title": "",
+        "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
       }
     ],
     "querysetType": "Embedded"

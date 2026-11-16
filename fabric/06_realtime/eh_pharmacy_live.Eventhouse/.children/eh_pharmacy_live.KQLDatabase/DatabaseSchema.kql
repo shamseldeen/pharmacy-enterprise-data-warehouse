@@ -15,3 +15,19 @@
     | where minutes_silent >= threshold_min
     | order by minutes_silent desc
 }
+.create-or-alter function with (folder = "live", docstring = "One row: is the sales feed alive, and how many branches are silent", skipvalidation = "true") fn_feed_health(threshold_min:int=10) {
+    let expected_branches = toscalar(live_sales | where event_time > ago(1d) | summarize dcount(pharmacy_id));
+    live_sales
+    | where event_time > ago(1d)
+    | summarize last_sale = max(event_time) by pharmacy_id
+    | summarize feed_last_event = max(last_sale),
+                silent_branches = countif(datetime_diff('minute', now(), last_sale) >= threshold_min),
+                active_branches = countif(datetime_diff('minute', now(), last_sale) <  threshold_min)
+    | extend expected_branches = expected_branches,
+             feed_minutes_silent = datetime_diff('minute', now(), feed_last_event)
+    | extend status = case(
+        feed_minutes_silent >= threshold_min,             "FEED DOWN",
+        silent_branches * 2 > expected_branches,         "FEED DEGRADED",
+        silent_branches > 0,                             "BRANCH ISSUE",
+                                                         "OK")
+}
