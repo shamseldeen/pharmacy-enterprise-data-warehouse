@@ -16,9 +16,9 @@
         "dataIngestionMode": "DirectIngestion",
         "workspaceId": "00000000-0000-0000-0000-000000000000",
         "itemId": "488ac2f9-443b-8c4f-4ece-220f1993f769",
-        "tableName": "",
-        "connectionName": null,
-        "mappingRuleName": null
+        "tableName": "live_sales",
+        "connectionName": "dc_es_pharmacy_sales",
+        "mappingRuleName": "live_sales_json"
       },
       "inputNodes": [
         {

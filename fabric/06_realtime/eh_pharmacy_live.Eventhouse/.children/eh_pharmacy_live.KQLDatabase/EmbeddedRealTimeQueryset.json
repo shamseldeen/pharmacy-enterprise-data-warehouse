@@ -12,8 +12,20 @@
     "tabs": [
       {
         "id": "c13ef31e-3794-4ca1-b2c2-512ab24c70c5",
-        "content": ".show table live_sales ingestion json mappings",
+        "content": "live_sales\n| summarize last_sale = max(event_time), receipts = count() by pharmacy_id, region_name\n| extend network_last = toscalar(live_sales | summarize max(event_time))\n| extend minutes_behind = datetime_diff('minute', network_last, last_sale)\n| project pharmacy_id, region_name, receipts, last_sale, minutes_behind\n| order by minutes_behind desc, pharmacy_id asc",
         "title": "Tab",
+        "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
+      },
+      {
+        "id": "03954ce8-7fd0-4068-b305-ffc894778434",
+        "content": ".create-or-alter function with (folder = \"live\", docstring = \"Branches with no sale for at least threshold_min minutes\")\nfn_silent_branches(threshold_min: int = 10) {\n    live_sales\n    | where event_time > ago(1d)\n    | summarize last_sale = max(event_time), receipts = count() by pharmacy_id, region_name\n    | extend minutes_silent = datetime_diff('minute', now(), last_sale)\n    | where minutes_silent >= threshold_min\n    | order by minutes_silent desc\n}",
+        "title": "",
+        "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
+      },
+      {
+        "id": "9351de0c-8906-486b-838d-a869927a7e42",
+        "content": "fn_silent_branches(5)",
+        "title": "",
         "dataSourceId": "51a85a78-9e66-45eb-8755-f099d3246e01"
       }
     ],

@@ -7,3 +7,11 @@
 ```
 [{"Properties":{"Path":"$.event_time"},"column":"event_time","datatype":"datetime"},{"Properties":{"Path":"$.receipt_id"},"column":"receipt_id","datatype":"string"},{"Properties":{"Path":"$.pharmacy_id"},"column":"pharmacy_id","datatype":"string"},{"Properties":{"Path":"$.region_name"},"column":"region_name","datatype":"string"},{"Properties":{"Path":"$.items"},"column":"items","datatype":"int"},{"Properties":{"Path":"$.amount_sar"},"column":"amount_sar","datatype":"real"},{"Properties":{"Path":"$.payment_type"},"column":"payment_type","datatype":"string"}]
 ```
+.create-or-alter function with (folder = "live", docstring = "Branches with no sale for at least threshold_min minutes", skipvalidation = "true") fn_silent_branches(threshold_min:int=10) {
+    live_sales
+    | where event_time > ago(1d)
+    | summarize last_sale = max(event_time), receipts = count() by pharmacy_id, region_name
+    | extend minutes_silent = datetime_diff('minute', now(), last_sale)
+    | where minutes_silent >= threshold_min
+    | order by minutes_silent desc
+}
