@@ -1,0 +1,75 @@
+[
+  {
+    "uniqueIdentifier": "03a0d49d-e5b8-473b-a789-5252fb90094d",
+    "payload": {
+      "name": "rtd_pharmacy_live",
+      "description": "Container Description",
+      "type": "kqlQueries"
+    },
+    "type": "container-v1"
+  },
+  {
+    "uniqueIdentifier": "7eb122da-90d5-4a3d-9489-ccd71a491b90",
+    "payload": {
+      "name": "eh_pharmacy_live event",
+      "runSettings": {
+        "isStopped": false,
+        "executionIntervalInSeconds": 300
+      },
+      "query": {
+        "queryString": "fn_feed_health(5)\r\n| project status, active_branches, silent_branches, expected_branches, feed_minutes_silent, feed_last_event"
+      },
+      "eventhouseItem": {
+        "itemId": "488ac2f9-443b-8c4f-4ece-220f1993f769",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemType": "KustoDatabase"
+      },
+      "eventTimeSettings": {
+        "ingestionDelayInSeconds": 0,
+        "timeFieldName": "feed_last_event"
+      },
+      "queryParameters": [],
+      "metadata": {
+        "workspaceId": "f12cee0f-bc6d-49ed-88bd-125dbae6fa11",
+        "dashboardId": "5230cf6d-446f-4899-a972-31bcdc066a1d",
+        "visualId": "9cc1a723-5285-46f7-a3b9-7e3dbf957d1e"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "03a0d49d-e5b8-473b-a789-5252fb90094d"
+      }
+    },
+    "type": "kqlSource-v1"
+  },
+  {
+    "uniqueIdentifier": "838d6366-f39b-4158-a6c9-cc9acd88c7d2",
+    "payload": {
+      "name": "eh_pharmacy_live event",
+      "parentContainer": {
+        "targetUniqueIdentifier": "03a0d49d-e5b8-473b-a789-5252fb90094d"
+      },
+      "definition": {
+        "type": "Event",
+        "instance": "{\"steps\":[{\"id\":\"60c0a034-226a-4733-9696-0ec240397739\",\"name\":\"SourceEventStep\",\"rows\":[{\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"7eb122da-90d5-4a3d-9489-ccd71a491b90\"}],\"kind\":\"SourceReference\",\"name\":\"SourceSelector\"}]}],\"templateId\":\"SourceEvent\",\"templateVersion\":\"1.3.1\"}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "a67ffc25-739e-428b-bdf7-75a5102fdcc6",
+    "payload": {
+      "name": "Feed health alert",
+      "parentContainer": {
+        "targetUniqueIdentifier": "03a0d49d-e5b8-473b-a789-5252fb90094d"
+      },
+      "definition": {
+        "type": "Rule",
+        "instance": "{\"templateId\":\"EventTrigger\",\"templateVersion\":\"1.3.1\",\"steps\":[{\"name\":\"FieldsDefaultsStep\",\"id\":\"2be44465-78b7-4fb2-aecd-d303195340af\",\"rows\":[{\"name\":\"EventSelector\",\"kind\":\"Event\",\"arguments\":[{\"kind\":\"EventReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"838d6366-f39b-4158-a6c9-cc9acd88c7d2\"}],\"name\":\"event\"}]}]},{\"name\":\"EventDetectStep\",\"id\":\"2ccb4332-2d51-4750-be1d-af3ed2c9e070\",\"rows\":[{\"name\":\"EventFieldSelector\",\"kind\":\"EventField\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"status\"}]},{\"name\":\"TextChanges\",\"kind\":\"TextChanges\",\"arguments\":[{\"name\":\"op\",\"type\":\"string\",\"value\":\"ChangesFrom\"},{\"name\":\"value\",\"type\":\"string\",\"value\":\"OK\"}]},{\"name\":\"OccurrenceOption\",\"kind\":\"EachTime\",\"arguments\":[]}]},{\"name\":\"ActStep\",\"id\":\"a0bfb32a-d8e0-4233-b2cc-ffe8b3a3a329\",\"rows\":[{\"name\":\"EmailBinding\",\"kind\":\"EmailMessage\",\"arguments\":[{\"name\":\"messageLocale\",\"type\":\"string\",\"value\":\"en-us\"},{\"name\":\"sentTo\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"shams@shamsinsights.com\"}]},{\"name\":\"copyTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"bCCTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"subject\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Pharmacy live feed: status changed\"}]},{\"name\":\"headline\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"The pharmacy sales feed is no longer OK\"}]},{\"name\":\"optionalMessage\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Open rtd_pharmacy_live to see which branches are silent.\"}]},{\"name\":\"additionalInformation\",\"type\":\"array\",\"values\":[{\"kind\":\"NameReferencePair\",\"type\":\"complex\",\"arguments\":[{\"name\":\"name\",\"type\":\"string\",\"value\":\"status\"},{\"kind\":\"EventFieldReference\",\"type\":\"complexReference\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"status\"}],\"name\":\"reference\"}]},{\"kind\":\"NameReferencePair\",\"type\":\"complex\",\"arguments\":[{\"name\":\"name\",\"type\":\"string\",\"value\":\"active_branches\"},{\"kind\":\"EventFieldReference\",\"type\":\"complexReference\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"active_branches\"}],\"name\":\"reference\"}]},{\"kind\":\"NameReferencePair\",\"type\":\"complex\",\"arguments\":[{\"name\":\"name\",\"type\":\"string\",\"value\":\"silent_branches\"},{\"kind\":\"EventFieldReference\",\"type\":\"complexReference\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"silent_branches\"}],\"name\":\"reference\"}]},{\"kind\":\"NameReferencePair\",\"type\":\"complex\",\"arguments\":[{\"name\":\"name\",\"type\":\"string\",\"value\":\"feed_minutes_silent\"},{\"kind\":\"EventFieldReference\",\"type\":\"complexReference\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"feed_minutes_silent\"}],\"name\":\"reference\"}]}]}]}]}]}",
+        "settings": {
+          "shouldRun": true,
+          "shouldApplyRuleOnUpdate": false
+        }
+      }
+    },
+    "type": "timeSeriesView-v1"
+  }
+]
