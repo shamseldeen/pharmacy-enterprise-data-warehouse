@@ -2,10 +2,7 @@
   "schema_version": 89,
   "flavor": "RTDashboard_Regular",
   "changeDetection": {
-    "kind": "liveUpdates",
-    "minRefreshRate": "30s",
-    "fallbackRefreshRate": "1m",
-    "minRefreshRate_V2": "30s"
+    "kind": "manualUpdates"
   },
   "tiles": [
     {
