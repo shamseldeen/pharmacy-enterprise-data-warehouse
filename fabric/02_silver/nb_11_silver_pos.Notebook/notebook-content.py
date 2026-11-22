@@ -32,6 +32,10 @@ from pyspark.sql import functions as F
 
 BRONZE = "lh_bronze.bronze"
 SILVER = "lh_silver.silver"
+
+# Ensure the Silver schema exists (needed on a fresh lakehouse, e.g. TEST)
+spark.sql("CREATE SCHEMA IF NOT EXISTS silver")
+
 YEARS  = [2020, 2021, 2022, 2023, 2024, 2025]
 
 # For each Silver target: how to build the Bronze table name for a given year.
