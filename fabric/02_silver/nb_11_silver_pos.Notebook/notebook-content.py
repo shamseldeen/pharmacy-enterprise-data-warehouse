@@ -150,10 +150,7 @@ def build_returns():
     print("OK  pos_returns")
 
 
-# ---- Run ONE first ----
-#build_yearly("pos_sales_transactions")
-
-# ---- When it works, comment the line above and uncomment these ----
+build_yearly("pos_sales_transactions")
 build_yearly("pos_sales_lines")
 build_yearly("pos_payments")
 build_returns()
