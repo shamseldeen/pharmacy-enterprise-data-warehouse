@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "VariableLibrary",
+    "displayName": "vl_pharmacy_dw"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0e644442-bcdf-a295-4daa-0d1b4e720ba6"
+  }
+}

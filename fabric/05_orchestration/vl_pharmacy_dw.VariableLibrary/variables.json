@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/variables/1.0.0/schema.json",
+  "variables": [
+    {
+      "name": "gold_wh_id",
+      "note": "",
+      "type": "String",
+      "value": "f6d10b11-239e-4df5-967b-1a98b7cc7c39"
+    },
+    {
+      "name": "gold_workspace_id",
+      "note": "",
+      "type": "String",
+      "value": "f12cee0f-bc6d-49ed-88bd-125dbae6fa11"
+    },
+    {
+      "name": "gold_sql_endpoint",
+      "note": "",
+      "type": "String",
+      "value": "fh7vtyuyiisepjhr4brkp26kw4-b7xcz4lnxtwutcf5cjo3vzx2ce.datawarehouse.fabric.microsoft.com"
+    }
+  ]
+}

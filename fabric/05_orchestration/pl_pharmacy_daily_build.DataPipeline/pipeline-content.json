@@ -257,13 +257,13 @@
           "storedProcedureName": "[gold].[usp_build_all]"
         },
         "linkedService": {
-          "name": "wh_gold",
+          "name": "4aa04edf_ca7c_4b75_ab21_ef916198ef62",
           "properties": {
             "type": "DataWarehouse",
             "typeProperties": {
-              "artifactId": "b7cc7c39-1a98-967b-4df5-239ef6d10b11",
-              "endpoint": "fh7vtyuyiisepjhr4brkp26kw4-b7xcz4lnxtwutcf5cjo3vzx2ce.datawarehouse.fabric.microsoft.com",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
+              "artifactId": "@pipeline().libraryVariables.vl_pharmacy_dw_gold_wh_id",
+              "endpoint": "@pipeline().libraryVariables.vl_pharmacy_dw_gold_sql_endpoint",
+              "workspaceId": "@pipeline().libraryVariables.vl_pharmacy_dw_gold_workspace_id"
             },
             "annotations": []
           }
@@ -385,6 +385,23 @@
           }
         ]
       }
-    ]
+    ],
+    "libraryVariables": {
+      "vl_pharmacy_dw_gold_wh_id": {
+        "type": "String",
+        "variableName": "gold_wh_id",
+        "libraryName": "vl_pharmacy_dw"
+      },
+      "vl_pharmacy_dw_gold_workspace_id": {
+        "type": "String",
+        "variableName": "gold_workspace_id",
+        "libraryName": "vl_pharmacy_dw"
+      },
+      "vl_pharmacy_dw_gold_sql_endpoint": {
+        "type": "String",
+        "variableName": "gold_sql_endpoint",
+        "libraryName": "vl_pharmacy_dw"
+      }
+    }
   }
 }

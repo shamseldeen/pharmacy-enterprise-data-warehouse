@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/valueSet/1.0.0/schema.json",
+  "name": "test",
+  "variableOverrides": [
+    {
+      "name": "gold_wh_id",
+      "value": "4725802e-8c2e-4c26-81bf-b12cf566ef0a"
+    },
+    {
+      "name": "gold_workspace_id",
+      "value": "a339588f-1024-4cb8-9d73-625955a2da76"
+    },
+    {
+      "name": "gold_sql_endpoint",
+      "value": "fh7vtyuyiisepjhr4brkp26kw4-r5mdtizecc4ezhltmjmvliw2oy.datawarehouse.fabric.microsoft.com"
+    }
+  ]
+}
